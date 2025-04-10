@@ -32,9 +32,9 @@ const ResetPasswordForm = () => {
         />
         <InputField
           control={form.control}
-          name="Enter Password Again"
+          name="passwordConfirm"
           type="password"
-          label="Password"
+          label="Enter Password Again"
           placeholder="******************"
         />
         <Button
