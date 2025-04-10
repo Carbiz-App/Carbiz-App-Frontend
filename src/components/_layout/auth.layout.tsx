@@ -22,6 +22,22 @@ const pageTitles = {
     description: "Check your email for the verification code",
     goto: "login",
   },
+
+  "forgot-password": {
+    title: "Don’t panic, let’s reset your password together",
+    description: "Enter your email to receive reset password code",
+    goto: "",
+  },
+  "reset-otp": {
+    title: "Reset code",
+    description: "Enter the code sent to your email",
+    goto: "",
+  },
+  "reset-password": {
+    title: "Reset password",
+    description: "Create a new password and continue to login",
+    goto: "",
+  },
 };
 
 const AuthLayout = () => {
@@ -34,21 +50,23 @@ const AuthLayout = () => {
   return (
     <div className="bg-white w-full">
       <div className="grid sm:grid-cols-2">
-        <div className="pt-10 px-16">
+        <div className="pt-10 px-20">
           <Link to="/" className="">
             <img src={logo} alt="" loading="lazy" />
           </Link>
 
           <div className="pt-8 pb-6">
-            <header className="flex flex-col items-start mb-10">
-              <div className="rounded-full p-1 inline-flex justify-center items-center bg-background-light size-12">
-                <img src={stackIcon} className="size-7" />
-              </div>
-              <h2 className="text-2xl mt-3 font-bold text-text-primary">
-                {pageTitle?.title}
-              </h2>
-              <p className="text-text-secondary">{pageTitle?.description}</p>
-            </header>
+            {page.toString() !== "congratulations" && (
+              <header className="flex flex-col items-start mb-10">
+                <div className="rounded-full p-1 inline-flex justify-center items-center bg-background-light size-12">
+                  <img src={stackIcon} className="size-7" />
+                </div>
+                <h2 className="text-2xl mt-3 font-bold text-text-primary">
+                  {pageTitle?.title}
+                </h2>
+                <p className="text-text-secondary">{pageTitle?.description}</p>
+              </header>
+            )}
 
             <Outlet />
 
@@ -76,7 +94,7 @@ const AuthLayout = () => {
           }}
         >
           {/* <img src={onboardingImage} className="h-full object-cover " /> */}
-          <div className="absolute bottom-40 py-10 px-20 text-white z-10">
+          <div className="absolute bottom-30 py-10 px-20 text-white z-10">
             <h1 className="text-[2.5rem] font-bold font-family-bricolage">
               Your one-stop app
             </h1>

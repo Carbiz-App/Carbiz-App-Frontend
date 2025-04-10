@@ -2,7 +2,15 @@ import { createBrowserRouter } from "react-router";
 import AuthLayout from "@/components/_layout/auth.layout";
 
 import Homepage from "../pages/Homepage";
-import { CreateAccount, Login, VerifyOtp } from "@/pages";
+import {
+  Congratulations,
+  CreateAccount,
+  ForgetPassword,
+  Login,
+  ResetOtp,
+  ResetPassword,
+  VerifyOtp,
+} from "@/pages";
 
 const router = createBrowserRouter([
   {
@@ -24,6 +32,22 @@ const router = createBrowserRouter([
       {
         path: "verify-otp",
         Component: VerifyOtp,
+      },
+      {
+        path: "congratulations",
+        Component: Congratulations,
+      },
+      {
+        path: "forgot-password",
+        Component: ForgetPassword,
+      },
+      {
+        path: "reset-otp",
+        Component: ResetOtp,
+      },
+      {
+        path: "reset-password",
+        Component: ResetPassword,
       },
     ],
   },

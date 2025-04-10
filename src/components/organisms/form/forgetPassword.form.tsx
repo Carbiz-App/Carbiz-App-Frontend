@@ -6,43 +6,39 @@ import { Button } from "@/components/ui/button";
 
 import InputField from "@/components/atoms/form/input";
 
-import LoginSchema, { LoginSchemaType } from "@/schema/login.schema";
+import ForgetPasswordSchema, {
+  ForgetPasswordSchemaType,
+} from "@/schema/forgetPassword.schema";
 
-const LoginForm = () => {
-  const form = useForm<LoginSchemaType>({
-    resolver: zodResolver(LoginSchema),
+const ForgetPasswordForm = () => {
+  const form = useForm<ForgetPasswordSchemaType>({
+    resolver: zodResolver(ForgetPasswordSchema),
   });
 
-  const onSubmit = (data: LoginSchemaType) => {
+  const onSubmit = (data: ForgetPasswordSchemaType) => {
     console.log(data);
   };
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-10">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-10 mt-3">
         <InputField
           control={form.control}
           name="email"
           type="email"
           label="Email"
-          placeholder="john.doe@example.com"
+          placeholder="google@gmail.com"
         />
-        <InputField
-          control={form.control}
-          name="password"
-          type="password"
-          label="Password"
-          placeholder="******************"
-        />
+
         <Button
           type="submit"
           className="bg-primary text-white w-full mt-10 py-6 rounded-[0.625rem] text-base"
         >
-          Login
+          Continue
         </Button>
       </form>
     </Form>
   );
 };
 
-export default LoginForm;
+export default ForgetPasswordForm;
