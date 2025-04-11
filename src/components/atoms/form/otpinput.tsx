@@ -39,10 +39,18 @@ const FormOtpInput: React.FC<FormOtpInputProps> = ({
             {label}
           </FormLabel>
           <FormControl>
-            <InputOTP maxLength={maxLength} {...field} containerClassName="focus:outline-0 focus-visible:ring-0 focus-visible:border-primary-dark placeholder:text-text-secondary">
+            <InputOTP
+              maxLength={maxLength}
+              {...field}
+              containerClassName="focus:outline-0 focus-visible:ring-0 focus-visible:border-primary-dark placeholder:text-text-secondary"
+            >
               <InputOTPGroup className="gap-5">
                 {Array.from({ length: maxLength }).map((_, index) => (
-                  <InputOTPSlot className="rounded-lg h-16 w-20 data-[active=true]:border-primary data-[active=]:border-border-gray !shadow-none data-[active=true]:ring-0" index={index} key={index} />
+                  <InputOTPSlot
+                    className="rounded-lg h-16 w-20 border  data-[active=true]:border-primary data-[active=]:border-border-gray !shadow-none data-[active=true]:ring-0"
+                    index={index}
+                    key={index}
+                  />
                 ))}
               </InputOTPGroup>
             </InputOTP>
