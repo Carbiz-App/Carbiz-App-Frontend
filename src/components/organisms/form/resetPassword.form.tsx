@@ -16,7 +16,7 @@ const ResetPasswordForm = () => {
   });
 
   const onSubmit = (data: LoginSchemaType) => {
-    navigate("/congratulations");
+    navigate("/congratulations_");
     console.log(data);
   };
 

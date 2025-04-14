@@ -15,12 +15,12 @@ const pageTitles = {
   "create-account": {
     title: "Create Account",
     description: "Let’s get you started by creating your account",
-    goto: "login",
+    goto: "/",
   },
   "verify-otp": {
     title: "Verification",
     description: "Check your email for the verification code",
-    goto: "login",
+    goto: "/",
   },
 
   "forgot-password": {
@@ -70,7 +70,7 @@ const AuthLayout = () => {
 
             <Outlet />
 
-            {["login", "create-account"].includes(page) && (
+            {["", "create-account"].includes(page) && (
               <div className="inline-flex w-full items-center justify-center gap-2 py-2 font-medium text-sm">
                 <p className="text-text-secondary">
                   {page.toString() == "create-account"
@@ -78,7 +78,7 @@ const AuthLayout = () => {
                     : "You don’t have an account?"}
                 </p>
                 <Link to={pageTitle?.goto} className="text-primary ">
-                  {page.toString() == "login" ? "Create one" : "Log in"}
+                  {page.toString() == "" ? "Create one" : "Log in"}
                 </Link>
               </div>
             )}
@@ -86,9 +86,7 @@ const AuthLayout = () => {
         </div>
 
         <div
-          className={`relative hidden sm:flex flex-col overflow-hidden ${
-            page !== "create-account" ? "h-screen" : "h-[100%]"
-          }`}
+          className={`relative hidden sm:flex flex-col overflow-hidden h-screen`}
           style={{
             background: `url(${onboardingImage}) no-repeat center center/cover`,
           }}
