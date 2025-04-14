@@ -35,7 +35,7 @@ const InputField: React.FC<InputFieldProps> = ({
 }) => {
   const { pathname } = useLocation();
 
-  const isLoginPage = pathname.includes("");
+  const isLoginPage = pathname == "/";
 
   const [showPassword, setShowPassword] = React.useState(false);
 

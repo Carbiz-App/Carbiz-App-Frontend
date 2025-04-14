@@ -32,7 +32,6 @@ const pageTitles = {
     description: "Check your email for the verification code",
     goto: "/",
   },
-
   "forgot-password": {
     title: "Don’t panic, let’s reset your password together",
     description: "Enter your email to receive reset password code",
@@ -54,7 +53,6 @@ const AuthLayout = () => {
   const { pathname } = useLocation();
   const [currentCarousel, setCurrentCarousel] = useState(0);
   const [api, setApi] = useState<CarouselApi>();
-  const [count, setCount] = useState(0);
   const plugin = useRef(Autoplay({ delay: 2000, stopOnInteraction: true }));
 
   let page = pathname.split("/").pop() as keyof typeof pageTitles;
@@ -62,11 +60,8 @@ const AuthLayout = () => {
   const pageTitle = pageTitles[pageKey];
 
   useEffect(() => {
-    if (!api) {
-      return;
-    }
+    if (!api) return;
 
-    setCount(api.scrollSnapList().length);
     setCurrentCarousel(api.selectedScrollSnap() + 1);
 
     api.on("select", () => {
@@ -76,8 +71,9 @@ const AuthLayout = () => {
 
   return (
     <div className="bg-white w-full">
-      <div className="grid sm:grid-cols-2">
-        <div className="pt-10 px-20">
+      <div className="grid sm:grid-cols-2 relative">
+        {/* Left Side */}
+        <div className="pt-10 px-20 overflow-y-auto h-screen relative z-10 bg-white scroll-m-0 scrollbar-hide">
           <Link to="/" className="">
             <img src={logo} alt="" loading="lazy" />
           </Link>
@@ -115,12 +111,12 @@ const AuthLayout = () => {
           </div>
         </div>
 
-        <div className="relative overflow-x-hidden">
+        {/* Right Side Carousel */}
+        <div className="fixed right-0 top-0 hidden sm:block w-1/2 h-screen z-0">
           <Carousel
             plugins={[plugin.current]}
             setApi={setApi}
             opts={{
-              // align: "start",
               loop: true,
             }}
           >
@@ -128,7 +124,7 @@ const AuthLayout = () => {
               {Array.from({ length: 3 }).map((_, index) => (
                 <CarouselItem key={index}>
                   <div
-                    className={`relative hidden sm:flex flex-col overflow-hidden h-screen`}
+                    className="relative flex flex-col overflow-hidden h-screen"
                     style={{
                       background: `url(${onboardingImage}) no-repeat center center/cover`,
                     }}
@@ -138,6 +134,7 @@ const AuthLayout = () => {
             </CarouselContent>
           </Carousel>
 
+          {/* Carousel Overlay Content */}
           <div className="absolute bottom-30 py-10 px-20 text-white z-10">
             <h1 className="text-[2.5rem] font-bold font-family-bricolage">
               Your one-stop app
@@ -145,18 +142,17 @@ const AuthLayout = () => {
             <p className="text-lg font-family-satoshi font-medium">
               Your one-stop app for all things vehicle-related.
             </p>
-            <div className="inline-flex items-center gap-1.5">
-              {Array.from({ length: 3 }).map((_, index) => {
-                return (
-                  <span
-                    className={`h-2 ${
-                      index + 1 === currentCarousel
-                        ? "bg-primary w-6"
-                        : "bg-white w-2"
-                    } rounded-full`}
-                  ></span>
-                );
-              })}
+            <div className="inline-flex items-center gap-1.5 mt-4">
+              {Array.from({ length: 3 }).map((_, index) => (
+                <span
+                  key={index}
+                  className={`h-2 ${
+                    index + 1 === currentCarousel
+                      ? "bg-primary w-6"
+                      : "bg-white w-2"
+                  } rounded-full`}
+                ></span>
+              ))}
             </div>
           </div>
         </div>
