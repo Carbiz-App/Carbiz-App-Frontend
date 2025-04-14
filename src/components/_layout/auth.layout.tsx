@@ -98,13 +98,13 @@ const AuthLayout = () => {
             <Outlet />
 
             {["", "create-account"].includes(page) && (
-              <div className="inline-flex w-full items-center justify-center gap-2 py-2 font-medium text-sm">
+              <div className="inline-flex w-full items-center justify-center gap-2 py-4 font-medium text-sm">
                 <p className="text-text-secondary">
                   {page.toString() == "create-account"
                     ? "Already have an account?"
                     : "You don’t have an account?"}
                 </p>
-                <Link to={pageTitle?.goto} className="text-primary ">
+                <Link to={pageTitle?.goto} className="text-primary">
                   {page.toString() == "" ? "Create one" : "Log in"}
                 </Link>
               </div>
