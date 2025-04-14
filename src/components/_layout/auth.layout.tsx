@@ -1,10 +1,20 @@
 import { Outlet, useLocation } from "react-router";
+import Autoplay from "embla-carousel-autoplay";
+
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+} from "@/components/ui/carousel";
+import { type CarouselApi } from "@/components/ui/carousel";
 
 import { Link } from "react-router";
 
 import logo from "@/assets/images/logo.svg";
 import onboardingImage from "@/assets/images/onboarding.jpeg";
+
 import stackIcon from "@/assets/images/icons/stack.svg";
+import { useEffect, useRef, useState } from "react";
 
 const pageTitles = {
   login: {
@@ -42,10 +52,27 @@ const pageTitles = {
 
 const AuthLayout = () => {
   const { pathname } = useLocation();
+  const [currentCarousel, setCurrentCarousel] = useState(0);
+  const [api, setApi] = useState<CarouselApi>();
+  const [count, setCount] = useState(0);
+  const plugin = useRef(Autoplay({ delay: 2000, stopOnInteraction: true }));
 
   let page = pathname.split("/").pop() as keyof typeof pageTitles;
   const pageKey = Object.keys(pageTitles).includes(page) ? page : "login";
   const pageTitle = pageTitles[pageKey];
+
+  useEffect(() => {
+    if (!api) {
+      return;
+    }
+
+    setCount(api.scrollSnapList().length);
+    setCurrentCarousel(api.selectedScrollSnap() + 1);
+
+    api.on("select", () => {
+      setCurrentCarousel(api.selectedScrollSnap() + 1);
+    });
+  }, [api]);
 
   return (
     <div className="bg-white w-full">
@@ -85,15 +112,31 @@ const AuthLayout = () => {
           </div>
         </div>
 
-        <div
-          className={`relative hidden sm:flex flex-col overflow-hidden ${
-            page !== "create-account" ? "h-screen" : "h-[100%]"
-          }`}
-          style={{
-            background: `url(${onboardingImage}) no-repeat center center/cover`,
-          }}
-        >
-          {/* <img src={onboardingImage} className="h-full object-cover " /> */}
+        <div className="relative overflow-x-hidden">
+          <Carousel
+            plugins={[plugin.current]}
+            setApi={setApi}
+            opts={{
+              // align: "start",
+              loop: true,
+            }}
+          >
+            <CarouselContent>
+              {Array.from({ length: 3 }).map((_, index) => (
+                <CarouselItem key={index}>
+                  <div
+                    className={`relative hidden sm:flex flex-col overflow-hidden ${
+                      page !== "create-account" ? "h-screen" : "h-[100%]"
+                    }`}
+                    style={{
+                      background: `url(${onboardingImage}) no-repeat center center/cover`,
+                    }}
+                  ></div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+          </Carousel>
+
           <div className="absolute bottom-30 py-10 px-20 text-white z-10">
             <h1 className="text-[2.5rem] font-bold font-family-bricolage">
               Your one-stop app
@@ -101,6 +144,19 @@ const AuthLayout = () => {
             <p className="text-lg font-family-satoshi font-medium">
               Your one-stop app for all things vehicle-related.
             </p>
+            <div className="inline-flex items-center gap-1.5">
+              {Array.from({ length: 3 }).map((_, index) => {
+                return (
+                  <span
+                    className={`h-2 ${
+                      index + 1 === currentCarousel
+                        ? "bg-primary w-6"
+                        : "bg-white w-2"
+                    } rounded-full`}
+                  ></span>
+                );
+              })}
+            </div>
           </div>
         </div>
       </div>
