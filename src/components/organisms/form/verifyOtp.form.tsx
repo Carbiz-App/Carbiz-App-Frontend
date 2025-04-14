@@ -29,7 +29,7 @@ const VerifyOtpForm = () => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-10">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-10 mt-4">
         <div className="flex flex-col gap-2.5">
           <FormOtpInput
             control={form.control}

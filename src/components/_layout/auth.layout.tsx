@@ -83,17 +83,20 @@ const AuthLayout = () => {
           </Link>
 
           <div className="pt-8 pb-6">
-            {page.toString() !== "congratulations" && (
-              <header className="flex flex-col items-start mb-10">
-                <div className="rounded-full p-1 inline-flex justify-center items-center bg-background-light size-12">
-                  <img src={stackIcon} className="size-7" />
-                </div>
-                <h2 className="text-2xl mt-3 font-bold text-text-primary">
-                  {pageTitle?.title}
-                </h2>
-                <p className="text-text-secondary">{pageTitle?.description}</p>
-              </header>
-            )}
+            {page.toString() !== "congratulations" &&
+              page.toString() !== "congratulations_" && (
+                <header className="flex flex-col items-start mb-10">
+                  <div className="rounded-full p-1 inline-flex justify-center items-center bg-background-light size-12">
+                    <img src={stackIcon} className="size-7" />
+                  </div>
+                  <h2 className="text-2xl mt-3 font-bold text-text-primary">
+                    {pageTitle?.title}
+                  </h2>
+                  <p className="text-text-secondary">
+                    {pageTitle?.description}
+                  </p>
+                </header>
+              )}
 
             <Outlet />
 
