@@ -5,12 +5,14 @@ import Homepage from "../pages/Homepage";
 import {
   Congratulations,
   CreateAccount,
+  Dashboard,
   ForgetPassword,
   Login,
   ResetOtp,
   ResetPassword,
   VerifyOtp,
 } from "@/pages";
+import MainLayout from "@/components/_layout/main.layout";
 
 const router = createBrowserRouter([
   {
@@ -51,6 +53,16 @@ const router = createBrowserRouter([
       },
     ],
   },
+  {
+    path: "",
+    Component: MainLayout,
+    children:[
+      {
+        path: "dashboard",
+        Component: Dashboard
+      }
+    ]
+  }
 ]);
 
 export default router;

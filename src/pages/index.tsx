@@ -5,3 +5,6 @@ export { default as Congratulations } from "@/components/templates/authenticatio
 export { default as ForgetPassword } from "@/components/templates/authentication/forgetPassword";
 export { default as ResetOtp } from "@/components/templates/authentication/resetOtp";
 export { default as ResetPassword } from "@/components/templates/authentication/resetPassword";
+
+// APP
+export { default as Dashboard } from "@/components/templates/app/dashboard";
