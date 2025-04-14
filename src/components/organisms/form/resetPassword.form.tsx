@@ -16,13 +16,13 @@ const ResetPasswordForm = () => {
   });
 
   const onSubmit = (data: LoginSchemaType) => {
-    navigate("/congratulations");
+    navigate("/congratulations_");
     console.log(data);
   };
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-10">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-10 mt-4">
         <InputField
           control={form.control}
           name="password"

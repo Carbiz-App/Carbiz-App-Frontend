@@ -35,7 +35,7 @@ const InputField: React.FC<InputFieldProps> = ({
 }) => {
   const { pathname } = useLocation();
 
-  const isLoginPage = pathname.includes("login");
+  const isLoginPage = pathname.includes("");
 
   const [showPassword, setShowPassword] = React.useState(false);
 
@@ -59,7 +59,9 @@ const InputField: React.FC<InputFieldProps> = ({
             )}
 
             {isLoginPage && type == "password" && (
-              <Link to="/forgot-password" className="text-['#837E8E']">Forgot Password</Link>
+              <Link to="/forgot-password" className="text-['#837E8E']">
+                Forgot Password
+              </Link>
             )}
           </div>
           <FormControl>

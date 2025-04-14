@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router";
 import AuthLayout from "@/components/_layout/auth.layout";
 
-import Homepage from "../pages/Homepage";
+// import Homepage from "../pages/Homepage";
 import {
   Congratulations,
   CreateAccount,
@@ -11,23 +11,20 @@ import {
   ResetPassword,
   VerifyOtp,
 } from "@/pages";
+// import { Component } from "lucide-react";
 
 const router = createBrowserRouter([
+  // {
+  //   path: "/",
+  //   Component: Homepage,
+  // },
   {
-    path: "/",
-    Component: Homepage,
-  },
-  {
-    path: "",
     Component: AuthLayout,
     children: [
+      { path: "/", Component: Login },
       {
         path: "create-account",
         Component: CreateAccount,
-      },
-      {
-        path: "login",
-        Component: Login,
       },
       {
         path: "verify-otp",
@@ -35,6 +32,10 @@ const router = createBrowserRouter([
       },
       {
         path: "congratulations",
+        Component: Congratulations,
+      },
+      {
+        path: "congratulations_",
         Component: Congratulations,
       },
       {

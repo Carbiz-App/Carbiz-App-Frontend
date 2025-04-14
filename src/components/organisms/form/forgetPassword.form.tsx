@@ -9,19 +9,23 @@ import InputField from "@/components/atoms/form/input";
 import ForgetPasswordSchema, {
   ForgetPasswordSchemaType,
 } from "@/schema/forgetPassword.schema";
+import { useNavigate } from "react-router";
 
 const ForgetPasswordForm = () => {
   const form = useForm<ForgetPasswordSchemaType>({
     resolver: zodResolver(ForgetPasswordSchema),
   });
 
+  const navigate = useNavigate();
+
   const onSubmit = (data: ForgetPasswordSchemaType) => {
+    navigate("/reset-otp");
     console.log(data);
   };
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-10 mt-3">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-10 mt-4">
         <InputField
           control={form.control}
           name="email"
@@ -32,7 +36,7 @@ const ForgetPasswordForm = () => {
 
         <Button
           type="submit"
-          className="bg-primary text-white w-full mt-10 py-6 rounded-[0.625rem] text-base"
+          className="bg-primary text-white w-full mt-10 py-6 rounded-[0.625rem] text-base cursor-pointer"
         >
           Continue
         </Button>
