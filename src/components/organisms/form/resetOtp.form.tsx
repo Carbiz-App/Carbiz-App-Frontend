@@ -21,7 +21,7 @@ const ResetOtpForm = () => {
   });
 
   const onSubmit = (data: VerifyOtpSchemaType) => {
-    // navigate("/reset-password");
+    navigate("/reset-password");
     console.log(data);
   };
 
