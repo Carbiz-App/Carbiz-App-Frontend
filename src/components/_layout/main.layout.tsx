@@ -13,7 +13,7 @@ const MainLayout = () => {
   return (
     <SidebarProvider className="bg-">
       <AppSidebar variant="inset" />
-      <SidebarInset>
+      <SidebarInset className="bg-[#FBFBFC]">
         <SiteHeader />
       </SidebarInset>
     </SidebarProvider>
