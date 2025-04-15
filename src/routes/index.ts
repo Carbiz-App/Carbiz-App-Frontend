@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router";
 import AuthLayout from "@/components/_layout/auth.layout";
 
-import Homepage from "../pages/Homepage";
+// import Homepage from "../pages/Homepage";
 import {
   Congratulations,
   CreateAccount,
@@ -15,21 +15,14 @@ import {
 import MainLayout from "@/components/_layout/main.layout";
 
 const router = createBrowserRouter([
+
   {
-    path: "/",
-    Component: Homepage,
-  },
-  {
-    path: "",
     Component: AuthLayout,
     children: [
+      { path: "/", Component: Login },
       {
         path: "create-account",
         Component: CreateAccount,
-      },
-      {
-        path: "login",
-        Component: Login,
       },
       {
         path: "verify-otp",
