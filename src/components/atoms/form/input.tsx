@@ -35,7 +35,7 @@ const InputField: React.FC<InputFieldProps> = ({
 }) => {
   const { pathname } = useLocation();
 
-  const isLoginPage = pathname.includes("login");
+  const isCreatePage = pathname.includes("create-account");
 
   const [showPassword, setShowPassword] = React.useState(false);
 
@@ -50,7 +50,9 @@ const InputField: React.FC<InputFieldProps> = ({
       render={({ field }) => (
         <FormItem className={`mb-0 py-2.5  ${itemClassName}`}>
           <div
-            className={`${isLoginPage && "flex justify-between items-center"}`}
+            className={`${
+              !isCreatePage && "flex justify-between items-center"
+            }`}
           >
             {label && (
               <FormLabel className="text-sm lg:text-base text-primary-dark font-medium mb-1">
@@ -58,8 +60,10 @@ const InputField: React.FC<InputFieldProps> = ({
               </FormLabel>
             )}
 
-            {isLoginPage && type == "password" && (
-              <Link to="/forgot-password" className="text-['#837E8E']">Forgot Password</Link>
+            {!isCreatePage && type == "password" && (
+              <Link to="/forgot-password" className="text-['#837E8E']">
+                Forgot Password
+              </Link>
             )}
           </div>
           <FormControl>

@@ -21,8 +21,8 @@ const ResetOtpForm = () => {
   });
 
   const onSubmit = (data: VerifyOtpSchemaType) => {
+    navigate("/reset-password");
     console.log(data);
-    navigate("/congratulations");
   };
 
   return (
@@ -43,7 +43,7 @@ const ResetOtpForm = () => {
           </p>
         </div>
         <Button
-          onClick={() => navigate("/congratulations")}
+          onClick={() => navigate("/reset-password")}
           // type="submit"
           className="bg-primary text-white w-full mt-10 py-6 rounded-[0.625rem] text-base"
         >
