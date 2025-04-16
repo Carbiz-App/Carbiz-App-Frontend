@@ -1,25 +1,10 @@
 import * as React from "react";
+import { HouseSimple, HandCoins, Gear } from "@phosphor-icons/react";
+import { LogOut, ShoppingBag } from "lucide-react";
 
-import {
-  IconCamera,
-  IconChartBar,
-  IconDashboard,
-  IconDatabase,
-  IconFileAi,
-  IconFileDescription,
-  IconFileWord,
-  IconFolder,
-  IconHelp,
-  IconInnerShadowTop,
-  IconListDetails,
-  IconReport,
-  IconSearch,
-  IconSettings,
-  IconUsers,
-} from "@tabler/icons-react";
+import { IconCoins } from "@tabler/icons-react";
 
 import { NavMain } from "@/components/nav-main";
-import { NavUser } from "@/components/nav-user";
 import {
   Sidebar,
   SidebarContent,
@@ -32,11 +17,7 @@ import {
 import { Link } from "react-router";
 
 import logo from "@/assets/images/logo.svg";
-import house from "@/assets/images/icons/house.svg";
-import shoppingBag from "@/assets/images/icons/shopping-bag.svg";
-import stackedCoins from "@/assets/images/icons/stacked-coins.svg";
-import payouts from "@/assets/images/icons/payouts.svg";
-import settings from "@/assets/images/icons/settings.svg";
+import { Button } from "@/components/ui/button";
 
 const data = {
   user: {
@@ -48,58 +29,61 @@ const data = {
     {
       title: "Dashboard",
       url: "/dashboard",
-      icon: house,
+      icon: HouseSimple,
     },
     {
       title: "Orders",
-      url: "#",
-      icon: shoppingBag,
+      url: "/",
+      icon: ShoppingBag,
     },
     {
       title: "Products",
-      url: "#",
-      icon: stackedCoins,
+      url: "/",
+      icon: IconCoins,
     },
     {
       title: "Payouts",
-      url: "#",
-      icon: payouts,
+      url: "/",
+      icon: HandCoins,
     },
     {
       title: "Settings",
-      url: "#",
-      icon: settings,
+      url: "/",
+      icon: Gear,
     },
   ],
-
- 
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
-    <Sidebar collapsible="offcanvas" {...props}>
-      <SidebarHeader>
+    <Sidebar backgroundColor="bg-white" {...props}>
+      <SidebarHeader className="flex  gap-2 pt-10 h-auto px-4">
         <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton
+          {/* <SidebarMenuItem className="flex "> */}
+          {/* <SidebarMenuButton
               asChild
-              className="data-[slot=sidebar-menu-button]:!p-1.5"
-            >
-              <Link to="/dashboard">
-                <img src={logo}/>
-                <IconInnerShadowTop className="!size-5" />
-                <span className="text-base font-semibold">Acme Inc.</span>
-              </Link>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
+              className="data-[slot=sidebar-menu-button]:!p-1.5 flex"
+            > */}
+          <Link to="/dashboard">
+            <img src={logo} />
+          </Link>
+          {/* </SidebarMenuButton> */}
+          {/* </SidebarMenuItem> */}
         </SidebarMenu>
       </SidebarHeader>
+
       <SidebarContent>
         <NavMain items={data.navMain} />
-       
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <Button
+          variant="ghost"
+          className="justify-start text-[#4F4C55] text-base"
+        >
+          <LogOut className="size-4" />
+          Logout
+        </Button>
+        {/* <NavUser user={data.user} /> */}
       </SidebarFooter>
     </Sidebar>
   );

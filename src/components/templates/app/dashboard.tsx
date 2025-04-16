@@ -1,32 +1,32 @@
 import { columns } from "@/columns/testColumns";
 import { DataTable } from "@/components/atoms/table";
 
-type Payment = {
-  id: string;
-  amount: number;
-  status: "pending" | "processing" | "success" | "failed";
-  email: string;
+export type Payment = {
+  product: string;
+  created: string;
+  orderId: string;
+  paymentStatus: "paid" | "cancelled" | "refunded";
+  deliveryStatus:
+    | "processing"
+    | "shipped"
+    | "delivered"
+    | "cancelled"
+    | "awaiting";
 };
 
 export const payments: Payment[] = [
   {
-    id: "728ed52f",
-    amount: 100,
-    status: "pending",
-    email: "m@example.com",
-  },
-  {
-    id: "489e1d42",
-    amount: 125,
-    status: "processing",
-    email: "example@gmail.com",
+    product: "728ed52f",
+    created: "2023-10-01",
+    orderId: "1234567890",
+    paymentStatus: "paid",
+    deliveryStatus: "processing",
   },
 ];
 
 const Dashboard = () => {
   return (
     <div>
-      DataTable
       <DataTable columns={columns} data={payments} />
     </div>
   );
