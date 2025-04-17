@@ -83,15 +83,15 @@ const Dashboard = () => {
           </ul>
         </div>
 
-        <div className="flex justify-end">
-          <div className="self-center space-y-4 w-full">
+        <div className="flex justify-end items-center">
+          <div className="inline-flex flex-col items-end space-y-4 w-full">
             <h3 className="text-primary text-5xl font-semibold">25%</h3>
-            <Progress value={24} className="w-[60%]" />
+            <Progress value={24} className="w-[20%] h-1" />
           </div>
         </div>
       </div>
       {/* summary card */}
-      <div className="py-8">
+      <div className="py-10">
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {dashboardAnalytics.map(({ title, value, name, color }) => (
             <Analytics
@@ -100,6 +100,7 @@ const Dashboard = () => {
               value={value}
               iconColor={color}
               icon={analyticIcon[name]}
+              isCurrency={name == 'revenue'}
             />
           ))}
         </div>
