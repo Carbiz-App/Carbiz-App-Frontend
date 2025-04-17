@@ -98,7 +98,7 @@ const Dashboard = () => {
               title={title}
               value={value}
               iconColor={color}
-              icon={analyticIcon[name]}
+              icon={analyticIcon?.[name]}
               isCurrency={name == 'revenue'}
             />
           ))}
