@@ -1,4 +1,22 @@
 {
-    "sidebarNav": {}
-    
+  "sidebarNav": {},
+  "newUserChecklist": [
+    {
+      "title": "Create account",
+      "current": true
+    },
+    {
+      "title": "Add your products",
+      "current": false
+    },
+    {
+      "title": "Set up your payment",
+      "current": false
+    }
+  ],
+  "dashboardAnalytics": [
+    { "title": "Revenue", "value": 166580, "name": "revenue", "color": "#DC6803" },
+    { "title": "Product Sold", "value": 5679, "name": "product", "color": "#027A48" },
+    { "title": "Customer", "value": 1081, "name": "customer", "color": "#7046C6" }
+  ]
 }

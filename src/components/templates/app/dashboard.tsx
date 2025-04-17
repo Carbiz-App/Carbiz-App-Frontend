@@ -1,9 +1,78 @@
-import React from 'react'
+import { CheckCircle } from "@phosphor-icons/react";
+import { Progress } from "@/components/ui/progress";
+import React from "react";
+import Analytics from "@/components/atoms/analytics";
+
+import { newUserChecklist, dashboardAnalytics } from "@/assets/data/index.json";
+import { MoneySend, ArrowSwapHorizontal, People } from "iconsax-reactjs";
+
+const analyticIcon = {
+  product: ArrowSwapHorizontal,
+  revenue: MoneySend,
+  customer: People,
+};
 
 const Dashboard = () => {
   return (
-    <div>Dashboard</div>
-  )
-}
+    <div className="font-satoshi">
+      {/* User breadcrumb */}
+      <div className="mb-8">
+        <h4 className="text-sm sm:text-base font-satoshi text-[#837E8E]">
+          Hello,
+        </h4>
+        <h3 className="font-bold text-xl ">Golden Engine Store</h3>
+      </div>
+      {/* New user card */}
+      <div className="bg-white rounded-xl p-10  w-full grid sm:grid-cols-2">
+        <div className="inline-flex flex-col gap-6">
+          <h2 className="text-2xl font-bold">Get ready for your first sale</h2>
+          <ul className="list-none">
+            {newUserChecklist?.map(
+              (item: { title: string; current: boolean }) => (
+                <li key={item.title} className="block py-2">
+                  <div className="inline-flex gap-2.5">
+                    <CheckCircle
+                      className={`${
+                        item?.current && "bg-[#F1ECF9] rounded-full"
+                      }`}
+                      size={24}
+                      color={`${item?.current ? "#7046C6" : "#837E8E"}`}
+                    />
+                    <span className="text-[#1A191C] text-lg font-medium">
+                      {item?.title}
+                    </span>
+                  </div>
+                </li>
+              )
+            )}
+          </ul>
+        </div>
 
-export default Dashboard
+        <div className="flex justify-end">
+          <div className="self-center space-y-4 w-full">
+            <h3 className="text-primary text-5xl font-semibold">25%</h3>
+            <Progress value={24} className="w-[60%]" />
+          </div>
+        </div>
+      </div>
+      {/* summary card */}
+      <div className="py-8">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {dashboardAnalytics.map(({ title, value, name, color }) => (
+            <Analytics
+              key={name}
+              title={title}
+              value={value}
+              iconColor={color}
+              icon={analyticIcon[name]}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* Recent order logs */}
+    </div>
+  );
+};
+
+export default Dashboard;
