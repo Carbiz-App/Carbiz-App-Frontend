@@ -33,12 +33,12 @@ const data = {
     },
     {
       title: "Orders",
-      url: "/",
+      url: "/orders",
       icon: ShoppingBag,
     },
     {
       title: "Customers",
-      url: "/",
+      url: "/customers",
       icon: UsersRound,
     },
     {

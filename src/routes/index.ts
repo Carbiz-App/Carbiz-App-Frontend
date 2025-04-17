@@ -5,17 +5,18 @@ import AuthLayout from "@/components/_layout/auth.layout";
 import {
   Congratulations,
   CreateAccount,
-  Dashboard,
   ForgetPassword,
   Login,
   ResetOtp,
   ResetPassword,
   VerifyOtp,
+  Dashboard,
+  Customers,
+  Orders,
 } from "@/pages";
 import MainLayout from "@/components/_layout/main.layout";
 
 const router = createBrowserRouter([
-
   {
     Component: AuthLayout,
     children: [
@@ -49,13 +50,21 @@ const router = createBrowserRouter([
   {
     path: "",
     Component: MainLayout,
-    children:[
+    children: [
       {
         path: "dashboard",
-        Component: Dashboard
-      }
-    ]
-  }
+        Component: Dashboard,
+      },
+      {
+        path: "customers",
+        Component: Customers,
+      },
+      {
+        path: "orders",
+        Component: Orders,
+      },
+    ],
+  },
 ]);
 
 export default router;

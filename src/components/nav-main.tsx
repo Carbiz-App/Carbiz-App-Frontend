@@ -9,6 +9,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import { useLocation, useNavigate } from "react-router";
 
 export function NavMain({
   items,
@@ -19,6 +20,11 @@ export function NavMain({
     icon?: PhosporIcon | LucideIcon | Icon;
   }[];
 }) {
+  const router = useNavigate();
+  const { pathname } = useLocation();
+  let page = pathname.split("/").pop() ;
+
+  // console.log(items)
   return (
     <SidebarGroup>
       <SidebarGroupContent className="flex flex-col gap-2 mt-5">
@@ -27,6 +33,8 @@ export function NavMain({
             <SidebarMenuItem key={item.title} className="">
               <SidebarMenuButton
                 tooltip={item.title}
+                onClick={() => router(item?.url)}
+                isActive={page == item?.url?.split("/").pop() }
                 className="py-5.5 hover:bg-primary/90 group hover:text-primary-foreground active:bg-primary active:text-primary-foreground duration-300 ease-linear flex items-center gap-2 text-[#4F4C55]"
               >
                 {item.icon && <item.icon className=" text-2xl" />}
