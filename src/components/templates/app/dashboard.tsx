@@ -1,6 +1,5 @@
 import { CheckCircle } from "@phosphor-icons/react";
 import { Progress } from "@/components/ui/progress";
-import React from "react";
 import Analytics from "@/components/atoms/analytics";
 import { columns } from "@/columns/testColumns";
 import { DataTable } from "@/components/atoms/table";
