@@ -1,6 +1,6 @@
 import * as React from "react";
 import { HouseSimple, HandCoins, Gear } from "@phosphor-icons/react";
-import { LogOut, ShoppingBag } from "lucide-react";
+import { LogOut, ShoppingBag, UsersRound } from "lucide-react";
 
 import { IconCoins } from "@tabler/icons-react";
 
@@ -35,6 +35,11 @@ const data = {
       title: "Orders",
       url: "/",
       icon: ShoppingBag,
+    },
+    {
+      title: "Customers",
+      url: "/",
+      icon: UsersRound,
     },
     {
       title: "Products",

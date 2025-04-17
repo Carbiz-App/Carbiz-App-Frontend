@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import { ColumnDef } from "@tanstack/react-table";
 import { Eye } from "lucide-react";
 
@@ -19,15 +20,42 @@ export type Payment = {
 
 export const columns: ColumnDef<Payment>[] = [
   {
+    id: "select",
+    header: ({ table }) => (
+      <div className=" pl-7">
+        <Checkbox
+          checked={
+            table.getIsAllPageRowsSelected() ||
+            (table.getIsSomePageRowsSelected() && "indeterminate")
+          }
+          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+          aria-label="Select all"
+          className=""
+        />
+      </div>
+    ),
+    cell: ({ row }) => (
+      <div className=" pl-7">
+        <Checkbox
+          checked={row.getIsSelected()}
+          onCheckedChange={(value) => row.toggleSelected(!!value)}
+          aria-label="Select row"
+        />
+      </div>
+    ),
+    enableSorting: false,
+    enableHiding: false,
+  },
+  {
     accessorKey: "product",
     header: () => (
-      <div className=" text-base font-[500] text-black !bg-[#FAFAFB] px-7 py-3.5  !border-none">
+      <div className=" text-base font-[500] text-black !bg-[#FAFAFB] py-3.5  !border-none">
         Product
       </div>
     ),
     cell: ({ row }) => {
       return (
-        <div className=" font-normal px-7 py-3.5 uppercase">
+        <div className=" font-normal py-3.5 uppercase">
           {row.getValue("product")}
         </div>
       );

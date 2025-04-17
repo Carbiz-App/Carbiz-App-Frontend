@@ -4,6 +4,8 @@ import {
   getCoreRowModel,
   useReactTable,
   getPaginationRowModel,
+  ColumnFiltersState,
+  getFilteredRowModel,
 } from "@tanstack/react-table";
 
 import {
@@ -15,7 +17,10 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { CaretLeft, CaretRight } from "@phosphor-icons/react";
+import { FunnelSimple } from "@phosphor-icons/react";
+import React from "react";
+import { Input } from "@/components/ui/input";
+import { Pagination } from "./pagination";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -26,22 +31,44 @@ export function DataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
+  const [rowSelection, setRowSelection] = React.useState({});
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    []
+  );
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
+    onRowSelectionChange: setRowSelection,
+    onColumnFiltersChange: setColumnFilters,
+    getFilteredRowModel: getFilteredRowModel(),
+    state: { rowSelection, columnFilters },
   });
 
   return (
-    <div className="rounded-md border">
-      <div className="">
-        <h1>Recent Orders</h1>
+    <div className="rounded-md border bg-white">
+      <div className=" p-8 flex items-center gap-2.5">
+        <h1 className="text-[##020202] font-bold text-xl mr-5">
+          Recent Orders
+        </h1>
+        <div className="flex items-center py-4 mr-1.5">
+          <Input
+            placeholder="Search here..."
+            value={table.getState().globalFilter ?? ""}
+            onChange={(event) => table.setGlobalFilter(event.target.value)}
+            className="min-w-md text-sm lg:text-base rounded-lg py-3 transition-all duration-300 focus:outline-0 focus-visible:ring-0 focus-visible:border-primary-dark placeholder:text-text-secondary"
+          />
+        </div>
+        <Button variant="outline">
+          <FunnelSimple />
+          Filter
+        </Button>
       </div>
       <Table>
         <TableHeader className="">
           {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id}>
+            <TableRow key={headerGroup.id} className="bg-[#FAFAFB]">
               {headerGroup.headers.map((header) => {
                 return (
                   <TableHead key={header.id}>
@@ -80,35 +107,7 @@ export function DataTable<TData, TValue>({
           )}
         </TableBody>
       </Table>
-      <div className="flex items-center justify-between border-t p-4">
-        <div className="flex items-center justify-between py-4 px-4">
-          <div className="flex items-center space-x-2">
-            <span className="text-sm text-muted-foreground">
-              SHowing {table.getState().pagination.pageIndex + 1} of{" "}
-              {table.getPageCount()}
-            </span>
-          </div>
-        </div>
-        <div className="flex items-center justify-end space-x-2 py-4">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-          >
-            <CaretLeft size={16} className="mr-2" /> Prev
-          </Button>
-
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-          >
-            <CaretRight size={16} className="mr-2" /> Next
-          </Button>
-        </div>
-      </div>
+      <Pagination table={table} />
     </div>
   );
 }
