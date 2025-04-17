@@ -1,6 +1,5 @@
 import { CheckCircle } from "@phosphor-icons/react";
 import { Progress } from "@/components/ui/progress";
-import React from "react";
 import Analytics from "@/components/atoms/analytics";
 import { columns } from "@/columns/testColumns";
 import { DataTable } from "@/components/atoms/table";
@@ -8,11 +7,11 @@ import { DataTable } from "@/components/atoms/table";
 import { newUserChecklist, dashboardAnalytics } from "@/assets/data/index.json";
 import { MoneySend, ArrowSwapHorizontal, People } from "iconsax-reactjs";
 
-const analyticIcon = {
-  product: ArrowSwapHorizontal,
-  revenue: MoneySend,
-  customer: People,
-};
+// const analyticIcon = {
+//   product: ArrowSwapHorizontal,
+//   revenue: MoneySend,
+//   customer: People,
+// };
 
 export type Payment = {
   id: number;
@@ -99,8 +98,8 @@ const Dashboard = () => {
               title={title}
               value={value}
               iconColor={color}
-              icon={analyticIcon[name]}
-              isCurrency={name == 'revenue'}
+              // icon={analyticIcon[name]}
+              isCurrency={name == "revenue"}
             />
           ))}
         </div>
