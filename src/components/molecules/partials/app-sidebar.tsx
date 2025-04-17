@@ -1,11 +1,10 @@
 import * as React from "react";
 import { HouseSimple, HandCoins, Gear } from "@phosphor-icons/react";
-import { LogOut, ShoppingBag } from "lucide-react";
+import { LogOut, ShoppingBag, UsersRound } from "lucide-react";
 
-import { IconCoins, IconSettings, IconUsers } from "@tabler/icons-react";
+import { IconCoins } from "@tabler/icons-react";
 
 import { NavMain } from "@/components/nav-main";
-import { NavUser } from "@/components/nav-user";
 import {
   Sidebar,
   SidebarContent,
@@ -34,22 +33,27 @@ const data = {
     },
     {
       title: "Orders",
-      url: "#",
+      url: "/",
       icon: ShoppingBag,
     },
     {
+      title: "Customers",
+      url: "/",
+      icon: UsersRound,
+    },
+    {
       title: "Products",
-      url: "#",
+      url: "/",
       icon: IconCoins,
     },
     {
       title: "Payouts",
-      url: "#",
+      url: "/",
       icon: HandCoins,
     },
     {
       title: "Settings",
-      url: "#",
+      url: "/",
       icon: Gear,
     },
   ],
@@ -57,28 +61,30 @@ const data = {
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
-    <Sidebar backgroundColor="bg-white" collapsible="offcanvas" {...props}>
-      <SidebarHeader>
+    <Sidebar backgroundColor="bg-white" {...props}>
+      <SidebarHeader className="flex  gap-2 pt-10 h-auto px-4">
         <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton
+          {/* <SidebarMenuItem className="flex "> */}
+          {/* <SidebarMenuButton
               asChild
-              className="data-[slot=sidebar-menu-button]:!p-1.5"
-            >
-              <Link to="/dashboard">
-                <img src={logo} />
-                {/* <IconInnerShadowTop className="!size-5" />
-                <span className="text-base font-semibold">Acme Inc.</span> */}
-              </Link>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
+              className="data-[slot=sidebar-menu-button]:!p-1.5 flex"
+            > */}
+          <Link to="/dashboard">
+            <img src={logo} />
+          </Link>
+          {/* </SidebarMenuButton> */}
+          {/* </SidebarMenuItem> */}
         </SidebarMenu>
       </SidebarHeader>
+
       <SidebarContent>
         <NavMain items={data.navMain} />
       </SidebarContent>
       <SidebarFooter>
-        <Button variant="ghost" className="justify-start text-[#4F4C55] text-base pb-8" >
+        <Button
+          variant="ghost"
+          className="justify-start text-[#4F4C55] text-base"
+        >
           <LogOut className="size-4" />
           Logout
         </Button>

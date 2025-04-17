@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator"
+import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
@@ -15,11 +15,6 @@ export function SiteHeader() {
   return (
     <header className="bg-white flex py-5 pr-6  h-(--header-height) shrink-0 items-center gap-2 border-b border-border-gray transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-(--header-height)">
       <div className="flex w-full items-center gap-1 px-4 lg:gap-2 lg:px-6">
-        <SidebarTrigger className="-ml-1" />
-        {/* <Separator
-          orientation="vertical"
-          className="mx-2 data-[orientation=vertical]:h-4"
-        /> */}
         {/* <h1 className="text-base font-medium">Documents</h1> */}
         <div className="ml-auto flex items-center gap-2">
           <button className="relative bg-[#F6F6F6] p-3 rounded-md hover:bg-primary cursor-pointer group">
@@ -31,9 +26,9 @@ export function SiteHeader() {
           </button>
 
           <Separator
-          orientation="vertical"
-          className="mx-2 data-[orientation=vertical]:h-10"
-        />
+            orientation="vertical"
+            className="mx-2 data-[orientation=vertical]:h-10"
+          />
 
           <Button variant="ghost" asChild size="sm" className="hidden sm:flex">
             <>
@@ -42,7 +37,9 @@ export function SiteHeader() {
                 <AvatarFallback className="rounded-md">CN</AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-medium capitalize text-base">{user.name}</span>
+                <span className="truncate font-medium capitalize text-base">
+                  {user.name}
+                </span>
                 <span className="truncate text-xs text-[#727272]">
                   {user.email}
                 </span>
