@@ -1,7 +1,8 @@
+import { Icon } from "iconsax-reactjs";
 import React from "react";
 
 interface AnalyticsProp {
-  icon?: React.ComponentType<any>;
+  icon?: Icon;
   title: string;
   value?: number | string;
   isCurrency?: boolean;

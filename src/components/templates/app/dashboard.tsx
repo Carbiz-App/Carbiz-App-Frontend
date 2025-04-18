@@ -1,7 +1,7 @@
 import { CheckCircle } from "@phosphor-icons/react";
 import { Progress } from "@/components/ui/progress";
 import Analytics from "@/components/atoms/analytics";
-import { columns } from "@/columns/testColumns";
+import { columns } from "@/columns/columns";
 import { DataTable } from "@/components/atoms/table";
 
 import { newUserChecklist, dashboardAnalytics } from "@/assets/data/index.json";

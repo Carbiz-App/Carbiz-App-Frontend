@@ -21,15 +21,21 @@ import { FunnelSimple } from "@phosphor-icons/react";
 import React from "react";
 import { Input } from "@/components/ui/input";
 import { Pagination } from "./pagination";
+import { SearchNormal } from "iconsax-reactjs";
+import { useLocation, useNavigate } from "react-router";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  tableName?: string;
+  isClickable?: boolean
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  tableName,
+  isClickable
 }: DataTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -46,21 +52,27 @@ export function DataTable<TData, TValue>({
     state: { rowSelection, columnFilters },
   });
 
+  const {pathname} = useLocation()
+  const router = useNavigate()
+
   return (
     <div className="rounded-md border bg-white">
       <div className=" p-8 flex items-center gap-2.5">
         <h1 className="text-[##020202] font-bold text-xl mr-5">
-          Recent Orders
+          {tableName ? tableName : "Recent Orders"}
         </h1>
         <div className="flex items-center py-4 mr-1.5">
-          <Input
-            placeholder="Search here..."
-            value={table.getState().globalFilter ?? ""}
-            onChange={(event) => table.setGlobalFilter(event.target.value)}
-            className="min-w-md text-sm lg:text-base rounded-lg py-3 transition-all duration-300 focus:outline-0 focus-visible:ring-0 focus-visible:border-primary-dark placeholder:text-text-secondary"
-          />
+          <div className="inline-flex items-center">
+            <SearchNormal color="#67667A" size={16} className="-mr-7" />
+            <Input
+              placeholder="Search here..."
+              value={table.getState().globalFilter ?? ""}
+              onChange={(event) => table.setGlobalFilter(event.target.value)}
+              className="pl-8 min-w-md text-sm lg:text-base rounded-lg py-6 transition-all duration-300 focus:outline-0 focus-visible:ring-0 focus-visible:border-primary-dark placeholder:text-[#9C9BAB]"
+            />
+          </div>
         </div>
-        <Button variant="outline">
+        <Button variant="outline" className="py-6 w-[8%] border-0 shadow">
           <FunnelSimple />
           Filter
         </Button>
@@ -90,6 +102,7 @@ export function DataTable<TData, TValue>({
               <TableRow
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
+                onClick={() => isClickable && router(`${pathname}/${row?.id}`)}
               >
                 {row.getVisibleCells().map((cell) => (
                   <TableCell key={cell.id}>
