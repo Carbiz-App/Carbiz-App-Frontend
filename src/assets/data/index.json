@@ -103,14 +103,14 @@
       "created": "2023-10-01",
       "orderId": "1234567890",
       "paymentStatus": "paid",
-      "deliveryStatus": "processing"
+      "deliveryStatus": "awaiting_processing"
     },
     {
       "id": 2,
       "product": "Brake Pads",
       "created": "2023-10-03",
       "orderId": "1234567891",
-      "paymentStatus": "pending",
+      "paymentStatus": "canceled",
       "deliveryStatus": "awaiting_processing"
     },
     {
@@ -134,7 +134,7 @@
       "product": "Spark Plug Set",
       "created": "2023-10-09",
       "orderId": "1234567894",
-      "paymentStatus": "failed",
+      "paymentStatus": "refunded",
       "deliveryStatus": "canceled"
     },
     {
@@ -143,7 +143,7 @@
       "created": "2023-10-12",
       "orderId": "1234567895",
       "paymentStatus": "paid",
-      "deliveryStatus": "processing"
+      "deliveryStatus": "awaiting_processing"
     }
   ]
 }

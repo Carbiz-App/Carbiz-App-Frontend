@@ -5,7 +5,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 type CustomerType = {
   name: string;
   email: string;
-  createdAt: Date;
+  createdAt: string;
   phone: string;
 };
 

@@ -1,6 +1,6 @@
 import { Link } from "react-router";
 import { ArrowLeft } from "iconsax-reactjs";
-import OrderColumn, { OrderType } from "@/columns/orders.column";
+import OrderColumn, { productType } from "@/columns/orders.column";
 import { DataTable } from "@/components/atoms/table";
 
 import { products } from "@/assets/data/index.json";
@@ -12,7 +12,7 @@ type details = {
 };
 
 const PreviewCustomer = () => {
-  const productList: OrderType[] = [...products];
+  const productList: productType[] = [...products];
   const itemDetails: details[] = [
     { title: "Name", value: "Elizabeth Ali" },
     { title: "Email", value: "elizabeth@gmail.com" },
