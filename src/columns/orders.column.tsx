@@ -133,7 +133,7 @@ const OrderColumn: ColumnDef<OrderType>[] = [
             return "text-[#B42318] bg-[#FEE4E2]";
           case "delivered":
             return "text-[#027A48] bg-[#D1FADF]";
-          case "awaiting_payment":
+          case "awaiting_processing":
             return "text-[#343239] bg-[#E6E5E8]";
           default:
             return null;
@@ -142,7 +142,7 @@ const OrderColumn: ColumnDef<OrderType>[] = [
       return (
         <div className={` font-normal px-7 py-3.5 `}>
           <span className={`px-3 py-1 rounded-2xl ${statusColor()} capitalize`}>
-            {row.getValue("deliveryStatus")?.replace("-", " ")}
+            {row.getValue("deliveryStatus")?.replace("_", " ")}
           </span>
         </div>
       );
@@ -150,5 +150,4 @@ const OrderColumn: ColumnDef<OrderType>[] = [
   },
 ];
 
-
-export default OrderColumn
+export default OrderColumn;
