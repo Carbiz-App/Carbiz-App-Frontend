@@ -10,10 +10,14 @@ import {
   ResetOtp,
   ResetPassword,
   VerifyOtp,
+  Dashboard,
+  Customers,
+  Orders,
+  PreviewCustomer,
 } from "@/pages";
+import MainLayout from "@/components/_layout/main.layout";
 
 const router = createBrowserRouter([
-
   {
     Component: AuthLayout,
     children: [
@@ -41,6 +45,33 @@ const router = createBrowserRouter([
       {
         path: "reset-password",
         Component: ResetPassword,
+      },
+    ],
+  },
+  {
+    path: "",
+    Component: MainLayout,
+    children: [
+      {
+        path: "dashboard",
+        Component: Dashboard,
+      },
+      {
+        path: "customers",
+        children: [
+          {
+            path: "",
+            Component: Customers,
+          },
+          {
+            path: ":id",
+            Component: PreviewCustomer,
+          },
+        ],
+      },
+      {
+        path: "orders",
+        Component: Orders,
       },
     ],
   },

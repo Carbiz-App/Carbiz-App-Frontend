@@ -5,3 +5,10 @@ export { default as Congratulations } from "@/components/templates/authenticatio
 export { default as ForgetPassword } from "@/components/templates/authentication/forgetPassword";
 export { default as ResetOtp } from "@/components/templates/authentication/resetOtp";
 export { default as ResetPassword } from "@/components/templates/authentication/resetPassword";
+
+// APP
+export { default as Dashboard } from "@/components/templates/app/dashboard";
+export { default as Customers } from "@/components/templates/app/customers";
+export { default as PreviewCustomer } from "@/components/templates/app/customers/preview";
+
+export { default as Orders } from "@/components/templates/app/orders";
