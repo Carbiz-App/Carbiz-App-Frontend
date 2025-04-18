@@ -15,9 +15,24 @@
     }
   ],
   "dashboardAnalytics": [
-    { "title": "Revenue", "value": 166580, "name": "revenue", "color": "#DC6803" },
-    { "title": "Product Sold", "value": 5679, "name": "product", "color": "#027A48" },
-    { "title": "Customer", "value": 1081, "name": "customer", "color": "#7046C6" }
+    {
+      "title": "Revenue",
+      "value": 166580,
+      "name": "revenue",
+      "color": "#DC6803"
+    },
+    {
+      "title": "Product Sold",
+      "value": 5679,
+      "name": "product",
+      "color": "#027A48"
+    },
+    {
+      "title": "Customer",
+      "value": 1081,
+      "name": "customer",
+      "color": "#7046C6"
+    }
   ],
   "customers": [
     {
@@ -80,5 +95,55 @@
       "createdAt": "2025-04-08T17:25:00Z",
       "phone": "+1-555-3344"
     }
-  ]
+  ],
+  "products": [
+  {
+    "id": 1,
+    "product": "Engine Oil Filter",
+    "created": "2023-10-01",
+    "orderId": "1234567890",
+    "paymentStatus": "paid",
+    "deliveryStatus": "processing"
+  },
+  {
+    "id": 2,
+    "product": "Brake Pads", 
+    "created": "2023-10-03",
+    "orderId": "1234567891",
+    "paymentStatus": "pending",
+    "deliveryStatus": "awaiting_payment"
+  },
+  {
+    "id": 3,
+    "product": "Car Battery",
+    "created": "2023-10-05",
+    "orderId": "1234567892",
+    "paymentStatus": "paid",
+    "deliveryStatus": "shipped"
+  },
+  {
+    "id": 4,
+    "product": "Tire Set",
+    "created": "2023-10-07",
+    "orderId": "1234567893",
+    "paymentStatus": "paid",
+    "deliveryStatus": "delivered"
+  },
+  {
+    "id": 5,
+    "product": "Spark Plug Set",
+    "created": "2023-10-09",
+    "orderId": "1234567894",
+    "paymentStatus": "failed",
+    "deliveryStatus": "cancelled"
+  },
+  {
+    "id": 6,
+    "product": "Engine Oil",
+    "created": "2023-10-12",
+    "orderId": "1234567895",
+    "paymentStatus": "paid",
+    "deliveryStatus": "processing"
+  }
+]
 }
