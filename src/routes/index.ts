@@ -14,6 +14,7 @@ import {
   Customers,
   Orders,
   PreviewCustomer,
+  PreviewOrder,
 } from "@/pages";
 import MainLayout from "@/components/_layout/main.layout";
 
@@ -71,7 +72,16 @@ const router = createBrowserRouter([
       },
       {
         path: "orders",
-        Component: Orders,
+        children: [
+          {
+            path: "",
+            Component: Orders,
+          },
+          {
+            path: ":id",
+            Component: PreviewOrder,
+          },
+        ],
       },
     ],
   },

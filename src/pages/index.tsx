@@ -12,3 +12,4 @@ export { default as Customers } from "@/components/templates/app/customers";
 export { default as PreviewCustomer } from "@/components/templates/app/customers/preview";
 
 export { default as Orders } from "@/components/templates/app/orders";
+export { default as PreviewOrder } from "@/components/templates/app/orders/preview";
