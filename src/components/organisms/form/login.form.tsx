@@ -17,7 +17,7 @@ const LoginForm = () => {
   const navigate = useNavigate();
 
   const onSubmit = (data: LoginSchemaType) => {
-    Navigate("/dashboard");
+    navigate("/dashboard");
     console.log(data);
   };
 
