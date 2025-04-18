@@ -7,11 +7,11 @@ import { DataTable } from "@/components/atoms/table";
 import { newUserChecklist, dashboardAnalytics } from "@/assets/data/index.json";
 import { MoneySend, ArrowSwapHorizontal, People } from "iconsax-reactjs";
 
-// const analyticIcon = {
-//   product: ArrowSwapHorizontal,
-//   revenue: MoneySend,
-//   customer: People,
-// };
+const analyticIcon = {
+  product: ArrowSwapHorizontal,
+  revenue: MoneySend,
+  customer: People,
+};
 
 export type Payment = {
   id: number;
@@ -57,7 +57,7 @@ const Dashboard = () => {
         <h3 className="font-bold text-xl ">Golden Engine Store</h3>
       </div>
       {/* New user card */}
-      <div className="bg-white rounded-xl p-10  w-full grid sm:grid-cols-2">
+      <div className="bg-white rounded-xl p-10  w-full grid sm:grid-cols-2 border border-border-gray">
         <div className="inline-flex flex-col gap-6">
           <h2 className="text-2xl font-bold">Get ready for your first sale</h2>
           <ul className="list-none">
@@ -98,7 +98,7 @@ const Dashboard = () => {
               title={title}
               value={value}
               iconColor={color}
-              // icon={analyticIcon[name]}
+              icon={analyticIcon[name]}
               isCurrency={name == "revenue"}
             />
           ))}
