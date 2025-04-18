@@ -7,13 +7,17 @@ import { Button } from "@/components/ui/button";
 import InputField from "@/components/atoms/form/input";
 
 import LoginSchema, { LoginSchemaType } from "@/schema/login.schema";
+import { useNavigate } from "react-router";
 
 const LoginForm = () => {
   const form = useForm<LoginSchemaType>({
     resolver: zodResolver(LoginSchema),
   });
 
+  const navigate = useNavigate();
+
   const onSubmit = (data: LoginSchemaType) => {
+    navigate("/dashboard");
     console.log(data);
   };
 
