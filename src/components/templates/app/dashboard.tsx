@@ -57,7 +57,7 @@ const Dashboard = () => {
         <h3 className="font-bold text-xl ">Golden Engine Store</h3>
       </div>
       {/* New user card */}
-      <div className="bg-white rounded-xl p-10  w-full grid sm:grid-cols-2">
+      <div className="bg-white rounded-xl p-10  w-full grid sm:grid-cols-2 border border-border-gray">
         <div className="inline-flex flex-col gap-6">
           <h2 className="text-2xl font-bold">Get ready for your first sale</h2>
           <ul className="list-none">
