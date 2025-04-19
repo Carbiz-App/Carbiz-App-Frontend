@@ -122,7 +122,9 @@ const OrderColumn: ColumnDef<OrderType>[] = [
       </div>
     ),
     cell: ({ row }) => {
-      const status: string | undefined = row.getValue("deliveryStatus");
+      const status: string | undefined = row
+        ?.getValue("deliveryStatus")
+        ?.toString();
       const statusColor = () => {
         switch (status?.toLocaleLowerCase()) {
           case "processing":
@@ -142,7 +144,7 @@ const OrderColumn: ColumnDef<OrderType>[] = [
       return (
         <div className={` font-normal px-7 py-3.5 `}>
           <span className={`px-3 py-1 rounded-2xl ${statusColor()} capitalize`}>
-            {row.getValue("deliveryStatus")?.replace("_", " ")}
+            {status?.replace("_", " ")}
           </span>
         </div>
       );
