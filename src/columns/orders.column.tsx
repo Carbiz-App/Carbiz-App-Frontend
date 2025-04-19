@@ -132,9 +132,7 @@ const OrderColumn: ColumnDef<OrderType | productType>[] = [
       </div>
     ),
     cell: ({ row }) => {
-      const status: string | undefined = row
-        .getValue("deliveryStatus")
-        ?.toString();
+      const status: string | undefined = row?.getValue("deliveryStatus")?.toString();
       const statusColor = () => {
         switch (status?.toLocaleLowerCase()) {
           case "processing":
