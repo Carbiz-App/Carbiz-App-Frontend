@@ -142,7 +142,7 @@ const OrderColumn: ColumnDef<OrderType>[] = [
       return (
         <div className={` font-normal px-7 py-3.5 `}>
           <span className={`px-3 py-1 rounded-2xl ${statusColor()} capitalize`}>
-            {row.getValue("deliveryStatus")?.replace("-", " ")}
+            {row.getValue("deliveryStatus")?.replace("_", " ")}
           </span>
         </div>
       );
