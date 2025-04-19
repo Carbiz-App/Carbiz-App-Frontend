@@ -13,6 +13,8 @@ const analyticIcon = {
   customer: People,
 };
 
+type analyticKey = keyof typeof analyticIcon;
+
 export type Payment = {
   id: number;
   product: string;
@@ -98,7 +100,7 @@ const Dashboard = () => {
               title={title}
               value={value}
               iconColor={color}
-              icon={analyticIcon[name]}
+              icon={analyticIcon[name as analyticKey]}
               isCurrency={name == "revenue"}
             />
           ))}
