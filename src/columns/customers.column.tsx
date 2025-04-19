@@ -5,7 +5,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 type CustomerType = {
   name: string;
   email: string;
-  createdAt: Date;
+  createdAt: string;
   phone: string;
 };
 
@@ -40,15 +40,13 @@ const CustomerColumns: ColumnDef<CustomerType>[] = [
   {
     accessorKey: "name",
     header: () => (
-      <div className="normal text-base font-[500] text-black !bg-[#FAFAFB] py-3.5  !border-none px-4">
+      <div className="normal text-base font-[500] text-black !bg-[#FAFAFB] py-3.5  !border-none ">
         Name
       </div>
     ),
     cell: ({ row }) => {
       return (
-        <div className=" font-normal py-3.5 normal">
-          {row.getValue("name")}
-        </div>
+        <div className=" font-normal py-3.5 normal">{row.getValue("name")}</div>
       );
     },
   },

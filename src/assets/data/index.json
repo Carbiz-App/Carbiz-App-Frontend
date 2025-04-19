@@ -97,53 +97,53 @@
     }
   ],
   "products": [
-  {
-    "id": 1,
-    "product": "Engine Oil Filter",
-    "created": "2023-10-01",
-    "orderId": "1234567890",
-    "paymentStatus": "paid",
-    "deliveryStatus": "processing"
-  },
-  {
-    "id": 2,
-    "product": "Brake Pads", 
-    "created": "2023-10-03",
-    "orderId": "1234567891",
-    "paymentStatus": "pending",
-    "deliveryStatus": "awaiting_payment"
-  },
-  {
-    "id": 3,
-    "product": "Car Battery",
-    "created": "2023-10-05",
-    "orderId": "1234567892",
-    "paymentStatus": "paid",
-    "deliveryStatus": "shipped"
-  },
-  {
-    "id": 4,
-    "product": "Tire Set",
-    "created": "2023-10-07",
-    "orderId": "1234567893",
-    "paymentStatus": "paid",
-    "deliveryStatus": "delivered"
-  },
-  {
-    "id": 5,
-    "product": "Spark Plug Set",
-    "created": "2023-10-09",
-    "orderId": "1234567894",
-    "paymentStatus": "failed",
-    "deliveryStatus": "cancelled"
-  },
-  {
-    "id": 6,
-    "product": "Engine Oil",
-    "created": "2023-10-12",
-    "orderId": "1234567895",
-    "paymentStatus": "paid",
-    "deliveryStatus": "processing"
-  }
-]
+    {
+      "id": 1,
+      "product": "Engine Oil Filter",
+      "created": "2023-10-01",
+      "orderId": "1234567890",
+      "paymentStatus": "paid",
+      "deliveryStatus": "awaiting_processing"
+    },
+    {
+      "id": 2,
+      "product": "Brake Pads",
+      "created": "2023-10-03",
+      "orderId": "1234567891",
+      "paymentStatus": "canceled",
+      "deliveryStatus": "awaiting_processing"
+    },
+    {
+      "id": 3,
+      "product": "Car Battery",
+      "created": "2023-10-05",
+      "orderId": "1234567892",
+      "paymentStatus": "paid",
+      "deliveryStatus": "shipped"
+    },
+    {
+      "id": 4,
+      "product": "Tire Set",
+      "created": "2023-10-07",
+      "orderId": "1234567893",
+      "paymentStatus": "paid",
+      "deliveryStatus": "delivered"
+    },
+    {
+      "id": 5,
+      "product": "Spark Plug Set",
+      "created": "2023-10-09",
+      "orderId": "1234567894",
+      "paymentStatus": "refunded",
+      "deliveryStatus": "canceled"
+    },
+    {
+      "id": 6,
+      "product": "Engine Oil",
+      "created": "2023-10-12",
+      "orderId": "1234567895",
+      "paymentStatus": "paid",
+      "deliveryStatus": "awaiting_processing"
+    }
+  ]
 }
