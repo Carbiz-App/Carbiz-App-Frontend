@@ -1,30 +1,24 @@
+import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ColumnDef } from "@tanstack/react-table";
+import { Eye } from "lucide-react";
 
-export type OrderType = {
-  id: string;
+// This type is used to define the shape of our data.
+// You can use a Zod schema here if you want.
+export type Payment = {
   product: string;
   created: string;
   orderId: string;
-  paymentStatus: "paid" | "canceled" | "refunded";
+  paymentStatus: "paid" | "cancelled" | "refunded";
   deliveryStatus:
     | "processing"
     | "shipped"
     | "delivered"
-    | "canceled"
-    | "awaiting_processing";
+    | "cancelled"
+    | "awaiting";
 };
 
-export type productType = {
-  id: number;
-  product: string;
-  created: string;
-  orderId: string;
-  paymentStatus: string;
-  deliveryStatus: string;
-};
-
-const OrderColumn: ColumnDef<OrderType | productType>[] = [
+export const columns: ColumnDef<Payment>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -80,37 +74,6 @@ const OrderColumn: ColumnDef<OrderType | productType>[] = [
       );
     },
   },
-
-  {
-    accessorKey: "paymentStatus",
-    header: () => (
-      <div className=" text-base  font-[500] text-black bg-[#FAFAFB] px-7 py-3.5">
-        Payment
-      </div>
-    ),
-    cell: ({ row }) => {
-      //   const status: string | undefined = row.getValue("paymentStatus");
-      //   const statusColor = () => {
-      //     switch (status?.toLocaleLowerCase()) {
-      //       case "paid":
-      //         return "bg-[#D1FADF] text-[#027A48]";
-      //       case "cancelled":
-      //         return "bg-[#FEE4E2] text-[#B42318]";
-      //       case "refunded":
-      //         return "text-[#DC6803] bg-[#FFF7E1]";
-      //       default:
-      //         return null;
-      //     }
-      //   };
-      return (
-        <div className={` font-normal px-7 py-3.5 `}>
-          <span className={`px-3 py-1 rounded-2xl capitalize`}>
-            {row.getValue("paymentStatus")}
-          </span>
-        </div>
-      );
-    },
-  },
   {
     accessorKey: "orderId",
     header: () => (
@@ -125,14 +88,44 @@ const OrderColumn: ColumnDef<OrderType | productType>[] = [
     },
   },
   {
-    accessorKey: "deliveryStatus",
+    accessorKey: "paymentStatus",
     header: () => (
       <div className=" text-base  font-[500] text-black bg-[#FAFAFB] px-7 py-3.5">
-        Status
+        Payment Status
       </div>
     ),
     cell: ({ row }) => {
-      const status: string | undefined = row?.getValue("deliveryStatus")?.toString();
+      const status: string | undefined = row.getValue("paymentStatus");
+      const statusColor = () => {
+        switch (status?.toLocaleLowerCase()) {
+          case "paid":
+            return "bg-[#D1FADF] text-[#027A48]";
+          case "cancelled":
+            return "bg-[#FEE4E2] text-[#B42318]";
+          case "refunded":
+            return "text-[#DC6803] bg-[#FFF7E1]";
+          default:
+            return null;
+        }
+      };
+      return (
+        <div className={` font-normal px-7 py-3.5 `}>
+          <span className={`px-3 py-1 rounded-2xl ${statusColor()} capitalize`}>
+            {row.getValue("paymentStatus")}
+          </span>
+        </div>
+      );
+    },
+  },
+  {
+    accessorKey: "deliveryStatus",
+    header: () => (
+      <div className=" text-base  font-[500] text-black bg-[#FAFAFB] px-7 py-3.5">
+        Delivery Status
+      </div>
+    ),
+    cell: ({ row }) => {
+      const status: string | undefined = row.getValue("deliveryStatus");
       const statusColor = () => {
         switch (status?.toLocaleLowerCase()) {
           case "processing":
@@ -143,7 +136,7 @@ const OrderColumn: ColumnDef<OrderType | productType>[] = [
             return "text-[#B42318] bg-[#FEE4E2]";
           case "delivered":
             return "text-[#027A48] bg-[#D1FADF]";
-          case "awaiting_processing":
+          case "awaiting":
             return "text-[#343239] bg-[#E6E5E8]";
           default:
             return null;
@@ -152,12 +145,23 @@ const OrderColumn: ColumnDef<OrderType | productType>[] = [
       return (
         <div className={` font-normal px-7 py-3.5 `}>
           <span className={`px-3 py-1 rounded-2xl ${statusColor()} capitalize`}>
-            {status?.replaceAll("_", " ")}
+            {row.getValue("deliveryStatus")}
           </span>
         </div>
       );
     },
   },
+  {
+    id: "action",
+    cell: ({ row }) => {
+      const id = row.original;
+      return (
+        <div className=" font-normal px-7 py-3.">
+          <Button variant={"ghost"}>
+            <Eye className=" text-3xl size-5 text-[#4F4C55]" />
+          </Button>
+        </div>
+      );
+    },
+  },
 ];
-
-export default OrderColumn;
