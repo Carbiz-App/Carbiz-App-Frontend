@@ -14,6 +14,10 @@ import {
   Customers,
   Orders,
   PreviewCustomer,
+  Settings,
+  Profile,
+  Payment,
+  Documents,
 } from "@/pages";
 import MainLayout from "@/components/_layout/main.layout";
 
@@ -72,6 +76,24 @@ const router = createBrowserRouter([
       {
         path: "orders",
         Component: Orders,
+      },
+      {
+        path: "settings",
+        Component: Settings,
+        children: [
+          {
+            path: "",
+            Component: Profile,
+          },
+          {
+            path: "payment",
+            Component: Payment,
+          },
+          {
+            path: "document",
+            Component: Documents,
+          },
+        ],
       },
     ],
   },
