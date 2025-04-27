@@ -41,12 +41,12 @@ const data = {
     },
     {
       title: "Products",
-      url: "/",
+      url: "/products",
       icon: IconCoins,
     },
     {
       title: "Payouts",
-      url: "/",
+      url: "/payouts",
       icon: HandCoins,
     },
     {
