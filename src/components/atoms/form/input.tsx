@@ -35,7 +35,8 @@ const InputField: React.FC<InputFieldProps> = ({
 }) => {
   const { pathname } = useLocation();
 
-  const isCreatePage = pathname.includes("create-account");
+  const isCreatePage =
+    pathname.includes("create-account") || pathname.includes("reset-password");
 
   const [showPassword, setShowPassword] = React.useState(false);
 

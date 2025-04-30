@@ -7,7 +7,6 @@ import {
   CreateAccount,
   ForgetPassword,
   Login,
-  ResetOtp,
   ResetPassword,
   VerifyOtp,
   Dashboard,
@@ -45,12 +44,12 @@ const router = createBrowserRouter([
         Component: ForgetPassword,
       },
       {
-        path: "reset-otp",
-        Component: ResetOtp,
-      },
-      {
         path: "reset-password",
         Component: ResetPassword,
+      },
+      {
+        path: "reset-otp",
+        Component: VerifyOtp,
       },
     ],
   },
