@@ -1,7 +1,7 @@
 import { CheckCircle } from "@phosphor-icons/react";
 import { Progress } from "@/components/ui/progress";
 import Analytics from "@/components/atoms/analytics";
-import { columns } from "@/columns/testColumns";
+import { columns } from "@/columns/columns";
 import { DataTable } from "@/components/atoms/table";
 
 import { newUserChecklist, dashboardAnalytics } from "@/assets/data/index.json";
@@ -12,6 +12,8 @@ const analyticIcon = {
   revenue: MoneySend,
   customer: People,
 };
+
+type analyticKey = keyof typeof analyticIcon;
 
 export type Payment = {
   id: number;
@@ -57,7 +59,7 @@ const Dashboard = () => {
         <h3 className="font-bold text-xl ">Golden Engine Store</h3>
       </div>
       {/* New user card */}
-      <div className="bg-white rounded-xl p-10  w-full grid sm:grid-cols-2">
+      <div className="bg-white rounded-xl p-10  w-full grid sm:grid-cols-2 border border-border-gray">
         <div className="inline-flex flex-col gap-6">
           <h2 className="text-2xl font-bold">Get ready for your first sale</h2>
           <ul className="list-none">
@@ -98,8 +100,8 @@ const Dashboard = () => {
               title={title}
               value={value}
               iconColor={color}
-              icon={analyticIcon?.[name]}
-              isCurrency={name == 'revenue'}
+              icon={analyticIcon[name as analyticKey]}
+              isCurrency={name == "revenue"}
             />
           ))}
         </div>
