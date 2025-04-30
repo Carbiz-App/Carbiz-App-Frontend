@@ -7,18 +7,15 @@ import { Button } from "@/components/ui/button";
 import InputField from "@/components/atoms/form/input";
 
 import LoginSchema, { LoginSchemaType } from "@/schema/login.schema";
-import { useNavigate } from "react-router";
+import { useLoginMerchant } from "@/queries/login";
 
 const LoginForm = () => {
   const form = useForm<LoginSchemaType>({
     resolver: zodResolver(LoginSchema),
   });
-
-  const navigate = useNavigate();
-
-  const onSubmit = (data: LoginSchemaType) => {
-    navigate("/dashboard");
-    console.log(data);
+  const { loginMerchant, loading } = useLoginMerchant();
+  const onSubmit = async (data: LoginSchemaType) => {
+    await loginMerchant({ variables: { input: data } });
   };
 
   return (
@@ -39,10 +36,11 @@ const LoginForm = () => {
           placeholder="******************"
         />
         <Button
+          disabled={loading}
           type="submit"
           className="bg-primary text-white w-full mt-10 py-6 rounded-[0.625rem] text-base"
         >
-          Login
+          {loading ? "Loading..." : "Login"}
         </Button>
       </form>
     </Form>

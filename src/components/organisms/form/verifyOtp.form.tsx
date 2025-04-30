@@ -1,59 +1,113 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useLocation, useNavigate } from "react-router";
 
 import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
+import FormOtpInput from "@/components/atoms/form/otpinput";
 
 import VerifyOtpSchema, {
   VerifyOtpSchemaType,
 } from "@/schema/verifyotp.schema";
-import { useLocation, useNavigate } from "react-router";
-import FormOtpInput from "@/components/atoms/form/otpinput";
+import { toast } from "sonner";
+import { useVerifyOtpMerchant } from "@/queries/verifyOtp";
+import { useToast } from "@/hooks/Toast";
 
-const VerifyOtpForm = () => {
+function VerifyOtpForm() {
+  const { pathname } = useLocation();
   const navigate = useNavigate();
-  const { state } = useLocation();
 
   const form = useForm<VerifyOtpSchemaType>({
     resolver: zodResolver(VerifyOtpSchema),
     defaultValues: {
-      email: state?.email,
-      code: undefined,
+      otp: "",
     },
   });
 
-  const onSubmit = (data: VerifyOtpSchemaType) => {
-    console.log(data);
-    navigate("/congratulations");
+  const { handleError } = useToast();
+  const { state } = useLocation();
+
+  const {
+    verifyOtpMerchant,
+    resendOtpMerchant,
+    loading,
+    verifyResetPasswordOtpMerchant,
+    verifyResetOtpLoading,
+  } = useVerifyOtpMerchant();
+
+  const onSubmit = async (data: VerifyOtpSchemaType) => {
+    if (pathname === "/reset-otp") {
+      if (state === null || state === undefined) {
+        handleError(new Error("No email provided"), "Resend OTP failed");
+        navigate("/forgot-password");
+        return;
+      }
+      await verifyResetPasswordOtpMerchant({
+        variables: { input: { otp: data?.otp } },
+      });
+      return;
+    }
+    await verifyOtpMerchant({ variables: { input: { otp: data?.otp } } });
+  };
+
+  const handleOtpResend = async () => {
+    if (state === null || state === undefined) {
+      handleError(new Error("No email provided"), "Resend OTP failed");
+      navigate("/forgot-password");
+      return;
+    }
+    form.setValue("otp", "");
+    toast.promise(
+      resendOtpMerchant({ variables: { input: { email: state.email } } }),
+      {
+        loading: "Sending OTP...",
+        success: (data) => {
+          const result = data?.data?.resendOtpMerchant;
+          return result?.message || "OTP sent!";
+        },
+        error: (err) => {
+          return err.message || "Failed to resend OTP.";
+        },
+      }
+    );
   };
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-10 mt-4">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        noValidate
+        className="space-y-10 mt-4"
+      >
         <div className="flex flex-col gap-2.5">
           <FormOtpInput
             control={form.control}
-            name="code"
+            name="otp"
             label="Verification Code"
-            maxLength={4}
+            maxLength={6}
           />
           <p className="font-family-satoshi text-sm">
-            Didn’t get code?{" "}
-            <button type="button" className="text-primary cursor-pointer">
+            Didn’t get a code?{" "}
+            <button
+              onClick={handleOtpResend}
+              type="button"
+              className="text-primary cursor-pointer"
+            >
               Click to get code again
             </button>
           </p>
         </div>
+
         <Button
-          onClick={() => navigate("/congratulations")}
-          // type="submit"
+          disabled={loading || verifyResetOtpLoading}
+          type="submit"
           className="bg-primary text-white w-full mt-10 py-6 rounded-[0.625rem] text-base"
         >
-          Submit
+          {loading || verifyResetOtpLoading ? "Loading..." : "Submit"}
         </Button>
       </form>
     </Form>
   );
-};
+}
 
 export default VerifyOtpForm;
