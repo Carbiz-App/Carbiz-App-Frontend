@@ -9,7 +9,18 @@ import {
   Login,
   ResetPassword,
   VerifyOtp,
+  Dashboard,
+  Customers,
+  Orders,
+  PreviewCustomer,
+  Settings,
+  Profile,
+  Payment,
+  Documents,
+  Payouts,
+  PreviewOrder,
 } from "@/pages";
+import MainLayout from "@/components/_layout/main.layout";
 
 const router = createBrowserRouter([
   {
@@ -39,6 +50,64 @@ const router = createBrowserRouter([
       {
         path: "reset-otp",
         Component: VerifyOtp,
+      },
+    ],
+  },
+  {
+    path: "",
+    Component: MainLayout,
+    children: [
+      {
+        path: "dashboard",
+        Component: Dashboard,
+      },
+      {
+        path: "customers",
+        children: [
+          {
+            path: "",
+            Component: Customers,
+          },
+          {
+            path: ":id",
+            Component: PreviewCustomer,
+          },
+        ],
+      },
+      {
+        path: "orders",
+        children: [
+          {
+            path: "",
+            Component: Orders,
+          },
+          {
+            path: ":id",
+            Component: PreviewOrder,
+          },
+        ],
+      },
+      {
+        path: "payouts",
+        Component: Payouts,
+      },
+      {
+        path: "settings",
+        Component: Settings,
+        children: [
+          {
+            path: "",
+            Component: Profile,
+          },
+          {
+            path: "payment",
+            Component: Payment,
+          },
+          {
+            path: "document",
+            Component: Documents,
+          },
+        ],
       },
     ],
   },
