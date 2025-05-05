@@ -12,6 +12,7 @@ import {
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
   SelectTrigger,
   SelectValue,
@@ -20,7 +21,7 @@ import {
 type Option = {
   label: string;
   value: string;
-  className: string;
+  className?: string;
 };
 
 interface SelectFieldProps {
@@ -45,24 +46,35 @@ const SelectField: React.FC<SelectFieldProps> = ({
       control={control}
       name={name ? name?.toString() : ""}
       render={({ field }) => (
-        <FormItem >
+        <FormItem>
           {label && (
-            <FormLabel className="text-sm lg:text-base text-primary-dark font-medium mb-1">
+            <FormLabel className="text-sm lg:text-base text-primary-dark font-medium">
               {label}
             </FormLabel>
           )}
           <Select onValueChange={field.onChange} defaultValue={field.value}>
             <FormControl>
-              <SelectTrigger className="w-full py-5.5">
-                <SelectValue placeholder={placeholder}  className="text-text-primary text-base"/>
+              <SelectTrigger className="w-full py-6 rounded-lg focus:border-primary  focus-visible:border-primary placeholder:text-text-secondary">
+                <SelectValue
+                  placeholder={placeholder}
+                  className="text-text-primary  text-sm lg:text-base "
+                />
               </SelectTrigger>
             </FormControl>
-            <SelectContent className="w-full">
-              {items?.map(({ value, label, className }, index) => (
-                <SelectItem key={index} value={value} className={className}>
-                  {label}
-                </SelectItem>
-              ))}
+            <SelectContent className="w-full border-[#D4C7EE]">
+              <SelectGroup>
+                {items && items.length > 0 ? (
+                  items?.map((item) => (
+                    <SelectItem key={item.value} value={item.value}>
+                      {item.label}
+                    </SelectItem>
+                  ))
+                ) : (
+                  <div className="py-2 px-4 text-sm text-muted-foreground">
+                    No item found
+                  </div>
+                )}
+              </SelectGroup>
             </SelectContent>
           </Select>
           {description && <FormDescription>{description}</FormDescription>}

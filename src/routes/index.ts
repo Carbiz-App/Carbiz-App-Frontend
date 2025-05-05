@@ -20,6 +20,7 @@ import {
   Documents,
   Payouts,
   Products,
+  AddProduct,
 } from "@/pages";
 import MainLayout from "@/components/_layout/main.layout";
 
@@ -85,7 +86,16 @@ const router = createBrowserRouter([
       },
       {
         path: "products",
-        Component: Products,
+        children: [
+          {
+            path: "",
+            Component: Products,
+          },
+          {
+            path: "new",
+            Component: AddProduct,
+          },
+        ],
       },
       {
         path: "settings",

@@ -55,7 +55,7 @@ const InputField: React.FC<InputFieldProps> = ({
             }`}
           >
             {label && (
-              <FormLabel className="text-sm lg:text-base text-primary-dark font-medium mb-1">
+              <FormLabel className="text-sm lg:text-base text-primary-dark font-medium">
                 {label}
               </FormLabel>
             )}
@@ -75,7 +75,7 @@ const InputField: React.FC<InputFieldProps> = ({
               <Input
                 placeholder={placeholder}
                 type={showPassword && type == "password" ? "text" : type}
-                className={`text-sm lg:text-base rounded-lg py-6 focus:outline-0 focus-visible:ring-0 focus-visible:border-primary-dark placeholder:text-text-secondary ${inputClassName}`}
+                className={`text-sm lg:text-base rounded-lg py-6 focus:outline-0 focus-visible:ring-0 focus-visible:border-primary placeholder:text-text-secondary ${inputClassName}`}
                 {...field}
               />
 
