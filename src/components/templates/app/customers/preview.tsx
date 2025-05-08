@@ -29,7 +29,7 @@ const PreviewCustomer = () => {
         </h4>
       </Link>
 
-      <div className="bg-white rounded-xl p-10 border border-[#F5F5F6] flex font-family-satoshi gap-6">
+      <div className="bg-white rounded-xl p-10 border border-[#F5F5F6] flex font-family-satoshi gap-6 flex-wrap sm:flex-nowrap">
         {itemDetails.map(
           ({ title, value }: { title: string; value: string }) => (
             <CardDetail
