@@ -28,14 +28,14 @@ interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   tableName?: string;
-  isClickable?: boolean
+  isClickable?: boolean;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
   tableName,
-  isClickable
+  isClickable,
 }: DataTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -52,12 +52,12 @@ export function DataTable<TData, TValue>({
     state: { rowSelection, columnFilters },
   });
 
-  const {pathname} = useLocation()
-  const router = useNavigate()
+  const { pathname } = useLocation();
+  const router = useNavigate();
 
   return (
     <div className="rounded-md border bg-white">
-      <div className=" p-8 flex items-center gap-2.5">
+      <div className=" p-5 md:p-8 flex items-center gap-2.5 flex-wrap">
         <h1 className="text-[##020202] font-bold text-xl mr-5">
           {tableName ? tableName : "Recent Orders"}
         </h1>
@@ -68,11 +68,11 @@ export function DataTable<TData, TValue>({
               placeholder="Search here..."
               value={table.getState().globalFilter ?? ""}
               onChange={(event) => table.setGlobalFilter(event.target.value)}
-              className="pl-8 min-w-md text-sm lg:text-base rounded-lg py-6 transition-all duration-300 focus:outline-0 focus-visible:ring-0 focus-visible:border-primary-dark placeholder:text-[#9C9BAB]"
+              className="pl-8 md:min-w-md text-sm lg:text-base rounded-lg py-6 transition-all duration-300 focus:outline-0 focus-visible:ring-0 focus-visible:border-primary-dark placeholder:text-[#9C9BAB]"
             />
           </div>
         </div>
-        <Button variant="outline" className="py-6 w-[8%] border-0 shadow">
+        <Button variant="outline" className="py-6  border-0 shadow">
           <FunnelSimple />
           Filter
         </Button>

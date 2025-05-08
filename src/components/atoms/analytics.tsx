@@ -17,7 +17,7 @@ const Analytics: React.FC<AnalyticsProp> = ({
   iconColor,
 }) => {
   return (
-    <div className="bg-white border border-border-gray px-6 py-10 flex flex-col gap-4 rounded-lg space-y-5">
+    <div className="bg-white border border-border-gray px-6 py-6 md:py-10 flex flex-col gap-2 md:gap-4 rounded-lg space-y-5">
       <div className="inline-flex gap-2.5">
         <span
           className="rounded-full p-2"
