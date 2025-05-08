@@ -155,6 +155,7 @@ export const columns: ColumnDef<Payment>[] = [
     id: "action",
     cell: ({ row }) => {
       const id = row.original;
+      console.log(id);
       return (
         <div className=" font-normal px-7 py-3.">
           <Button variant={"ghost"}>

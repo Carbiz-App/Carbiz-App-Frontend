@@ -5,19 +5,38 @@ import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 
 import InputField from "@/components/atoms/form/input";
-
-import LoginSchema, { LoginSchemaType } from "@/schema/login.schema";
-import { useNavigate } from "react-router";
+import { useLocation } from "react-router";
+import ResetPasswordSchema, {
+  ResetPasswordType,
+} from "@/schema/resetPassword.schema";
+import { useResetPassword } from "@/queries/resetPassword";
 
 const ResetPasswordForm = () => {
-  const navigate = useNavigate();
-  const form = useForm<LoginSchemaType>({
-    resolver: zodResolver(LoginSchema),
+  const { state } = useLocation();
+  const form = useForm<ResetPasswordType>({
+    resolver: zodResolver(ResetPasswordSchema),
   });
 
-  const onSubmit = (data: LoginSchemaType) => {
-    navigate("/congratulations_");
-    console.log(data);
+  const { resetPasswordMerchant, loading } = useResetPassword();
+  interface StateType extends ResetPasswordType {
+    email: string;
+  }
+
+  const onSubmit = async (data: ResetPasswordType) => {
+    if (data.password !== data.confirmPassword) {
+      form.setError("confirmPassword", {
+        type: "manual",
+        message: "Passwords do not match",
+      });
+      return;
+    }
+    const payload: StateType = {
+      email: state.email,
+      ...data,
+    };
+    await resetPasswordMerchant({
+      variables: { input: payload },
+    });
   };
 
   return (
@@ -32,17 +51,17 @@ const ResetPasswordForm = () => {
         />
         <InputField
           control={form.control}
-          name="passwordConfirm"
+          name="confirmPassword"
           type="password"
           label="Enter Password Again"
           placeholder="******************"
         />
         <Button
-        onClick={() => navigate('/congratulations')}
-          // type="submit"
+          disabled={loading}
+          type="submit"
           className="bg-primary text-white w-full mt-10 py-6 rounded-[0.625rem] text-base"
         >
-          Proceed
+          {loading ? "Loading..." : "Proceed"}
         </Button>
       </form>
     </Form>

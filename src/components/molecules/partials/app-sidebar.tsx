@@ -11,8 +11,6 @@ import {
   SidebarFooter,
   SidebarHeader,
   SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { Link } from "react-router";
 
@@ -53,7 +51,7 @@ const data = {
     },
     {
       title: "Settings",
-      url: "/",
+      url: "/settings",
       icon: Gear,
     },
   ],

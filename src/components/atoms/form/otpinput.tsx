@@ -1,4 +1,3 @@
-import React from "react";
 import {
   InputOTP,
   InputOTPGroup,
@@ -14,20 +13,17 @@ import {
 import { Control } from "react-hook-form";
 
 interface FormOtpInputProps {
-  value?: string;
-  onChange?: (value: string) => void;
-  onComplete?: (value: string) => void;
-  maxLength?: number;
   control: Control<any>;
-  name?: string;
+  name: string;
   label?: string;
+  maxLength?: number;
 }
 
 const FormOtpInput: React.FC<FormOtpInputProps> = ({
   control,
-  maxLength = 4,
-  name = "",
+  name,
   label,
+  maxLength = 6,
 }) => {
   return (
     <FormField
@@ -35,29 +31,31 @@ const FormOtpInput: React.FC<FormOtpInputProps> = ({
       name={name}
       render={({ field }) => (
         <FormItem>
-          <FormLabel className="text-sm md:text-base mb-2 text-primary-dark font-medium font-family-satoshi">
-            {label}
-          </FormLabel>
+          {label && (
+            <FormLabel className="text-sm md:text-base mb-2 text-primary-dark font-medium font-family-satoshi">
+              {label}
+            </FormLabel>
+          )}
           <FormControl>
             <InputOTP
+              value={field.value || ""} // <-- important to read from react-hook-form
+              onChange={(value) => {
+                field.onChange(value); // <-- important to tell react-hook-form
+              }}
               maxLength={maxLength}
-              {...field}
               containerClassName="focus:outline-0 focus-visible:ring-0 focus-visible:border-primary-dark placeholder:text-text-secondary"
             >
               <InputOTPGroup className="gap-5">
                 {Array.from({ length: maxLength }).map((_, index) => (
                   <InputOTPSlot
-                    className="rounded-lg h-16 w-20 border  data-[active=true]:border-primary data-[active=]:border-border-gray !shadow-none data-[active=true]:ring-0"
-                    index={index}
                     key={index}
+                    index={index}
+                    className="rounded-lg h-16 w-20 border data-[active=true]:border-primary data-[active=]:border-border-gray !shadow-none data-[active=true]:ring-0"
                   />
                 ))}
               </InputOTPGroup>
             </InputOTP>
           </FormControl>
-          {/* <FormDescription>
-            Please enter the one-time password sent to your phone.
-          </FormDescription> */}
           <FormMessage />
         </FormItem>
       )}

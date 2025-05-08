@@ -1,24 +1,14 @@
-import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ColumnDef } from "@tanstack/react-table";
-import { Eye } from "lucide-react";
 
-// This type is used to define the shape of our data.
-// You can use a Zod schema here if you want.
-export type Payment = {
-  product: string;
-  created: string;
-  orderId: string;
-  paymentStatus: "paid" | "cancelled" | "refunded";
-  deliveryStatus:
-    | "processing"
-    | "shipped"
-    | "delivered"
-    | "cancelled"
-    | "awaiting";
+export type payoutType = {
+  recepient: string;
+  date: string;
+  amount: string;
+  paymentStatus: string;
 };
 
-export const columns: ColumnDef<Payment>[] = [
+export const PayoutsColumn: ColumnDef<payoutType>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -47,46 +37,47 @@ export const columns: ColumnDef<Payment>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "product",
+    accessorKey: "recepient",
     header: () => (
       <div className=" text-base font-[500] text-black !bg-[#FAFAFB] py-3.5  !border-none">
-        Product
+        Recepient
       </div>
     ),
     cell: ({ row }) => {
       return (
         <div className=" font-normal py-3.5 uppercase">
-          {row.getValue("product")}
+          {row.getValue("recepient")}
         </div>
       );
     },
   },
   {
-    accessorKey: "created",
+    accessorKey: "date",
     header: () => (
       <div className=" text-base font-[500] text-black bg-[#FAFAFB] px-7 py-3.5 border-none">
-        Created
+        Date
       </div>
     ),
     cell: ({ row }) => {
       return (
-        <div className=" font-normal px-7 py-3.">{row.getValue("created")}</div>
+        <div className=" font-normal px-7 py-3.">{row.getValue("date")}</div>
       );
     },
   },
   {
-    accessorKey: "orderId",
+    accessorKey: "amount",
     header: () => (
       <div className=" text-base  font-[500] text-black bg-[#FAFAFB] px-7 py-3.5">
-        Order ID
+        Amount
       </div>
     ),
     cell: ({ row }) => {
       return (
-        <div className=" font-normal px-7 py-3.">{row.getValue("orderId")}</div>
+        <div className=" font-normal px-7 py-3.">{row.getValue("amount")}</div>
       );
     },
   },
+
   {
     accessorKey: "paymentStatus",
     header: () => (
@@ -110,57 +101,9 @@ export const columns: ColumnDef<Payment>[] = [
       };
       return (
         <div className={` font-normal px-7 py-3.5 `}>
-          <span className={`px-3 py-1 rounded-2xl ${statusColor()} capitalize`}>
+          <span className={`px-3 py-1 rounded-2xl capitalize ${statusColor()}`}>
             {row.getValue("paymentStatus")}
           </span>
-        </div>
-      );
-    },
-  },
-  {
-    accessorKey: "deliveryStatus",
-    header: () => (
-      <div className=" text-base  font-[500] text-black bg-[#FAFAFB] px-7 py-3.5">
-        Delivery Status
-      </div>
-    ),
-    cell: ({ row }) => {
-      const status: string | undefined = row.getValue("deliveryStatus");
-      const statusColor = () => {
-        switch (status?.toLocaleLowerCase()) {
-          case "processing":
-            return "bg-[#E2DAF4] text-[#7046C6]";
-          case "shipped":
-            return "bg-[#FFF7E1] text-[#DC6803]";
-          case "canceled":
-            return "text-[#B42318] bg-[#FEE4E2]";
-          case "delivered":
-            return "text-[#027A48] bg-[#D1FADF]";
-          case "awaiting":
-            return "text-[#343239] bg-[#E6E5E8]";
-          default:
-            return null;
-        }
-      };
-      return (
-        <div className={` font-normal px-7 py-3.5 `}>
-          <span className={`px-3 py-1 rounded-2xl ${statusColor()} capitalize`}>
-            {row.getValue("deliveryStatus")}
-          </span>
-        </div>
-      );
-    },
-  },
-  {
-    id: "action",
-    cell: ({ row }) => {
-      const id = row.original;
-      console.log(id);
-      return (
-        <div className=" font-normal px-7 py-3.">
-          <Button variant={"ghost"}>
-            <Eye className=" text-3xl size-5 text-[#4F4C55]" />
-          </Button>
         </div>
       );
     },
