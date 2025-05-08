@@ -10,17 +10,27 @@ import RegistrationSchema, {
   RegistrationSchemaType,
 } from "@/schema/registration.schema";
 import FormCheckbox from "@/components/atoms/form/checkbox";
-import { Link, useNavigate } from "react-router";
+import { Link } from "react-router";
+import { useRegisterMerchant } from "@/queries/register";
 
 const RegisterForm = () => {
-  const navigate = useNavigate();
   const form = useForm<RegistrationSchemaType>({
     resolver: zodResolver(RegistrationSchema),
   });
 
-  const onSubmit = (data: RegistrationSchemaType) => {
-    console.log(data);
-    navigate("/verify-otp");
+  const { signUpMerchant, loading } = useRegisterMerchant();
+
+  const onSubmit = async (data: RegistrationSchemaType) => {
+    await signUpMerchant({
+      variables: {
+        input: {
+          businessName: data.businessName,
+          email: data.email,
+          password: data.password,
+          phoneNumber: data.phoneNumber,
+        },
+      },
+    });
   };
 
   return (
@@ -78,10 +88,12 @@ const RegisterForm = () => {
           />
         </div>
         <Button
+          disabled={loading}
           type="submit"
-          className="bg-primary text-white w-full py-6 rounded-[0.625rem] text-base"
+          // onClick={handleClick}
+          className="bg-primary text-white w-full py-6 rounded-[0.625rem] text-base flex items-center justify-center "
         >
-          Sign up
+          {loading ? "Loading..." : " Sign up"}
         </Button>
       </form>
     </Form>

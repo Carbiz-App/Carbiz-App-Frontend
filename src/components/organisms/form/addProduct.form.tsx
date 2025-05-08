@@ -4,6 +4,7 @@ import TextArea from "@/components/atoms/form/textarea";
 import Uploader from "@/components/molecules/uploader";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
+import { useAddProducts } from "@/queries/products";
 import ProductSchema, { ProductSchemaType } from "@/schema/products.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Info } from "@phosphor-icons/react";
@@ -14,20 +15,39 @@ const AddProductForm = () => {
     resolver: zodResolver(ProductSchema),
   });
 
-  const handleSubmit = (e: any) => {
-    console.log(e);
+  const { createProduct, loading } = useAddProducts();
+
+  const handleSubmit = async (data: ProductSchemaType) => {
+    await createProduct({
+      variables: {
+        input: data,
+      },
+    });
   };
 
-  const items = [
-    { label: "Item 1", value: "item1" },
-    { label: "Item 2", value: "item2" },
+  const productCategory = [
+    { label: "Bar & Chain oil", value: "chainOil" },
+    { label: "Bearing & Chassis Grease", value: "bearing" },
+    { label: "Car Care & Detailing", value: "carCare" },
+    { label: "Cleaners & Protectant", value: "protectant" },
+  ];
+  const status = [
+    { label: "Available", value: "available" },
+    { label: "Out of Stock", value: "outOfStock" },
+    { label: "Temporarily Unavailable", value: "not_available" },
+    { label: "On Sale", value: "onSale" },
+    { label: "New Arrival", value: "newArrival" },
+    { label: "Best Seller", value: "bestSeller" },
   ];
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(handleSubmit)} className="flex gap-3.5">
-        <div className="flex flex-col gap-3.5  w-1/2">
-          <div className=" rounded-xl  border bg-white ">
+      <form
+        onSubmit={form.handleSubmit(handleSubmit)}
+        className="grid md:grid-cols-2 gap-3.5"
+      >
+        <div className="flex flex-col gap-3.5 w-full ">
+          <div className=" rounded-xl  border bg-white !w-full">
             <div className=" border-b p-5 ">
               <p className=" text-lg font-semibold">Product Information</p>
               <span className=" text-sm text-[#837E8E]">
@@ -48,36 +68,38 @@ const AddProductForm = () => {
                 control={form.control}
                 placeholder="enter a short description about your product"
               />
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid md:grid-cols-2 gap-4">
                 <SelectField
                   placeholder="select a category"
-                  items={items}
+                  items={productCategory}
                   label="Product Category"
                   name="productCategory"
                   control={form.control}
                 />
                 <SelectField
-                  items={items}
+                  items={status}
                   placeholder="select a status"
                   label="Product Status"
                   name="productStatus"
                   control={form.control}
                 />
               </div>
-              <div className="grid grid-cols-2 gap-4">
-                <SelectField
-                  items={items}
-                  placeholder="--"
+              <div className="grid md:grid-cols-2 gap-4">
+                <InputField
+                  type="number"
+                  itemClassName="!py-0"
+                  name="productStock"
                   label="Available Stock"
-                  name="available"
                   control={form.control}
+                  placeholder="--"
                 />
-                <SelectField
-                  placeholder="enter a discount for product"
-                  items={items}
-                  label="Product Colour"
-                  name="productColour"
+                <InputField
+                  // type="color"
+                  itemClassName="!py-0"
+                  name="productColor"
+                  label="Product Color"
                   control={form.control}
+                  placeholder="Black"
                 />
               </div>
             </div>
@@ -89,17 +111,19 @@ const AddProductForm = () => {
                 Product pricing & discount
               </p>
             </div>
-            <div className="grid grid-cols-2 gap-4 p-5">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-5">
               <InputField
+                type="number"
                 itemClassName="!py-0"
-                name="productPrice"
+                name="price"
                 label="Product Price"
                 control={form.control}
                 placeholder="--"
               />
               <InputField
+                type="number"
                 itemClassName="!py-0"
-                name="discount"
+                name="discountPercentage"
                 label="Discount (in percentage)"
                 control={form.control}
                 placeholder="enter a discount for product"
@@ -113,30 +137,34 @@ const AddProductForm = () => {
             </div>
             <div className="flex flex-col gap-y-6 p-5">
               <InputField
+                type="number"
                 itemClassName="!py-0"
                 name="productWeight"
                 label="Product weight"
                 control={form.control}
                 placeholder="enter product weight"
               />
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                 <InputField
+                  type="number"
                   itemClassName="!py-0"
-                  name="productLength"
+                  name="productLength_cm"
                   label="Product length (cm)"
                   control={form.control}
                   placeholder="enter length"
                 />
                 <InputField
+                  type="number"
                   itemClassName="!py-0"
-                  name="productBreadth"
+                  name="productBreadth_cm"
                   label="Product breadth (cm)"
                   control={form.control}
                   placeholder="enter breadth"
                 />
                 <InputField
+                  type="number"
                   itemClassName="!py-0"
-                  name="productWidth"
+                  name="productWidth_cm"
                   label="Product Width (cm)"
                   control={form.control}
                   placeholder="enter width"
@@ -146,7 +174,7 @@ const AddProductForm = () => {
           </div>
         </div>
 
-        <div className="w-1/2 flex flex-col ">
+        <div className=" flex flex-col w-full">
           <div className="bg-white rounded-xl  border pt-5 mb-auto w-full">
             <div className="border-b pb-4">
               <h3 className=" text-base font-semibold flex items-center gap-1.5 px-4">
@@ -158,15 +186,21 @@ const AddProductForm = () => {
                 featured image.
               </p>
             </div>
-            <Uploader />
+            {/* <Uploader onUploadedUrlsChange={setImageUrl} /> */}
+            <Uploader
+              setValue={form.setValue}
+              value={form.watch("productImages")}
+              error={form.formState.errors.productImages?.message}
+            />
           </div>
           <Button
+            disabled={loading}
             size="lg"
             variant="default"
             type="submit"
-            className=" mt-auto place-self-end sticky bottom-3"
+            className=" mt-auto place-self-end sticky bottom-3 z-30"
           >
-            Add Product
+            {loading ? "Adding Product..." : "Add Product"}
           </Button>
         </div>
       </form>

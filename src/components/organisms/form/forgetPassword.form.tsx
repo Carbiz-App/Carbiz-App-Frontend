@@ -19,8 +19,7 @@ const ForgetPasswordForm = () => {
   const navigate = useNavigate();
 
   const onSubmit = (data: ForgetPasswordSchemaType) => {
-    navigate("/reset-otp");
-    console.log(data);
+    navigate("/reset-password", { state: { email: data.email } });
   };
 
   return (

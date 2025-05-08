@@ -35,7 +35,8 @@ const InputField: React.FC<InputFieldProps> = ({
 }) => {
   const { pathname } = useLocation();
 
-  const isCreatePage = pathname.includes("create-account");
+  const isCreatePage =
+    pathname.includes("create-account") || pathname.includes("reset-password");
 
   const [showPassword, setShowPassword] = React.useState(false);
 
@@ -47,7 +48,7 @@ const InputField: React.FC<InputFieldProps> = ({
     <FormField
       control={control}
       name={name}
-      render={({ field }) => (
+      render={({ field, fieldState }) => (
         <FormItem className={`mb-0 py-2.5  ${itemClassName}`}>
           <div
             className={`${
@@ -75,7 +76,9 @@ const InputField: React.FC<InputFieldProps> = ({
               <Input
                 placeholder={placeholder}
                 type={showPassword && type == "password" ? "text" : type}
-                className={`text-sm lg:text-base rounded-lg py-6 focus:outline-0 focus-visible:ring-0 focus-visible:border-primary placeholder:text-text-secondary ${inputClassName}`}
+                className={`text-sm lg:text-base rounded-lg py-6 focus:outline-0 focus-visible:ring-0 focus-visible:border-primary placeholder:text-text-secondary ${
+                  fieldState.error ? "border-red-500" : "border-border"
+                }  ${inputClassName}`}
                 {...field}
               />
 
