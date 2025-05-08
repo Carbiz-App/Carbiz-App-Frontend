@@ -4,14 +4,10 @@ import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 import { Bell } from "lucide-react";
-
-const user = {
-  name: "shadcn",
-  email: "m@example.com",
-  avatar: "/avatars/shadcn.jpg",
-};
+import { useAuthStore } from "@/store/auth.store";
 
 export function SiteHeader() {
+  const { user: test } = useAuthStore();
   return (
     <header className="bg-white flex py-5 pr-6  h-(--header-height) shrink-0 items-center gap-2 border-b border-border-gray transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-(--header-height)">
       <div className="flex w-full items-center gap-1 px-4 lg:gap-2 lg:px-6">
@@ -33,15 +29,18 @@ export function SiteHeader() {
           <Button variant="ghost" asChild size="sm" className="hidden sm:flex">
             <>
               <Avatar className="size-12 rounded-lg grayscale">
-                <AvatarImage src={user.avatar} alt={user.name} />
+                <AvatarImage
+                  src={test?.businessName}
+                  alt={test?.businessName}
+                />
                 <AvatarFallback className="rounded-md">CN</AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-medium capitalize text-base">
-                  {user.name}
+                  {test?.businessName}
                 </span>
                 <span className="truncate text-xs text-[#727272]">
-                  {user.email}
+                  {test?.email}
                 </span>
               </div>
             </>

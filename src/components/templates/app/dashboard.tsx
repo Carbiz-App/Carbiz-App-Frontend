@@ -6,6 +6,7 @@ import { DataTable } from "@/components/atoms/table";
 
 import { newUserChecklist, dashboardAnalytics } from "@/assets/data/index.json";
 import { MoneySend, ArrowSwapHorizontal, People } from "iconsax-reactjs";
+import { useAuthStore } from "@/store/auth.store";
 // import { useQuery } from "@apollo/client";
 // import { PROFILE_MERCHANT } from "@/api/dashboard";
 
@@ -53,6 +54,7 @@ export const payments: Payment[] = [
 // const { loading, data, error } = useQuery(PROFILE_MERCHANT);
 
 const Dashboard = () => {
+  const { user } = useAuthStore();
   return (
     <div className="font-satoshi">
       {/* User breadcrumb */}
@@ -60,7 +62,7 @@ const Dashboard = () => {
         <h4 className="text-sm sm:text-base font-satoshi text-[#837E8E]">
           Hello,
         </h4>
-        <h3 className="font-bold text-2xl md:text-xl ">Golden Engine Store</h3>
+        <h3 className="font-bold text-2xl md:text-xl ">{user?.businessName}</h3>
       </div>
       {/* New user card */}
       <div className="bg-white rounded-xl p-5 md:p-10  w-full grid sm:grid-cols-2 border border-border-gray">
@@ -93,7 +95,7 @@ const Dashboard = () => {
         <div className="flex justify-end items-center">
           <div className="inline-flex flex-col items-end space-y-4 w-full">
             <h3 className="text-primary text-5xl font-semibold">25%</h3>
-            <Progress value={24} className="w-[30%] h-2" />
+            <Progress value={24} className="w-[25%] md:w-[20%] h-2" />
           </div>
         </div>
       </div>

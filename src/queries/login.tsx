@@ -13,9 +13,13 @@ interface LoginResponseTypeMerchant {
       user: {
         businessName: string;
         email: string;
-        onboadingActions: string;
-        onboardingPercentage: GLfloat;
-        onboardingStatus: string;
+        // onboardingActions: string;
+        // onboardingPercentage: GLfloat;
+        // onboardingStatus: {
+        //   add_Products: boolean;
+        //   create_Account: boolean;
+        //   setup_Payment: boolean;
+        // };
       };
     };
   };
@@ -49,7 +53,7 @@ export const useLoginMerchant = () => {
       handleSuccess(result.message);
       navigate("/dashboard");
       localStorage.setItem("authToken", result.payload.token);
-      setUser(result.payload.user);
+      setUser(result?.payload?.user);
     },
     onError: (error) => {
       handleError(error, "Login failed");

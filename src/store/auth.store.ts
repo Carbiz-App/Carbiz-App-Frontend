@@ -4,9 +4,13 @@ import { create } from "zustand";
 interface User {
   businessName: string;
   email: string;
-  onboadingActions: string;
-  onboardingPercentage: GLfloat;
-  onboardingStatus: string;
+  // onboardingActions: string;
+  // onboardingPercentage: GLfloat;
+  // onboardingStatus: {
+  //   add_Products: boolean;
+  //   create_Account: boolean;
+  //   setup_Payment: boolean;
+  // };
 }
 
 interface AuthStore {
