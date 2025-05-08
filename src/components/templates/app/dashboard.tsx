@@ -6,6 +6,8 @@ import { DataTable } from "@/components/atoms/table";
 
 import { newUserChecklist, dashboardAnalytics } from "@/assets/data/index.json";
 import { MoneySend, ArrowSwapHorizontal, People } from "iconsax-reactjs";
+// import { useQuery } from "@apollo/client";
+// import { PROFILE_MERCHANT } from "@/api/dashboard";
 
 const analyticIcon = {
   product: ArrowSwapHorizontal,
@@ -47,6 +49,8 @@ export const payments: Payment[] = [
     deliveryStatus: "awaiting",
   },
 ];
+
+// const { loading, data, error } = useQuery(PROFILE_MERCHANT);
 
 const Dashboard = () => {
   return (
