@@ -10,7 +10,7 @@ const MainLayout = () => {
       <AppSidebar />
       <SidebarInset className="bg-[#FBFBFC]">
         <SiteHeader />
-        <div className="p-5 md:p-10">
+        <div className=" p-5  md:p-10">
           <Outlet />
         </div>
       </SidebarInset>

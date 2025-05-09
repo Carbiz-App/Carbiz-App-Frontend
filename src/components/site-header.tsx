@@ -7,7 +7,7 @@ import { Bell } from "lucide-react";
 import { useAuthStore } from "@/store/auth.store";
 
 export function SiteHeader() {
-  const { user: test } = useAuthStore();
+  const { user } = useAuthStore();
   return (
     <header className="bg-white flex py-5 pr-6  h-(--header-height) shrink-0 items-center gap-2 border-b border-border-gray transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-(--header-height)">
       <div className="flex w-full items-center gap-1 px-4 lg:gap-2 lg:px-6">
@@ -30,17 +30,17 @@ export function SiteHeader() {
             <>
               <Avatar className="size-12 rounded-lg grayscale">
                 <AvatarImage
-                  src={test?.businessName}
-                  alt={test?.businessName}
+                  src={user?.businessName}
+                  alt={user?.businessName}
                 />
                 <AvatarFallback className="rounded-md">CN</AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-medium capitalize text-base">
-                  {test?.businessName}
+                  {user?.businessName}
                 </span>
                 <span className="truncate text-xs text-[#727272]">
-                  {test?.email}
+                  {user?.email}
                 </span>
               </div>
             </>
