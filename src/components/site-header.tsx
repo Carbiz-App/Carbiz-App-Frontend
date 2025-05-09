@@ -5,12 +5,23 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 import { Bell } from "lucide-react";
 import { useAuthStore } from "@/store/auth.store";
+import { Link } from "react-router";
+import logo from "@/assets/images/logo.svg";
 
 export function SiteHeader() {
   const { user } = useAuthStore();
   return (
     <header className="bg-white flex p-2 md:py-5 md:pr-6  h-(--header-height) shrink-0 items-center gap-2 border-b border-border-gray transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-(--header-height)">
       <div className="flex w-full items-center gap-1 px-2 sm:px-4 lg:gap-2 lg:px-6">
+        {
+          <div className="flex gap-1 md:hidden items-center">
+            <SidebarTrigger />
+
+            <Link to="/dashboard">
+              <img src={logo} className=" size-12" />
+            </Link>
+          </div>
+        }
         {/* <h1 className="text-base font-medium">Documents</h1> */}
         <div className="ml-auto flex items-center gap-2">
           <button className="relative bg-[#F6F6F6] p-2 md:p-3 rounded-md hover:bg-primary cursor-pointer group">
@@ -36,10 +47,10 @@ export function SiteHeader() {
                 <AvatarFallback className="rounded-md">CN</AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-medium capitalize text-base">
+                <span className="truncate font-medium capitalize md:text-base">
                   {user?.businessName}
                 </span>
-                <span className="truncate text-xs text-[#727272]">
+                <span className="truncate md:text-xs text-[#727272]">
                   {user?.email}
                 </span>
               </div>

@@ -28,7 +28,7 @@ const OrderColumn: ColumnDef<OrderType | productType>[] = [
   {
     id: "select",
     header: ({ table }) => (
-      <div className=" pl-7">
+      <div className=" pl-3 md:pl-7">
         <Checkbox
           checked={
             table.getIsAllPageRowsSelected() ||
@@ -41,7 +41,7 @@ const OrderColumn: ColumnDef<OrderType | productType>[] = [
       </div>
     ),
     cell: ({ row }) => (
-      <div className=" pl-7">
+      <div className=" pl-3 md:pl-7">
         <Checkbox
           checked={row.getIsSelected()}
           onCheckedChange={(value) => row.toggleSelected(!!value)}

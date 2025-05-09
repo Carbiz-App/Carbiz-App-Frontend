@@ -12,7 +12,7 @@ export const PayoutsColumn: ColumnDef<payoutType>[] = [
   {
     id: "select",
     header: ({ table }) => (
-      <div className=" pl-7">
+      <div className=" pl-3 md:pl-7">
         <Checkbox
           checked={
             table.getIsAllPageRowsSelected() ||
@@ -25,7 +25,7 @@ export const PayoutsColumn: ColumnDef<payoutType>[] = [
       </div>
     ),
     cell: ({ row }) => (
-      <div className=" pl-7">
+      <div className=" pl-3 md:pl-7">
         <Checkbox
           checked={row.getIsSelected()}
           onCheckedChange={(value) => row.toggleSelected(!!value)}

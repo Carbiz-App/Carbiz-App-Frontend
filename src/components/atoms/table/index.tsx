@@ -58,33 +58,38 @@ export function DataTable<TData, TValue>({
   const router = useNavigate();
 
   return (
-    <div className="rounded-md border bg-white">
+    <div className="rounded-md border bg-white ">
       <div
-        className={` p-8 flex items-center gap-2.5 ${
+        className={` p-4 md:p-8 flex flex-wrap items-center gap-2 sm:gap-4 md:gap-8 lg:gap-12   ${
           productsPath && "border-b"
         }`}
       >
-        <h1 className="text-[#020202] font-bold text-xl mr-5">
+        <h1 className="text-[#020202] font-bold text-xl md:min-w-40">
           {tableName ? tableName : "Recent Orders"}
         </h1>
-        <div className="flex items-center py-4 mr-1.5">
-          <div className="inline-flex items-center">
-            <SearchNormal color="#67667A" size={16} className="-mr-7" />
+        <div className="flex items-center  gap-4">
+          <div className="inline-flex items-center relative">
+            <SearchNormal
+              color="#67667A"
+              size={16}
+              className="absolute left-2"
+            />
             <Input
               placeholder="Search here..."
               value={table.getState().globalFilter ?? ""}
               onChange={(event) => table.setGlobalFilter(event.target.value)}
-              className="pl-8 md:min-w-md text-sm lg:text-base rounded-lg py-6 transition-all duration-300 focus:outline-0 focus-visible:ring-0 focus-visible:border-primary-dark placeholder:text-[#9C9BAB]"
+              className="pl-8 md:min-w-sm lg:min-w-md text-sm lg:text-base rounded-lg  md:py-6 transition-all duration-300 focus:outline-0 focus-visible:ring-0 focus-visible:border-primary-dark placeholder:text-[#9C9BAB]"
             />
           </div>
+          <Button
+            variant="outline"
+            className="md:py-6  border-0 shadow text-[#807F94] text-[14px] font-[500]"
+          >
+            <FunnelSimple className="size-5" />
+            Filter
+          </Button>
         </div>
-        <Button
-          variant="outline"
-          className="py-6 w-[8%] border-0 shadow text-[#807F94] text-[14px] font-[500]"
-        >
-          <FunnelSimple className="size-5" />
-          Filter
-        </Button>
+
         {productsPath && (
           <div className="flex items-center gap-4 ml-auto">
             <Button
