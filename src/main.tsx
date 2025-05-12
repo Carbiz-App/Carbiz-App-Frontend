@@ -10,14 +10,12 @@ import {
 } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 
-// HTTP Link to your GraphQL server
 const httpLink = createHttpLink({
-  uri: "https://carbiz-backend.onrender.com/graphql",
+  uri: "https://carbiz-backend-euek.onrender.com/graphql",
 });
 
-// Auth middleware to attach token
 const authLink = setContext((_, { headers }) => {
-  const token = localStorage.getItem("authToken"); // Replace with your token key
+  const token = localStorage.getItem("authToken");
   return {
     headers: {
       ...headers,
@@ -26,7 +24,6 @@ const authLink = setContext((_, { headers }) => {
   };
 });
 
-// Create client with auth link + HTTP link
 const client = new ApolloClient({
   link: authLink.concat(httpLink),
   cache: new InMemoryCache(),

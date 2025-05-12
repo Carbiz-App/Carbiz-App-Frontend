@@ -13,13 +13,6 @@ interface LoginResponseTypeMerchant {
       user: {
         businessName: string;
         email: string;
-        // onboardingActions: string;
-        // onboardingPercentage: GLfloat;
-        // onboardingStatus: {
-        //   add_Products: boolean;
-        //   create_Account: boolean;
-        //   setup_Payment: boolean;
-        // };
       };
     };
   };
