@@ -78,7 +78,7 @@ export function DataTable<TData, TValue>({
               placeholder="Search here..."
               value={table.getState().globalFilter ?? ""}
               onChange={(event) => table.setGlobalFilter(event.target.value)}
-              className="pl-8 md:min-w-sm lg:min-w-md text-sm lg:text-base rounded-lg  md:py-6 transition-all duration-300 focus:outline-0 focus-visible:ring-0 focus-visible:border-primary-dark placeholder:text-[#9C9BAB]"
+              className="pl-8 md:min-w-sm lg:min-w-sm text-sm lg:text-base rounded-lg  md:py-6 transition-all duration-300 focus:outline-0 focus-visible:ring-0 focus-visible:border-primary-dark placeholder:text-[#9C9BAB]"
             />
           </div>
           <Button
