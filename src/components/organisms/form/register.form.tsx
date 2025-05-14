@@ -12,6 +12,7 @@ import RegistrationSchema, {
 import FormCheckbox from "@/components/atoms/form/checkbox";
 import { Link } from "react-router";
 import { useRegisterMerchant } from "@/queries/register";
+// import ProfileImageUpload from "@/components/atoms/form/profileImageUpload";
 
 const RegisterForm = () => {
   const form = useForm<RegistrationSchemaType>({
@@ -63,6 +64,7 @@ const RegisterForm = () => {
           label="Create Password"
           placeholder="Create a password"
         />
+        {/* <ProfileImageUpload name="profileImage" control={form.control} /> */}
 
         <div className="2xl:py-4">
           <FormCheckbox
