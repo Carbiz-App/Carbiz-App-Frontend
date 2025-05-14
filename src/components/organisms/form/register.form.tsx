@@ -35,7 +35,10 @@ const RegisterForm = () => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 mt-4">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="space-y-6 mt-2 lg:mt-4"
+      >
         <InputField
           control={form.control}
           name="businessName"
@@ -70,7 +73,7 @@ const RegisterForm = () => {
             name="agreement"
             description={
               <div className="text-sm text-text-secondary text-left font-normal">
-                ` I hereby confirm that I have read and agree to the{" "}
+                I hereby confirm that I have read and agree to the{" "}
                 <Link to="" className="text-primary">
                   Carbiz Seller Contract
                 </Link>

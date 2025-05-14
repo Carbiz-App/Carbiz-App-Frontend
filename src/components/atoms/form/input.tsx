@@ -56,7 +56,7 @@ const InputField: React.FC<InputFieldProps> = ({
             }`}
           >
             {label && (
-              <FormLabel className="text-sm lg:text-base text-primary-dark font-medium mb-1">
+              <FormLabel className="text-sm lg:text-base text-primary-dark font-medium lg:mb-1">
                 {label}
               </FormLabel>
             )}
