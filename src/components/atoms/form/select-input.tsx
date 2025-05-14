@@ -62,7 +62,7 @@ const SelectInput: React.FC<ProductPriceInputProps> = ({
         </FormLabel>
       )}
       <div
-        className={`flex items-center border-1 border-input shadow-xs rounded-lg px-2 py-1.5 focus-within:ring-0 focus-within:border-primary  ${
+        className={`flex items-center border-1 border-input shadow-xs rounded-lg px-2 py-1.5 max-h-max focus-within:ring-0 focus-within:border-primary  ${
           placement ? "flex-row-reverse" : ""
         }`}
       >
@@ -70,11 +70,17 @@ const SelectInput: React.FC<ProductPriceInputProps> = ({
         <FormField
           control={control}
           name={selectName}
-          render={({ field }) => (
+          render={({ field, fieldState }) => (
             <FormControl>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <SelectTrigger className=" border-none shadow-none px-0 focus:ring-0 focus:ring-offset-0 text-muted-foreground focus:border-0  border-0 outline-0 ring-0">
-                  <SelectValue placeholder="₦" />
+                <SelectTrigger
+                  className={` border-none shadow-none px-0 focus:ring-0 focus:ring-offset-0 text-muted-foreground focus:border-0  border-0 outline-0 ring-0 ${
+                    fieldState.error ? "border-red-500" : "border-border"
+                  }`}
+                >
+                  <SelectValue
+                    placeholder={inputName === "price" ? "₦" : "KG"}
+                  />
                 </SelectTrigger>
                 <SelectContent className=" !max-w-2">
                   {currencyOptions.map((option) => (
