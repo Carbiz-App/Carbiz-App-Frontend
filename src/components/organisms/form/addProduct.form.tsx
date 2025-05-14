@@ -1,4 +1,5 @@
 // import { FETCH_PRODUCT_CATEGORIES } from "@/api/product";
+import { FETCH_PRODUCT_CATEGORIES } from "@/api/product";
 import InputField from "@/components/atoms/form/input";
 import SelectField from "@/components/atoms/form/select";
 import SelectInput from "@/components/atoms/form/select-input";
@@ -8,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { useAddProducts } from "@/queries/products";
 import ProductSchema, { ProductSchemaType } from "@/schema/products.schema";
-// import { useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Info } from "@phosphor-icons/react";
 import { useForm } from "react-hook-form";
@@ -20,13 +21,15 @@ const AddProductForm = () => {
 
   const { loading } = useAddProducts();
 
-  // const {
-  //   loading: productCategoriesLoading,
-  //   data,
-  //   error,
-  // } = useQuery(FETCH_PRODUCT_CATEGORIES);
+  const {
+    loading: productCategoriesLoading,
+    data,
+    error,
+  } = useQuery(FETCH_PRODUCT_CATEGORIES);
 
-  // console.log(productCategoriesLoading, data, error);
+  console.log(data);
+
+  console.log(productCategoriesLoading, data, error);
   const handleSubmit = (data: ProductSchemaType) => {
     console.log(data);
     // await createProduct({
