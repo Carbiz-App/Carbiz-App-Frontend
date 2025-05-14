@@ -28,7 +28,7 @@ const FormCheckbox: React.FC<CheckboxProps> = ({
       control={control}
       name={name ? name : ""}
       render={({ field }) => (
-        <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md">
+        <FormItem className="flex flex-row items-start lg:space-x-3 space-y-0 rounded-md">
           <FormControl>
             <Checkbox
               id={id}
@@ -36,7 +36,9 @@ const FormCheckbox: React.FC<CheckboxProps> = ({
               onCheckedChange={field.onChange}
             />
           </FormControl>
-          <div className={`${description && label && "space-y-1" } leading-none`}>
+          <div
+            className={`${description && label && "space-y-1"} leading-none`}
+          >
             {label && <FormLabel>{label}</FormLabel>}
             {description && <FormDescription>{description}</FormDescription>}
           </div>

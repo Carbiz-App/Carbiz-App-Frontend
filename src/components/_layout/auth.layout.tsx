@@ -73,7 +73,7 @@ const AuthLayout = () => {
     <div className="bg-white w-full">
       <div className="grid sm:grid-cols-2 relative">
         {/* Left Side */}
-        <div className="pt-10 px-20 overflow-y-auto h-screen relative z-10 bg-white scroll-m-0 scrollbar-hide">
+        <div className="pt-10 px-5 sm:px-10 lg:px-20 overflow-y-auto h-screen relative z-10 bg-white scroll-m-0 scrollbar-hide">
           <Link to="/" className="">
             <img src={logo} alt="" loading="lazy" />
           </Link>

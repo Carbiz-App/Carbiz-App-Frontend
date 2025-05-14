@@ -3,7 +3,7 @@ type CardDetailProps = { title: string; value: string; isLast?: boolean };
 export const CardDetail = ({ title, value, isLast }: CardDetailProps) => {
   return (
     <div
-      className={` w-max min-w-42 flex flex-col gap-1 pr-14  ${
+      className={` w-max md:min-w-42 flex flex-col gap-1 pr-14  ${
         isLast ? "" : "border-r "
       } border-[#E6E5E8]`}
     >
