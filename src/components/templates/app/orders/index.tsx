@@ -1,4 +1,3 @@
-
 import { columns } from "@/columns/columns";
 import { DataTable } from "@/components/atoms/table";
 
