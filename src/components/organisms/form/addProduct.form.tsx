@@ -1,11 +1,14 @@
+// import { FETCH_PRODUCT_CATEGORIES } from "@/api/product";
 import InputField from "@/components/atoms/form/input";
 import SelectField from "@/components/atoms/form/select";
+import SelectInput from "@/components/atoms/form/select-input";
 import TextArea from "@/components/atoms/form/textarea";
 import Uploader from "@/components/molecules/uploader";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { useAddProducts } from "@/queries/products";
 import ProductSchema, { ProductSchemaType } from "@/schema/products.schema";
+// import { useQuery } from "@apollo/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Info } from "@phosphor-icons/react";
 import { useForm } from "react-hook-form";
@@ -15,14 +18,22 @@ const AddProductForm = () => {
     resolver: zodResolver(ProductSchema),
   });
 
-  const { createProduct, loading } = useAddProducts();
+  const { loading } = useAddProducts();
 
-  const handleSubmit = async (data: ProductSchemaType) => {
-    await createProduct({
-      variables: {
-        input: data,
-      },
-    });
+  // const {
+  //   loading: productCategoriesLoading,
+  //   data,
+  //   error,
+  // } = useQuery(FETCH_PRODUCT_CATEGORIES);
+
+  // console.log(productCategoriesLoading, data, error);
+  const handleSubmit = (data: ProductSchemaType) => {
+    console.log(data);
+    // await createProduct({
+    //   variables: {
+    //     input: data,
+    //   },
+    // });
   };
 
   const productCategory = [
@@ -32,12 +43,8 @@ const AddProductForm = () => {
     { label: "Cleaners & Protectant", value: "protectant" },
   ];
   const status = [
-    { label: "Available", value: "available" },
-    { label: "Out of Stock", value: "outOfStock" },
-    { label: "Temporarily Unavailable", value: "not_available" },
-    { label: "On Sale", value: "onSale" },
-    { label: "New Arrival", value: "newArrival" },
-    { label: "Best Seller", value: "bestSeller" },
+    { label: "Brand New", value: "Brand_new" },
+    { label: "Used", value: "Used" },
   ];
 
   return (
@@ -68,7 +75,7 @@ const AddProductForm = () => {
                 control={form.control}
                 placeholder="enter a short description about your product"
               />
-              <div className="grid md:grid-cols-2 gap-4">
+              <div className="grid lg:grid-cols-2 gap-4">
                 <SelectField
                   placeholder="select a category"
                   items={productCategory}
@@ -80,11 +87,11 @@ const AddProductForm = () => {
                   items={status}
                   placeholder="select a status"
                   label="Product Status"
-                  name="productStatus"
+                  name="productType"
                   control={form.control}
                 />
               </div>
-              <div className="grid md:grid-cols-2 gap-4">
+              <div className="grid lg:grid-cols-2 gap-4">
                 <InputField
                   type="number"
                   itemClassName="!py-0"
@@ -111,14 +118,11 @@ const AddProductForm = () => {
                 Product pricing & discount
               </p>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-5">
-              <InputField
-                type="number"
-                itemClassName="!py-0"
-                name="price"
-                label="Product Price"
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 p-5">
+              <SelectInput
+                inputName="price"
+                selectName="priceCurrencyType"
                 control={form.control}
-                placeholder="--"
               />
               <InputField
                 type="number"
@@ -136,15 +140,15 @@ const AddProductForm = () => {
               <p className=" text-lg font-semibold">Product dimensions</p>
             </div>
             <div className="flex flex-col gap-y-6 p-5">
-              <InputField
-                type="number"
-                itemClassName="!py-0"
-                name="productWeight"
+              <SelectInput
+                inputName="productWeight"
                 label="Product weight"
+                selectName="priceWeightType"
                 control={form.control}
+                placement
                 placeholder="enter product weight"
               />
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1  sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 <InputField
                   type="number"
                   itemClassName="!py-0"

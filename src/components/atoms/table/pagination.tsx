@@ -54,12 +54,12 @@ export function Pagination({ table }: { table: any }) {
   }, [pageIndex, pageCount]);
 
   return (
-    <div className="flex items-center justify-between border-t p-5 md:p-8 w-full flex-wrap gap-1.5">
-      <div className="text-muted-foreground text-base font-[500]">
+    <div className="flex items-center justify-between border-t p-5 md:p-8 w-full flex-wrap gap-1.5 my-2">
+      <div className="text-muted-foreground md:text-base font-[500] mb-2.5">
         Showing {currentStart}–{currentEnd} of {total}
       </div>
 
-      <div className="flex items-center gap-1 flex-1 justify-center">
+      <div className="flex items-center gap-2 flex-1 justify-center">
         <Button
           variant="outline"
           size="lg"

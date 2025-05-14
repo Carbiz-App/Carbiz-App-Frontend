@@ -1,4 +1,3 @@
-
 import { Link } from "react-router";
 import { ArrowLeft } from "iconsax-reactjs";
 import OrderColumn, { productType } from "@/columns/orders.column";

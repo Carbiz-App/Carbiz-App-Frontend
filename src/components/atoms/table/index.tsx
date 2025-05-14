@@ -60,11 +60,11 @@ export function DataTable<TData, TValue>({
   return (
     <div className="rounded-md border bg-white ">
       <div
-        className={` p-4 md:p-8 flex flex-wrap items-center gap-2 sm:gap-4 md:gap-8 lg:gap-12   ${
+        className={` p-4 md:p-8 flex flex-wrap items-center gap-4 sm:gap-4 md:gap-8 lg:gap-12   ${
           productsPath && "border-b"
         }`}
       >
-        <h1 className="text-[#020202] font-bold text-xl md:min-w-40">
+        <h1 className="text-[#020202] font-bold text-xl ">
           {tableName ? tableName : "Recent Orders"}
         </h1>
         <div className="flex items-center  gap-4">
@@ -83,7 +83,7 @@ export function DataTable<TData, TValue>({
           </div>
           <Button
             variant="outline"
-            className="md:py-6  border-0 shadow text-[#807F94] text-[14px] font-[500]"
+            className="md:py-6  border-0 shadow text-[#807F94] text-xs sm:text-sm md:text-[14px] font-[500]"
           >
             <FunnelSimple className="size-5" />
             Filter
@@ -91,20 +91,20 @@ export function DataTable<TData, TValue>({
         </div>
 
         {productsPath && (
-          <div className="flex items-center gap-4 ml-auto">
+          <div className="flex items-center gap-4 lg:ml-auto">
             <Button
               variant="outline"
-              className="py-6  border-0 shadow text-[#807F94] text-[14px] font-[500]"
+              className="md:py-6  border-0 shadow text-[#807F94] text-xs sm:text-sm md:text-[14px] font-[500]"
             >
-              <LucideDownload className="size-5" />
+              <LucideDownload className="size-3 md:size-5" />
               Export Data
             </Button>
             <Button
               onClick={() => router(`${pathname}/new`)} // Navigate to the new product page
               variant="default"
-              className="py-6  border-0 shadow text-[14px] font-bold"
+              className="md:py-6  border-0 shadow text-sm sm:text-sm md:text-[14px] font-bold"
             >
-              <Plus className="size-7" />
+              <Plus className="size-4 md:size-7" />
               New Product
             </Button>
           </div>
