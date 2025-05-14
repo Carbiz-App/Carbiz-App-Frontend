@@ -19,3 +19,5 @@ export const PROFILE_MERCHANT = gql`
     }
   }
 `;
+
+export const PRODUCT_SOLD = gql``;
