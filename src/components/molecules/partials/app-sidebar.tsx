@@ -11,11 +11,14 @@ import {
   SidebarFooter,
   SidebarHeader,
   SidebarMenu,
+  SidebarMenuItem,
+  SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 import logo from "@/assets/images/logo.svg";
 import { Button } from "@/components/ui/button";
+import { useAuthStore } from "@/store/auth.store";
 
 const data = {
   user: {
@@ -41,12 +44,12 @@ const data = {
     },
     {
       title: "Products",
-      url: "/",
+      url: "/products",
       icon: IconCoins,
     },
     {
       title: "Payouts",
-      url: "/",
+      url: "/payouts",
       icon: HandCoins,
     },
     {
@@ -58,20 +61,33 @@ const data = {
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const { logout } = useAuthStore();
+  const [isLoggingOut, setIsLoggingOut] = React.useState<boolean>(false);
+  const nav = useNavigate();
+  const onLogout = () => {
+    setIsLoggingOut(true);
+    logout();
+    setTimeout(() => {
+      nav("/");
+    }, 2000);
+  };
   return (
     <Sidebar backgroundColor="bg-white" {...props}>
-      <SidebarHeader className="flex  gap-2 pt-10 h-auto px-4">
+      <SidebarHeader className="flex  gap-2 pt-5 md:pt-10 h-auto px-4">
         <SidebarMenu>
-          {/* <SidebarMenuItem className="flex "> */}
-          {/* <SidebarMenuButton
+          <SidebarMenuItem className="flex justify-between items-center-safe ">
+            {/* <SidebarMenuButton
               asChild
               className="data-[slot=sidebar-menu-button]:!p-1.5 flex"
             > */}
-          <Link to="/dashboard">
-            <img src={logo} />
-          </Link>
-          {/* </SidebarMenuButton> */}
-          {/* </SidebarMenuItem> */}
+            <Link to="/dashboard">
+              <img src={logo} />
+            </Link>
+            {/* </SidebarMenuButton> */}
+            {/* <div className="flex gap-1 md:hidden items-center"> */}
+            <SidebarTrigger className="md:hidden " />
+            {/* </div> */}
+          </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
 
@@ -82,9 +98,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <Button
           variant="ghost"
           className="justify-start text-[#4F4C55] text-base"
+          onClick={onLogout}
+          disabled={isLoggingOut}
         >
           <LogOut className="size-4" />
-          Logout
+          {isLoggingOut ? "Loading..." : "Logout"}
         </Button>
         {/* <NavUser user={data.user} /> */}
       </SidebarFooter>

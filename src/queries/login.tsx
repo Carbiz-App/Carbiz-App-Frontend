@@ -1,5 +1,6 @@
 import { LOGIN } from "@/api/auth";
 import { useToast } from "@/hooks/Toast";
+import { useAuthStore } from "@/store/auth.store";
 import { useMutation } from "@apollo/client";
 import { useNavigate } from "react-router";
 
@@ -25,6 +26,7 @@ interface loginType {
 export const useLoginMerchant = () => {
   const navigate = useNavigate();
   const { handleError, handleInfo, handleSuccess } = useToast();
+  const { setUser } = useAuthStore();
 
   const [loginMerchant, { loading }] = useMutation<
     LoginResponseTypeMerchant,
@@ -44,6 +46,7 @@ export const useLoginMerchant = () => {
       handleSuccess(result.message);
       navigate("/dashboard");
       localStorage.setItem("authToken", result.payload.token);
+      setUser(result?.payload?.user);
     },
     onError: (error) => {
       handleError(error, "Login failed");

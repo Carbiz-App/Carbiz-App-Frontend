@@ -1,24 +1,18 @@
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ColumnDef } from "@tanstack/react-table";
-import { Eye } from "lucide-react";
+import { Eye, PenLine, Trash2Icon } from "lucide-react";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
-export type Payment = {
+export type productsType = {
   product: string;
-  created: string;
-  orderId: string;
-  paymentStatus: "paid" | "cancelled" | "refunded";
-  deliveryStatus:
-    | "processing"
-    | "shipped"
-    | "delivered"
-    | "cancelled"
-    | "awaiting";
+  price: string;
+  quantity: number;
+  status: string;
 };
 
-export const columns: ColumnDef<Payment>[] = [
+export const productsColumn: ColumnDef<productsType>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -44,7 +38,7 @@ export const columns: ColumnDef<Payment>[] = [
       </div>
     ),
     enableSorting: false,
-    enableHiding: false,
+    enableHiding: true,
   },
   {
     accessorKey: "product",
@@ -55,89 +49,55 @@ export const columns: ColumnDef<Payment>[] = [
     ),
     cell: ({ row }) => {
       return (
-        <div className=" font-normal py-3.5 uppercase">
+        <div className=" font-normal py-3.5 capitalize">
           {row.getValue("product")}
         </div>
       );
     },
   },
   {
-    accessorKey: "created",
+    accessorKey: "price",
     header: () => (
       <div className=" text-base font-[500] text-black bg-[#FAFAFB] px-7 py-3.5 border-none">
-        Created
+        Price
       </div>
     ),
     cell: ({ row }) => {
       return (
-        <div className=" font-normal px-7 py-3.">{row.getValue("created")}</div>
+        <div className=" font-normal px-7 py-3.">{row.getValue("price")}</div>
       );
     },
   },
   {
-    accessorKey: "orderId",
+    accessorKey: "quantity",
     header: () => (
       <div className=" text-base  font-[500] text-black bg-[#FAFAFB] px-7 py-3.5">
-        Order ID
+        Quantity
       </div>
     ),
     cell: ({ row }) => {
       return (
-        <div className=" font-normal px-7 py-3.">{row.getValue("orderId")}</div>
-      );
-    },
-  },
-  {
-    accessorKey: "paymentStatus",
-    header: () => (
-      <div className=" text-base  font-[500] text-black bg-[#FAFAFB] px-7 py-3.5">
-        Payment Status
-      </div>
-    ),
-    cell: ({ row }) => {
-      const status: string | undefined = row.getValue("paymentStatus");
-      const statusColor = () => {
-        switch (status?.toLocaleLowerCase()) {
-          case "paid":
-            return "bg-[#D1FADF] text-[#027A48]";
-          case "cancelled":
-            return "bg-[#FEE4E2] text-[#B42318]";
-          case "refunded":
-            return "text-[#DC6803] bg-[#FFF7E1]";
-          default:
-            return null;
-        }
-      };
-      return (
-        <div className={` font-normal px-7 py-3.5 `}>
-          <span className={`px-3 py-1 rounded-2xl ${statusColor()} capitalize`}>
-            {row.getValue("paymentStatus")}
-          </span>
+        <div className=" font-normal px-7 py-3.">
+          {row.getValue("quantity")}
         </div>
       );
     },
   },
   {
-    accessorKey: "deliveryStatus",
+    accessorKey: "status",
     header: () => (
       <div className=" text-base  font-[500] text-black bg-[#FAFAFB] px-7 py-3.5">
-        Delivery Status
+        Status
       </div>
     ),
     cell: ({ row }) => {
-      const status: string | undefined = row.getValue("deliveryStatus");
+      const status: string | undefined = row.getValue("status");
       const statusColor = () => {
         switch (status?.toLocaleLowerCase()) {
-          case "processing":
-            return "bg-[#E2DAF4] text-[#7046C6]";
-          case "shipped":
-            return "bg-[#FFF7E1] text-[#DC6803]";
-          case "canceled":
-            return "text-[#B42318] bg-[#FEE4E2]";
-          case "delivered":
-            return "text-[#027A48] bg-[#D1FADF]";
-          case "awaiting":
-            return "text-[#343239] bg-[#E6E5E8]";
+          case "available":
+            return "bg-[#D1FADF] text-[#027A48]";
+          case "out of stock":
+            return "bg-[#FEE4E2] text-[#B42318]";
           default:
             return null;
         }
@@ -145,7 +105,7 @@ export const columns: ColumnDef<Payment>[] = [
       return (
         <div className={` font-normal px-7 py-3.5 `}>
           <span className={`px-3 py-1 rounded-2xl ${statusColor()} capitalize`}>
-            {row.getValue("deliveryStatus")}
+            {row.getValue("status")}
           </span>
         </div>
       );
@@ -153,13 +113,25 @@ export const columns: ColumnDef<Payment>[] = [
   },
   {
     id: "action",
-    cell: ({}) => {
-      // const id = row.original;
-      // console.log(id);
+    header: () => (
+      <div className=" text-base  font-[500] text-black bg-[#FAFAFB] px-7 py-3.5">
+        Action
+      </div>
+    ),
+    cell: ({ row }) => {
+      const id = row.original;
+      console.log(id);
       return (
         <div className=" font-normal px-7 py-3.">
-          <Button variant={"ghost"}>
+          <Button variant={"ghost"} className=" p-4 border-r rounded-none">
             <Eye className=" text-3xl size-5 text-[#4F4C55]" />
+          </Button>
+
+          <Button variant={"ghost"} className=" p-4 border-r rounded-none">
+            <PenLine className=" text-3xl size-5 text-[#4F4C55]" />
+          </Button>
+          <Button variant={"ghost"} className=" p-4 rounded-none">
+            <Trash2Icon className=" text-3xl size-5 text-[#4F4C55]" />
           </Button>
         </div>
       );

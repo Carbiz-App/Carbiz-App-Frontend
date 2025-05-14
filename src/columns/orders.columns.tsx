@@ -22,7 +22,7 @@ export const columns: ColumnDef<Payment>[] = [
   {
     id: "select",
     header: ({ table }) => (
-      <div className=" pl-7">
+      <div className=" pl-3 md:pl-7">
         <Checkbox
           checked={
             table.getIsAllPageRowsSelected() ||
@@ -35,7 +35,7 @@ export const columns: ColumnDef<Payment>[] = [
       </div>
     ),
     cell: ({ row }) => (
-      <div className=" pl-7">
+      <div className=" pl-3 md:pl-7">
         <Checkbox
           checked={row.getIsSelected()}
           onCheckedChange={(value) => row.toggleSelected(!!value)}
