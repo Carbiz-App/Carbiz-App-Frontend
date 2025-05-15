@@ -14,20 +14,18 @@ export const ADD_PRODUCT = gql`
 `;
 
 export const FETCH_PRODUCT_CATEGORIES = gql`
-  query {
-    fetchallProductCategories(
-      paginationQuery: {
-        limit: 15
-        page: 1
-        sortBy: "createdAt"
-        sortOrder: "DESC"
-      }
-    ) {
+  query fetchallProductCategoriesMerchant($paginationQuery: PaginationDto!) {
+    fetchallProductCategoriesMerchant(paginationQuery: $paginationQuery) {
       errors
       message
       payload {
-        productCategoryID
-        productCategoryName
+        currentPage
+        pageSize
+        total
+        data {
+          productCategoryID
+          productCategoryName
+        }
       }
     }
   }

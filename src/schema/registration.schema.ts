@@ -1,10 +1,12 @@
 import { z } from "zod";
 
 const RegistrationSchema = z.object({
-  businessName: z.string({message: "Business name is required"}),
-  email: z.string({message: "Email is required"}).email("Invalid email address"),
+  businessName: z.string({ message: "Business name is required" }),
+  email: z
+    .string({ message: "Email is required" })
+    .email("Invalid email address"),
   phoneNumber: z
-    .string({message: "Phone number is required"})
+    .string({ message: "Phone number is required" })
     .regex(
       /^(0\d{10}|(\+234|234)\d{10})$/,
       "Invalid phone number. Use 07012345678, +2347012345678, or 2347012345678"
@@ -17,6 +19,7 @@ const RegistrationSchema = z.object({
       message:
         "Password must include at least one uppercase letter, one lowercase letter, one number, and one special character. e.g. example2@2",
     }),
+  // profileImage: z.string({ message: "kindly upload a profile image" }),
   agreement: z.boolean().refine((val) => val === true, {
     message: "You must accept the terms and conditions",
     path: ["agreement"],

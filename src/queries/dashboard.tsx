@@ -1,4 +1,9 @@
-import { PROFILE_MERCHANT } from "@/api/dashboard";
+import {
+  PRODUCT_SOLD,
+  PROFILE_MERCHANT,
+  REVENUE,
+  TOTAL_CUSTOMER,
+} from "@/api/dashboard";
 import { useToast } from "@/hooks/Toast";
 import { useQuery } from "@apollo/client";
 
@@ -20,6 +25,30 @@ interface MerchantProfileResponseType {
   };
 }
 
+interface MerchantsProductsoldCount {
+  MerchantsProductsoldCount: {
+    errors: boolean;
+    message: string;
+    payload: any;
+  };
+}
+
+interface MerchantsTotalCustomerCount {
+  MerchantsTotalCustomerCount: {
+    errors: boolean;
+    message: string;
+    payload: any;
+  };
+}
+
+interface MerchantsTotalRevenueWithDeliveryFee {
+  MerchantsTotalRevenueWithDeliveryFee: {
+    errors: boolean;
+    message: string;
+    payload: any;
+  };
+}
+
 export const useMerchantProfile = () => {
   const { handleError } = useToast();
 
@@ -33,8 +62,39 @@ export const useMerchantProfile = () => {
         handleError(error, "Error fetching merchant profile");
       },
       fetchPolicy: "cache-and-network",
+      nextFetchPolicy: "cache-first",
     }
   );
 
-  return { loading, error, data: data?.profileMerchant?.payload };
+  const productCount = useQuery<MerchantsProductsoldCount>(PRODUCT_SOLD, {
+    onCompleted: () => {},
+    onError: (error) => {
+      handleError(error, "Error fetching  product count");
+    },
+    fetchPolicy: "cache-and-network",
+  });
+
+  const customerCount = useQuery<MerchantsTotalCustomerCount>(TOTAL_CUSTOMER, {
+    onCompleted: () => {},
+    onError: (error) => {
+      handleError(error, "Error fetching  customer count");
+    },
+    fetchPolicy: "cache-and-network",
+  });
+  const revenue = useQuery<MerchantsTotalRevenueWithDeliveryFee>(REVENUE, {
+    onCompleted: () => {},
+    onError: (error) => {
+      handleError(error, "Error fetching  revenue");
+    },
+    fetchPolicy: "cache-and-network",
+  });
+
+  return {
+    loading,
+    error,
+    data: data?.profileMerchant?.payload,
+    productCount,
+    customerCount,
+    revenue,
+  };
 };
