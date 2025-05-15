@@ -30,6 +30,12 @@ interface DataTableProps<TData, TValue> {
   data: TData[];
   tableName?: string;
   isClickable?: boolean;
+  loading: boolean;
+  total: number;
+  pageIndex: number;
+  pageSize: number;
+  onPageChange: (pageIndex: number) => void;
+  message?: string;
 }
 
 export function DataTable<TData, TValue>({
@@ -37,6 +43,12 @@ export function DataTable<TData, TValue>({
   data,
   tableName,
   isClickable,
+  loading,
+  total,
+  pageIndex,
+  pageSize,
+  onPageChange,
+  message,
 }: DataTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -45,12 +57,25 @@ export function DataTable<TData, TValue>({
   const table = useReactTable({
     data,
     columns,
+    pageCount: Math.ceil(total / pageSize),
+    manualPagination: true,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     onRowSelectionChange: setRowSelection,
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
-    state: { rowSelection, columnFilters },
+    state: {
+      pagination: { pageIndex, pageSize },
+      rowSelection,
+      columnFilters,
+    },
+    onPaginationChange: (updater) => {
+      const newState =
+        typeof updater === "function"
+          ? updater({ pageIndex, pageSize })
+          : updater;
+      onPageChange(newState.pageIndex);
+    },
   });
 
   const { pathname } = useLocation();
@@ -143,7 +168,16 @@ export function DataTable<TData, TValue>({
               ))}
             </TableHeader>
             <TableBody>
-              {table.getRowModel().rows?.length ? (
+              {loading ? (
+                <TableRow>
+                  <TableCell
+                    colSpan={columns.length}
+                    className="h-24 text-center"
+                  >
+                    Loading....{" "}
+                  </TableCell>
+                </TableRow>
+              ) : table.getRowModel().rows?.length ? (
                 table.getRowModel().rows.map((row) => (
                   <TableRow
                     key={row.id}
@@ -166,9 +200,9 @@ export function DataTable<TData, TValue>({
                 <TableRow>
                   <TableCell
                     colSpan={columns.length}
-                    className="h-24 text-center"
+                    className="h-24 text-center capitalize"
                   >
-                    No results.
+                    {message ?? "no data found"}
                   </TableCell>
                 </TableRow>
               )}

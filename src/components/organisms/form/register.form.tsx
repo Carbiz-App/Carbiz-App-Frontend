@@ -12,7 +12,7 @@ import RegistrationSchema, {
 import FormCheckbox from "@/components/atoms/form/checkbox";
 import { Link } from "react-router";
 import { useRegisterMerchant } from "@/queries/register";
-// import ProfileImageUpload from "@/components/atoms/form/profileImageUpload";
+import ProfileImageUpload from "@/components/atoms/form/profileImageUpload";
 
 const RegisterForm = () => {
   const form = useForm<RegistrationSchemaType>({

@@ -13,7 +13,6 @@ type analyticKey = keyof typeof analyticIcon;
 const DashboardCards = () => {
   const { productCount, customerCount, revenue } = useMerchantProfile();
   const { loading, data } = productCount;
-  console.log(customerCount.data);
 
   const dashboardAnalytics = [
     {

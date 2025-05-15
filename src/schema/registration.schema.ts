@@ -19,7 +19,7 @@ const RegistrationSchema = z.object({
       message:
         "Password must include at least one uppercase letter, one lowercase letter, one number, and one special character. e.g. example2@2",
     }),
-  //profileImage: z.string({ message: "kindly upload a profile image" }),
+  // profileImage: z.string({ message: "kindly upload a profile image" }),
   agreement: z.boolean().refine((val) => val === true, {
     message: "You must accept the terms and conditions",
     path: ["agreement"],

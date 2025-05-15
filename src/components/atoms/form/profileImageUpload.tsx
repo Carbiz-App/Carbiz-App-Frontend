@@ -31,92 +31,128 @@ const ProfileImageUpload: React.FC<ProfileImageUploadProps> = ({
   const [preview, setPreview] = React.useState<string | null>(null);
   const [uploading, setUploading] = React.useState(false);
   const [progress, setProgress] = React.useState(0);
+  const [error, setError] = React.useState<string | null>(null);
 
   const handleUpload = async (file: File, onChange: (url: string) => void) => {
     const formData = new FormData();
-    formData.append("file", file);
+    formData.append("profilePicture", file);
 
     setUploading(true);
     setProgress(0);
+    setError(null);
 
-    try {
-      const response = await axios.post(
-        uploadUrl,
-        { profileImage: formData },
-        {
-          headers: {
-            "x-apollo-operation-name": "uploadProfileImage",
-          },
-          onUploadProgress: (event) => {
-            const percent = Math.round(
-              (event.loaded * 100) / (event.total || 1)
-            );
-            setProgress(percent);
-          },
+    // try {
+    //   const response = await axios.post(uploadUrl, formData, {
+    //     headers: {
+    //       "Content-Type": "multipart/form-data",
+    //       // "x-apollo-operation-name": "profilePicture",
+    //     },
+    //     onUploadProgress: (event) => {
+    //       const percent = Math.round((event.loaded * 100) / (event.total || 1));
+    //       setProgress(percent);
+    //     },
+    //   });
+
+    //   const imageUrl = response.data?.url;
+
+    //   if (imageUrl) {
+    //     setPreview(imageUrl);
+    //     onChange(imageUrl);
+    //   } else {
+    //     setError("Upload succeeded but no image URL returned.");
+    //   }
+    // } catch (error) {
+    //   console.error("Upload failed", error);
+    //   setError("Image upload failed. Please try again.");
+    // } finally {
+    //   setUploading(false);
+    // }
+
+    return axios
+      .post(uploadUrl, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        onUploadProgress: (e: any) => {
+          const percent = Math.round((e.loaded * 100) / e.total);
+          setProgress(percent);
+        },
+      })
+      .then((res) => {
+        const imageUrl = res.data.payload;
+        if (imageUrl) {
+          setPreview(imageUrl);
+          onChange(imageUrl);
+        } else {
+          setError("Upload succeeded but no image URL returned.");
         }
-      );
-
-      const imageUrl = response.data?.url;
-
-      if (imageUrl) {
-        setPreview(imageUrl);
-        onChange(imageUrl);
-      }
-    } catch (error) {
-      console.error("Upload failed", error);
-    } finally {
-      setUploading(false);
-    }
+      })
+      .catch((error) => {
+        console.error("Upload failed", error);
+        setError("Image upload failed. Please try again.");
+      })
+      .finally(() => setUploading(false));
   };
 
   return (
     <FormField
       control={control}
       name={name}
-      render={({ field }) => (
-        <FormItem className="space-y-2">
-          {label && <FormLabel>{label}</FormLabel>}
+      render={({ field }) => {
+        React.useEffect(() => {
+          if (field.value) {
+            setPreview(field.value);
+          }
+        }, [field.value]);
 
-          <FormControl>
-            <div className="flex flex-col gap-3">
-              {preview || field.value ? (
-                <img
-                  src={preview || field.value}
-                  alt="Profile Preview"
-                  className="w-24 h-24 rounded-full object-cover"
+        return (
+          <FormItem className="space-y-2">
+            {label && <FormLabel>{label}</FormLabel>}
+
+            <FormControl>
+              <div className="flex flex-col gap-3">
+                {preview ? (
+                  <img
+                    src={preview}
+                    alt="Profile Preview"
+                    className="w-24 h-24 rounded-full object-cover"
+                  />
+                ) : (
+                  <div className="w-24 h-24 rounded-full bg-muted flex items-center justify-center">
+                    <ImagePlus className="w-6 h-6 text-muted-foreground" />
+                  </div>
+                )}
+
+                <Input
+                  type="file"
+                  accept="image/*"
+                  title="Upload profile picture"
+                  aria-label="Upload profile picture"
+                  disabled={uploading}
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (file) {
+                      handleUpload(file, field.onChange);
+                    }
+                  }}
                 />
-              ) : (
-                <div className="w-24 h-24 rounded-full bg-muted flex items-center justify-center">
-                  <ImagePlus className="w-6 h-6 text-muted-foreground" />
-                </div>
-              )}
 
-              <Input
-                type="file"
-                accept="image/*"
-                onChange={(e) => {
-                  const file = e.target.files?.[0];
-                  if (file) {
-                    handleUpload(file, field.onChange);
-                  }
-                }}
-              />
+                {uploading && (
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <p>Uploading...</p>
+                    <span>{progress}%</span>
+                  </div>
+                )}
 
-              {uploading && (
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <Button variant="outline" size="sm" disabled>
-                    Uploading...
-                  </Button>
-                  <span>{progress}%</span>
-                </div>
-              )}
-            </div>
-          </FormControl>
+                {error && <p className="text-sm text-red-500">{error}</p>}
+              </div>
+            </FormControl>
 
-          {description && <FormDescription>{description}</FormDescription>}
-          <FormMessage />
-        </FormItem>
-      )}
+            {description && <FormDescription>{description}</FormDescription>}
+            <FormMessage />
+          </FormItem>
+        );
+      }}
     />
   );
 };

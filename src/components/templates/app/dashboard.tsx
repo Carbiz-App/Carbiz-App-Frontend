@@ -5,6 +5,8 @@ import { DataTable } from "@/components/atoms/table";
 import { useAuthStore } from "@/store/auth.store";
 import { useMerchantProfile } from "@/queries/dashboard";
 import DashboardCards from "@/components/molecules/DashboardCards";
+import { usePagination } from "@/hooks/usePagination";
+import { FETCH_ALL_ORDERS } from "@/api/orders";
 
 export type Payment = {
   id: number;
@@ -42,6 +44,22 @@ export const payments: Payment[] = [
 const Dashboard = () => {
   const { user } = useAuthStore();
   const { loading, data } = useMerchantProfile();
+
+  const {
+    data: orderData,
+    total,
+    loading: orderLoading,
+    pagination,
+    setPage,
+    message,
+  } = usePagination({
+    query: FETCH_ALL_ORDERS,
+    extractData: (res) => ({
+      data: res?.MerchantfetchallMyOrders?.payload?.data || [],
+      total: res?.MerchantfetchallMyOrders?.payload?.total || 0,
+      message: res?.MerchantfetchallMyOrders?.message,
+    }),
+  });
 
   const onBoarding = [
     {
@@ -115,7 +133,16 @@ const Dashboard = () => {
       </div>
 
       {/* Recent order logs */}
-      <DataTable columns={columns} data={payments} />
+      <DataTable
+        columns={columns}
+        data={orderData}
+        total={total}
+        loading={orderLoading}
+        pageIndex={pagination.page - 1}
+        pageSize={pagination.limit}
+        onPageChange={(index) => setPage(index + 1)}
+        message={message}
+      />
     </div>
   );
 };
