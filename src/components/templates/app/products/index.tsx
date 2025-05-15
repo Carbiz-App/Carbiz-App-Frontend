@@ -21,6 +21,8 @@ const index = () => {
     }),
   });
 
+  console.log(data);
+
   return (
     <>
       <DataTable

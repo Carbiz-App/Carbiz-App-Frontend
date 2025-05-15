@@ -1,5 +1,6 @@
 import { useQuery } from "@apollo/client";
 import { useState } from "react";
+import { useLocation } from "react-router";
 
 type PaginationInput = {
   page: number;
@@ -33,12 +34,15 @@ export function usePagination<TVariables = any>({
   const [pagination, setPagination] =
     useState<PaginationInput>(paginationDefaults);
 
+  // const { pathname } = useLocation();
+  // const path = pathname.includes("products");
+
   const variables = {
     ...initialVariables,
     paginationQuery: {
       page: pagination.page,
       limit: pagination.limit,
-      sortBy: pagination.sortBy,
+      sortBy: pagination.sortBy || "CreatedAt",
       sortOrder: pagination.sortOrder,
     },
   };

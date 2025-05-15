@@ -72,6 +72,7 @@ export const useMerchantProfile = () => {
       handleError(error, "Error fetching  product count");
     },
     fetchPolicy: "cache-and-network",
+    nextFetchPolicy: "cache-first",
   });
 
   const customerCount = useQuery<MerchantsTotalCustomerCount>(TOTAL_CUSTOMER, {
@@ -80,6 +81,7 @@ export const useMerchantProfile = () => {
       handleError(error, "Error fetching  customer count");
     },
     fetchPolicy: "cache-and-network",
+    nextFetchPolicy: "cache-first",
   });
   const revenue = useQuery<MerchantsTotalRevenueWithDeliveryFee>(REVENUE, {
     onCompleted: () => {},

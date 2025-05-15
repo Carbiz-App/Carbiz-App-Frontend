@@ -1,4 +1,3 @@
-// import { FETCH_PRODUCT_CATEGORIES } from "@/api/product";
 import { FETCH_PRODUCT_CATEGORIES } from "@/api/product";
 import InputField from "@/components/atoms/form/input";
 import SelectField from "@/components/atoms/form/select";
@@ -7,9 +6,9 @@ import TextArea from "@/components/atoms/form/textarea";
 import Uploader from "@/components/molecules/uploader";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
+import { usePagination } from "@/hooks/usePagination";
 import { useAddProducts } from "@/queries/products";
 import ProductSchema, { ProductSchemaType } from "@/schema/products.schema";
-import { useQuery } from "@apollo/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Info } from "@phosphor-icons/react";
 import { useForm } from "react-hook-form";
@@ -18,33 +17,40 @@ const AddProductForm = () => {
   const form = useForm<ProductSchemaType>({
     resolver: zodResolver(ProductSchema),
   });
-
-  const { loading } = useAddProducts();
-
+  const { loading, createProduct } = useAddProducts();
   const {
-    loading: productCategoriesLoading,
     data,
-    error,
-  } = useQuery(FETCH_PRODUCT_CATEGORIES);
+    // total,
+    // loading: categoriesLoading,
+    // pagination,
+    // setPage,
+  } = usePagination({
+    query: FETCH_PRODUCT_CATEGORIES,
+    paginationDefaults: {
+      page: 1,
+      limit: 10,
+      sortOrder: "DESC",
+      sortBy: "createdAt",
+    },
+    extractData: (res) => ({
+      data: res?.fetchallProductCategoriesMerchant?.payload?.data || [],
+      total: res?.fetchallProductCategoriesMerchant?.payload?.total || 0,
+    }),
+  });
 
-  console.log(data);
-
-  console.log(productCategoriesLoading, data, error);
-  const handleSubmit = (data: ProductSchemaType) => {
+  const handleSubmit = async (data: ProductSchemaType) => {
     console.log(data);
-    // await createProduct({
-    //   variables: {
-    //     input: data,
-    //   },
-    // });
+    await createProduct({
+      variables: {
+        input: data,
+      },
+    });
   };
 
-  const productCategory = [
-    { label: "Bar & Chain oil", value: "chainOil" },
-    { label: "Bearing & Chassis Grease", value: "bearing" },
-    { label: "Car Care & Detailing", value: "carCare" },
-    { label: "Cleaners & Protectant", value: "protectant" },
-  ];
+  const productCategory = data?.map((i) => ({
+    label: i?.productCategoryName,
+    value: i?.productCategoryID,
+  }));
   const status = [
     { label: "Brand New", value: "Brand_new" },
     { label: "Used", value: "Used" },
@@ -53,6 +59,7 @@ const AddProductForm = () => {
   return (
     <Form {...form}>
       <form
+        noValidate={false}
         onSubmit={form.handleSubmit(handleSubmit)}
         className="grid md:grid-cols-2 gap-3.5"
       >
@@ -146,7 +153,7 @@ const AddProductForm = () => {
               <SelectInput
                 inputName="productWeight"
                 label="Product weight"
-                selectName="priceWeightType"
+                selectName="productWeightType"
                 control={form.control}
                 placement
                 placeholder="enter product weight"
