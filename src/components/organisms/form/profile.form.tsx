@@ -1,5 +1,6 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import React from "react";
 
 import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
@@ -8,18 +9,52 @@ import InputField from "@/components/atoms/form/input";
 
 import ProfileSchema, { ProfileSchemaType } from "@/schema/profile.schema";
 import SelectField from "@/components/atoms/form/select";
+import { useAuthStore } from "@/store/auth.store";
+import { getCities, getCountries } from "../../../lib/utils";
+import useMerchantProfile from "@/queries/profile";
 
 const ProfileForm = () => {
+  const { user} = useAuthStore();
+  const [countries, setCountries] = React.useState();
+  const [cities, setCities] = React.useState();
+
+  const { updateMerchant, loading } = useMerchantProfile();
+
+  React.useEffect(() => {
+    const fetchCountries = async () => {
+      const res = await getCountries();
+      setCountries(res);
+    };
+
+    fetchCountries();
+  }, []);
+
   const form = useForm<ProfileSchemaType>({
     resolver: zodResolver(ProfileSchema),
+    defaultValues: {
+      ...user,
+    },
   });
 
-  const onSubmit = (data: ProfileSchemaType) => {
-    console.log(data);
+  const selectedCountry = form.watch("country");
+
+  React.useEffect(() => {
+    const fetchCities = async () => {
+      if (selectedCountry) {
+        const res = await getCities(selectedCountry);
+        setCities(res);
+      }
+    };
+
+    fetchCities();
+  }, [selectedCountry]);
+
+  const onSubmit = async (data: ProfileSchemaType) => {
+    await updateMerchant({ variables: { input: data } });
   };
 
   return (
-    <Form {...form} >
+    <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <div className="grid grid-cols-2 gap-4 mb-5">
           <InputField
@@ -30,22 +65,27 @@ const ProfileForm = () => {
           />
           <SelectField
             control={form.control}
-            label="City"
-            name="city"
-            placeholder="Choose"
-          />
-          <InputField
-            control={form.control}
-            name="email"
-            type="email"
-            label="Email"
-            placeholder="john.doe@example.com"
-          />
-          <SelectField
-            control={form.control}
             label="Country"
             name="country"
             placeholder="Choose"
+            items={countries}
+          />
+
+          <InputField
+            control={form.control}
+            name=""
+            type="email"
+            label="Email"
+            placeholder="john.doe@example.com"
+            disabled
+          />
+
+          <SelectField
+            control={form.control}
+            label="City"
+            name="city"
+            placeholder="Choose"
+            items={cities}
           />
           <InputField
             control={form.control}
@@ -63,7 +103,7 @@ const ProfileForm = () => {
           />
           <InputField
             control={form.control}
-            name="street"
+            name="address"
             type="text"
             label="Address"
             placeholder="Address"
@@ -74,7 +114,7 @@ const ProfileForm = () => {
           type="submit"
           className="bg-primary text-white py-7 rounded-[0.625rem] text-base w-[16%]"
         >
-          Edit
+          {loading ? "Processing..." : "Edit"}
         </Button>
       </form>
     </Form>

@@ -21,6 +21,7 @@ interface InputFieldProps {
   description?: string;
   inputClassName?: string;
   itemClassName?: string;
+  disabled?: boolean
 }
 
 const InputField: React.FC<InputFieldProps> = ({
@@ -32,6 +33,7 @@ const InputField: React.FC<InputFieldProps> = ({
   description,
   inputClassName,
   itemClassName,
+  disabled = false
 }) => {
   const { pathname } = useLocation();
 
@@ -74,6 +76,7 @@ const InputField: React.FC<InputFieldProps> = ({
               }`}
             >
               <Input
+              disabled={disabled}
                 placeholder={placeholder}
                 type={showPassword && type == "password" ? "text" : type}
                 className={`text-sm lg:text-base rounded-lg py-6 focus:outline-0 focus-visible:ring-0 focus-visible:border-primary placeholder:text-text-secondary ${

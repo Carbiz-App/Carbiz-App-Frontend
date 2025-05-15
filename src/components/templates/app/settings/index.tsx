@@ -17,6 +17,7 @@ const Settings = () => {
         <div className="inline-flex gap-2.5 mt-5">
           {["profile", "payment", "document"].map((nav) => (
             <NavLink
+            key={nav}
               to={`${nav !== "profile" ? `/settings/${nav}` : ""}`}
               end={nav === "profile"}
               className={({ isActive }) =>
