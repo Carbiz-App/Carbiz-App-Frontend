@@ -23,24 +23,31 @@ const DocumentForm = () => {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
         <div className="flex items-center gap-6 md:gap-10">
           <ImagePicker
+            maxLength={1}
             control={form.control}
             label="Business License"
             name="businessLicense"
           />
 
           <ImagePicker
+            maxLength={1}
             control={form.control}
             label="Valid Identification Card"
-            name="vin"
+            name="validIDcard"
           />
         </div>
 
         <div className="flex gap-6 md:gap-10 w-full items-start">
-          <ImagePicker control={form.control} label="CAC" name="cac" />
+          <ImagePicker
+            maxLength={1}
+            control={form.control}
+            label="CAC"
+            name="CAC"
+          />
 
           <InputField
             control={form.control}
-            name="tin"
+            name="taxID"
             label="Tax Identification Number"
             placeholder="023333398"
             inputClassName="w-full"
