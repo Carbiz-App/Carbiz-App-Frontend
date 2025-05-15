@@ -22,7 +22,7 @@ const ImagePicker: React.FC<ImagePickerProp> = ({ name, control, label }) => {
       control={control}
       name={name ? name?.toString() : ""}
       render={({ field }) => (
-        <FormItem className="w-full max-w-[50%]">
+        <FormItem className="w-full ">
           {label && (
             <FormLabel className="text-sm lg:text-base text-primary-dark font-medium mb-1">
               {label}
