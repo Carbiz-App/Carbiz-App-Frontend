@@ -37,11 +37,11 @@ function VerifyOtpForm() {
 
   const onSubmit = async (data: VerifyOtpSchemaType) => {
     if (pathname === "/reset-otp") {
-      if (state === null || state === undefined) {
-        handleError(new Error("No email provided"), "Resend OTP failed");
-        navigate("/forgot-password");
-        return;
-      }
+      // if (state === null || state === undefined) {
+      //   handleError(new Error("No email provided"), "Resend OTP failed");
+      //   navigate("/forgot-password");
+      //   return;
+      // }
       await verifyResetPasswordOtpMerchant({
         variables: { input: { otp: data?.otp } },
       });
