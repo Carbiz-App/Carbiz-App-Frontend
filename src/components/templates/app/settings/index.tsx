@@ -11,10 +11,10 @@ const Settings = () => {
         </h4>
       </Link>
 
-      <div className="bg-white p-10 border border-background-light rounded-md">
+      <div className="bg-white p-5 md:p-10 border border-background-light rounded-md">
         <h3 className="text-xl font-bold font-family-satoshi">Settings</h3>
 
-        <div className="inline-flex gap-2.5 mt-5">
+        <div className="inline-flex gap-2.5 mt-2 md:mt-5">
           {["profile", "payment", "document"].map((nav) => (
             <NavLink
               to={`${nav !== "profile" ? `/settings/${nav}` : ""}`}
@@ -30,7 +30,7 @@ const Settings = () => {
           ))}
         </div>
 
-        <div className="py-10">
+        <div className=" py-5 md:py-10">
           <Outlet />
         </div>
       </div>
