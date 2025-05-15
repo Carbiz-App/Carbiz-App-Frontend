@@ -19,3 +19,32 @@ export const PROFILE_MERCHANT = gql`
     }
   }
 `;
+
+export const PRODUCT_SOLD = gql`
+  query {
+    MerchantsProductsoldCount {
+      errors
+      message
+      payload
+    }
+  }
+`;
+
+export const TOTAL_CUSTOMER = gql`
+  query {
+    MerchantsTotalCustomerCount {
+      errors
+      message
+      payload
+    }
+  }
+`;
+export const REVENUE = gql`
+  query {
+    MerchantsTotalRevenueWithDeliveryFee {
+      errors
+      message
+      payload
+    }
+  }
+`;

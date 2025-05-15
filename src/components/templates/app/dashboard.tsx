@@ -1,22 +1,10 @@
 import { CheckCircle } from "@phosphor-icons/react";
 import { Progress } from "@/components/ui/progress";
-import Analytics from "@/components/atoms/analytics";
 import { columns } from "@/columns/columns";
 import { DataTable } from "@/components/atoms/table";
-
-import { dashboardAnalytics } from "@/assets/data/index.json";
-import { MoneySend, ArrowSwapHorizontal, People } from "iconsax-reactjs";
 import { useAuthStore } from "@/store/auth.store";
 import { useMerchantProfile } from "@/queries/dashboard";
-import Loader from "@/components/atoms/loader";
-
-const analyticIcon = {
-  product: ArrowSwapHorizontal,
-  revenue: MoneySend,
-  customer: People,
-};
-
-type analyticKey = keyof typeof analyticIcon;
+import DashboardCards from "@/components/molecules/DashboardCards";
 
 export type Payment = {
   id: number;
@@ -51,11 +39,10 @@ export const payments: Payment[] = [
   },
 ];
 
-// const { loading, data, error } = useQuery(PROFILE_MERCHANT);
-
 const Dashboard = () => {
   const { user } = useAuthStore();
   const { loading, data } = useMerchantProfile();
+
   const onBoarding = [
     {
       title: "Create account",
@@ -71,14 +58,6 @@ const Dashboard = () => {
     },
   ];
 
-  if (loading) {
-    return (
-      <div className=" h-full w-full flex items-center justify-center">
-        <Loader />
-      </div>
-    );
-  }
-
   return (
     <div className="font-satoshi">
       {/* User breadcrumb */}
@@ -89,59 +68,50 @@ const Dashboard = () => {
         <h3 className="font-bold text-2xl md:text-xl ">{user?.businessName}</h3>
       </div>
       {/* New user card */}
-      {data?.onboardingPercentage !== 100 && (
-        <div className="bg-white rounded-xl p-5 md:p-10  w-full grid sm:grid-cols-2 border border-border-gray">
-          <div className="inline-flex flex-col gap-6">
-            <h2 className="text-lg sm:text-xl md:text-2xl font-bold">
-              Get ready for your first sale
-            </h2>
-            <ul className="list-none">
-              {onBoarding?.map((item) => (
-                <li key={item.title} className="block py-1 md:py-2">
-                  <div className="inline-flex gap-1.5 md:gap-2.5 items-center">
-                    <CheckCircle
-                      className={`${
-                        item?.current && "bg-[#F1ECF9] rounded-full"
-                      }`}
-                      size={24}
-                      color={`${item?.current ? "#7046C6" : "#837E8E"}`}
-                    />
-                    <span className="text-[#1A191C] text-base md:text-lg font-medium">
-                      {item?.title}
-                    </span>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </div>
+      {loading
+        ? ".Loading.."
+        : data?.onboardingPercentage !== 100 && (
+            <div className="bg-white rounded-xl p-5 md:p-10  w-full grid sm:grid-cols-2 border border-border-gray">
+              <div className="inline-flex flex-col gap-6">
+                <h2 className="text-lg sm:text-xl md:text-2xl font-bold">
+                  Get ready for your first sale
+                </h2>
+                <ul className="list-none">
+                  {onBoarding?.map((item) => (
+                    <li key={item.title} className="block py-1 md:py-2">
+                      <div className="inline-flex gap-1.5 md:gap-2.5 items-center">
+                        <CheckCircle
+                          className={`${
+                            item?.current && "bg-[#F1ECF9] rounded-full"
+                          }`}
+                          size={24}
+                          color={`${item?.current ? "#7046C6" : "#837E8E"}`}
+                        />
+                        <span className="text-[#1A191C] text-base md:text-lg font-medium">
+                          {item?.title}
+                        </span>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
 
-          <div className="flex justify-end items-center">
-            <div className="inline-flex flex-col items-end space-y-4 w-full">
-              <h3 className="text-primary text-5xl font-semibold">
-                {data?.onboardingPercentage}%
-              </h3>
-              <Progress
-                value={data?.onboardingPercentage}
-                className="w-[25%] md:w-[20%] h-2"
-              />
+              <div className="flex justify-end items-center">
+                <div className="inline-flex flex-col items-end space-y-4 w-full">
+                  <h3 className="text-primary text-5xl font-semibold">
+                    {data?.onboardingPercentage}%
+                  </h3>
+                  <Progress
+                    value={data?.onboardingPercentage}
+                    className="w-[25%] md:w-[20%] h-2"
+                  />
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-      )}
+          )}
       {/* summary card */}
       <div className="py-6 md:py-10">
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6">
-          {dashboardAnalytics.map(({ title, value, name, color }) => (
-            <Analytics
-              key={name}
-              title={title}
-              value={value}
-              iconColor={color}
-              icon={analyticIcon[name as analyticKey]}
-              isCurrency={name == "revenue"}
-            />
-          ))}
-        </div>
+        <DashboardCards />
       </div>
 
       {/* Recent order logs */}
