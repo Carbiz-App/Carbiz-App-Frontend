@@ -39,7 +39,6 @@ const AddProductForm = () => {
   });
 
   const handleSubmit = async (data: ProductSchemaType) => {
-    console.log(data);
     await createProduct({
       variables: {
         input: data,
@@ -52,7 +51,7 @@ const AddProductForm = () => {
     value: i?.productCategoryID,
   }));
   const status = [
-    { label: "Brand New", value: "Brand_new" },
+    { label: "Brand New", value: "Brand_New" },
     { label: "Used", value: "Used" },
   ];
 

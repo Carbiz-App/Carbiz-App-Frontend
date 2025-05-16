@@ -8,39 +8,6 @@ import DashboardCards from "@/components/molecules/DashboardCards";
 import { usePagination } from "@/hooks/usePagination";
 import { FETCH_ALL_ORDERS } from "@/api/orders";
 
-export type Payment = {
-  id: number;
-  product: string;
-  created: string;
-  orderId: string;
-  paymentStatus: "paid" | "cancelled" | "refunded";
-  deliveryStatus:
-    | "processing"
-    | "shipped"
-    | "delivered"
-    | "cancelled"
-    | "awaiting";
-};
-
-export const payments: Payment[] = [
-  {
-    id: 1,
-    product: "728ed52f",
-    created: "2023-10-01",
-    orderId: "1234567890",
-    paymentStatus: "paid",
-    deliveryStatus: "processing",
-  },
-  {
-    id: 2,
-    product: "728ed52f",
-    created: "2023-10-02",
-    orderId: "13332",
-    paymentStatus: "cancelled",
-    deliveryStatus: "awaiting",
-  },
-];
-
 const Dashboard = () => {
   const { user } = useAuthStore();
   const { loading, data } = useMerchantProfile();

@@ -30,3 +30,58 @@ export const FETCH_PRODUCT_CATEGORIES = gql`
     }
   }
 `;
+
+export const FETCH_ALL_PRODUCTS = gql`
+  query fetchallProductRelatedToMerchant($paginationQuery: PaginationDto!) {
+    fetchallProductRelatedToMerchant(paginationQuery: $paginationQuery) {
+      success
+      message
+      status
+      errors
+      payload {
+        data {
+          productID
+          productName
+          price
+          productStock
+          productStatus
+        }
+        total
+        currentPage
+        pageSize
+      }
+    }
+  }
+`;
+export const FETCH_PRODUCT = gql`
+  query fetchOneProduct($paginationQuery: PaginationDto!) {
+    fetchOneProduct(paginationQuery: $paginationQuery) {
+      success
+      message
+      status
+      errors
+      payload {
+        data {
+          productID
+          productName
+          price
+          productStock
+          productStatus
+        }
+        total
+        currentPage
+        pageSize
+      }
+    }
+  }
+`;
+
+export const DELETE_PRODUCT = gql`
+  mutation deleteProduct($productID: String!) {
+    deleteProduct(productID: $productID) {
+      success
+      message
+      payload
+    }
+  }
+`;

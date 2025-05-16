@@ -1,35 +1,30 @@
-import { FETCH_PRODUCT_CATEGORIES } from "@/api/product";
+import { FETCH_ALL_PRODUCTS } from "@/api/product";
 import { productsColumn } from "@/columns/products.column";
 import { DataTable } from "@/components/atoms/table";
 import { usePagination } from "@/hooks/usePagination";
 
 const index = () => {
-  // const productsData: productsType[] = [
-  //   {
-  //     product: "Engine oil",
-  //     price: "$20.00",
-  //     quantity: 3,
-  //     status: "Available",
-  //   },
-  // ];
-
-  const { data, total, loading, pagination, setPage } = usePagination({
-    query: FETCH_PRODUCT_CATEGORIES,
+  const { data, total, loading, pagination, setPage, refetch } = usePagination({
+    query: FETCH_ALL_PRODUCTS,
+    paginationDefaults: {
+      limit: 15,
+      page: 1,
+      sortBy: "createdAt",
+      sortOrder: "DESC",
+    },
     extractData: (res) => ({
-      data: res?.fetchallProductCategoriesMerchant?.payload?.data || [],
-      total: res?.fetchallProductCategoriesMerchant?.payload?.total || 0,
+      data: res?.fetchallProductRelatedToMerchant?.payload?.data || [],
+      total: res?.fetchallProductRelatedToMerchant?.payload?.total || 0,
     }),
   });
-
-  console.log(data);
 
   return (
     <>
       <DataTable
-        columns={productsColumn}
+        columns={productsColumn({ refetch })}
         data={data}
         tableName="Proucts"
-        isClickable
+        // isClickable
         loading={loading}
         total={total}
         pageIndex={pagination.page - 1}

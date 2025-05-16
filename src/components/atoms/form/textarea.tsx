@@ -41,7 +41,7 @@ const TextArea: React.FC<TextAreaProps> = ({
           <FormControl>
             <Textarea
               placeholder={placeholder}
-              className={`text-sm lg:text-base rounded-lg  focus:outline-0 focus-visible:ring-0 focus-visible:border-primary placeholder:text-text-secondary !resize-none max-h-[10px] scrollbar-hide  ${textareaClassName}`}
+              className={`text-sm lg:text-base rounded-lg  focus:outline-0 focus-visible:ring-0 focus-visible:border-primary placeholder:text-text-secondary !resize-none max-h-[10px] scrollbar-hide selection:bg-primary selection:text-primary-foreground  ${textareaClassName}`}
               {...field}
             />
           </FormControl>
