@@ -1,7 +1,13 @@
-import { ADD_PRODUCT, DELETE_PRODUCT } from "@/api/product";
+import {
+  ADD_PRODUCT,
+  DELETE_PRODUCT,
+  FETCH_ALL_PRODUCTS,
+  FETCH_PRODUCT,
+  UPDATE_PRODUCT,
+} from "@/api/product";
 import { useToast } from "@/hooks/Toast";
 import { ProductSchemaType } from "@/schema/products.schema";
-import { useMutation } from "@apollo/client";
+import { useLazyQuery, useMutation } from "@apollo/client";
 import { useNavigate } from "react-router";
 
 interface createProduct {
@@ -53,6 +59,57 @@ export const useAddProducts = () => {
   return { createProduct, loading };
 };
 
+interface updateProduct {
+  updateProduct: {
+    success: boolean;
+    message: string;
+    payload: {
+      productName: string;
+      productStatus: string;
+    };
+  };
+}
+
+export const useUpdateProduct = (onSuccess?: () => void) => {
+  const { handleError, handleInfo, handleSuccess } = useToast();
+  const navigate = useNavigate();
+  const [updateProduct, { loading }] = useMutation<
+    updateProduct,
+    { input: ProductSchemaType; productID: string }
+  >(UPDATE_PRODUCT, {
+    refetchQueries: [{ query: FETCH_ALL_PRODUCTS }],
+    awaitRefetchQueries: true,
+    onCompleted: (data) => {
+      const result = data?.updateProduct;
+
+      if (!result) {
+        handleError(new Error("No response received"), "Update Product Failed");
+        return;
+      }
+
+      if (!result.success) {
+        handleInfo(
+          "Add Product",
+          result.message || "Update Product unsuccessful"
+        );
+        return;
+      }
+
+      // If success
+      handleSuccess("Prodct Updated Successfully", result.message);
+      onSuccess?.();
+      navigate("..");
+    },
+
+    onError: (error) => {
+      handleError(error, "Adding Product Failed");
+      console.log("Mutation Error:", error);
+    },
+  });
+
+  return { updateProduct, loading };
+};
+
 interface deleteProduct {
   deleteProduct: {
     success: boolean;
@@ -94,4 +151,27 @@ export const useDeleteProducts = (onSuccess?: () => void) => {
   });
 
   return { deleteProduct, loading };
+};
+
+interface fetchOneProduct {
+  fetchOneProduct: {
+    success: boolean;
+    message: string;
+    payload: any;
+  };
+}
+export const useFetchProduct = () => {
+  const { handleError } = useToast();
+
+  const [fetchOneProduct, { data, loading, error }] =
+    useLazyQuery<fetchOneProduct>(FETCH_PRODUCT, {
+      onCompleted: () => {},
+      onError: (error) => {
+        handleError(error, "Error fetching product");
+      },
+      fetchPolicy: "cache-and-network",
+      nextFetchPolicy: "cache-first",
+    });
+
+  return { fetchOneProduct, data, loading, error };
 };

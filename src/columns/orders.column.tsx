@@ -2,10 +2,9 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { ColumnDef } from "@tanstack/react-table";
 
 export type OrderType = {
-  id: string;
-  product: string;
-  created: string;
-  orderId: string;
+  product: { productName: string };
+  createdAT: string;
+  orderID: string;
   paymentStatus: "paid" | "canceled" | "refunded";
   deliveryStatus:
     | "processing"
@@ -132,7 +131,9 @@ const OrderColumn: ColumnDef<OrderType | productType>[] = [
       </div>
     ),
     cell: ({ row }) => {
-      const status: string | undefined = row?.getValue("deliveryStatus")?.toString();
+      const status: string | undefined = row
+        ?.getValue("deliveryStatus")
+        ?.toString();
       const statusColor = () => {
         switch (status?.toLocaleLowerCase()) {
           case "processing":

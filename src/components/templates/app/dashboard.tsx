@@ -54,7 +54,7 @@ const Dashboard = () => {
       </div>
       {/* New user card */}
       {loading
-        ? ".Loading.."
+        ? "Loading.."
         : data?.onboardingPercentage !== 100 && (
             <div className="bg-white rounded-xl p-5 md:p-10  w-full grid sm:grid-cols-2 border border-border-gray">
               <div className="inline-flex flex-col gap-6">

@@ -1,9 +1,9 @@
 import { Link } from "react-router";
 import { ArrowLeft } from "iconsax-reactjs";
-import OrderColumn, { productType } from "@/columns/orders.column";
-import { DataTable } from "@/components/atoms/table";
+// import OrderColumn, { productType } from "@/columns/orders.column";
+// import { DataTable } from "@/components/atoms/table";
 
-import { products } from "@/assets/data/index.json";
+// import { products } from "@/assets/data/index.json";
 import { CardDetail } from "@/components/atoms/card/previewCard";
 
 type details = {
@@ -12,7 +12,7 @@ type details = {
 };
 
 const PreviewCustomer = () => {
-  const productList: productType[] = [...products];
+  // const productList: productType[] = [...products];
   const itemDetails: details[] = [
     { title: "Name", value: "Elizabeth Ali" },
     { title: "Email", value: "elizabeth@gmail.com" },
@@ -42,7 +42,7 @@ const PreviewCustomer = () => {
         )}
       </div>
 
-      <DataTable tableName="Orders" columns={OrderColumn} data={productList} />
+      {/* <DataTable tableName="Orders" columns={OrderColumn} data={productList} /> */}
     </div>
   );
 };

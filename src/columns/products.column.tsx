@@ -3,6 +3,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { useDeleteProducts } from "@/queries/products";
 import { ColumnDef } from "@tanstack/react-table";
 import { Eye, PenLine, Trash2Icon } from "lucide-react";
+import { useNavigate } from "react-router";
 
 export type productsType = {
   productID: string;
@@ -126,6 +127,7 @@ export const productsColumn = ({
     ),
     cell: ({ row }) => {
       const id = row.original;
+      const navigate = useNavigate();
       const { deleteProduct, loading } = useDeleteProducts(refetch);
       const handleDelete = async (productID: string) => {
         await deleteProduct({
@@ -138,7 +140,11 @@ export const productsColumn = ({
             <Eye className=" text-3xl size-5 text-[#4F4C55]" />
           </Button>
 
-          <Button variant={"ghost"} className=" p-4 border-r rounded-none">
+          <Button
+            onClick={() => navigate(`/products/${id.productID}`)}
+            variant={"ghost"}
+            className=" p-4 border-r rounded-none"
+          >
             <PenLine className=" text-3xl size-5 text-[#4F4C55]" />
           </Button>
           <Button

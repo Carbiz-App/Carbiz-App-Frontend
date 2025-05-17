@@ -1,6 +1,6 @@
 import { Gallery } from "iconsax-reactjs";
 import React from "react";
-import { Control, Controller } from "react-hook-form";
+import { Control } from "react-hook-form";
 import {
   FormControl,
   FormField,
@@ -52,7 +52,7 @@ const ImagePicker: React.FC<ImagePickerProp> = ({
           });
         };
 
-        const { getRootProps, getInputProps, isDragActive } = useDropzone({
+        const { getRootProps, getInputProps } = useDropzone({
           onDrop,
           accept: { "image/*": [] },
           maxFiles: maxLength,
@@ -61,7 +61,7 @@ const ImagePicker: React.FC<ImagePickerProp> = ({
         });
 
         return (
-          <FormItem className="w-full max-w-[50%]">
+          <FormItem className="w-full md:max-w-[50%]">
             {label && (
               <FormLabel className="text-sm lg:text-base text-primary-dark font-medium mb-1">
                 {label}

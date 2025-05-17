@@ -12,6 +12,18 @@ export const ADD_PRODUCT = gql`
     }
   }
 `;
+export const UPDATE_PRODUCT = gql`
+  mutation updateProduct($input: updateProductDto!, $productID: String!) {
+    updateProduct(input: $input, productID: $productID) {
+      success
+      message
+      payload {
+        productName
+        productStatus
+      }
+    }
+  }
+`;
 
 export const FETCH_PRODUCT_CATEGORIES = gql`
   query fetchallProductCategoriesMerchant($paginationQuery: PaginationDto!) {
@@ -54,23 +66,30 @@ export const FETCH_ALL_PRODUCTS = gql`
   }
 `;
 export const FETCH_PRODUCT = gql`
-  query fetchOneProduct($paginationQuery: PaginationDto!) {
-    fetchOneProduct(paginationQuery: $paginationQuery) {
+  query fetchOneProduct($productID: String!) {
+    fetchOneProduct(productID: $productID) {
       success
       message
       status
       errors
       payload {
-        data {
-          productID
-          productName
-          price
-          productStock
-          productStatus
+        productImages
+        productName
+        prooductDescription
+        productCategory {
+          productCategoryID
         }
-        total
-        currentPage
-        pageSize
+        productType
+        priceCurrencyType
+        productWeightType
+        productStock
+        productColor
+        price
+        discountPercentage
+        productWeight
+        productLength_cm
+        productBreadth_cm
+        productWidth_cm
       }
     }
   }

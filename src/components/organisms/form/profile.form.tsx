@@ -14,7 +14,7 @@ import { getCities, getCountries } from "../../../lib/utils";
 import useMerchantProfile from "@/queries/profile";
 
 const ProfileForm = () => {
-  const { user} = useAuthStore();
+  const { user } = useAuthStore();
   const [countries, setCountries] = React.useState();
   const [cities, setCities] = React.useState();
 
@@ -25,7 +25,6 @@ const ProfileForm = () => {
       const res = await getCountries();
       setCountries(res);
     };
-
     fetchCountries();
   }, []);
 
@@ -50,7 +49,18 @@ const ProfileForm = () => {
   }, [selectedCountry]);
 
   const onSubmit = async (data: ProfileSchemaType) => {
-    await updateMerchant({ variables: { input: data } });
+    await updateMerchant({
+      variables: {
+        input: {
+          businessName: data?.businessName,
+          phoneNumber: data?.phoneNumber,
+          address: data?.address,
+          city: data?.city,
+          country: data?.country,
+          postalCode: data?.postalCode,
+        },
+      },
+    });
   };
 
   return (
@@ -73,7 +83,7 @@ const ProfileForm = () => {
 
           <InputField
             control={form.control}
-            name=""
+            name="email"
             type="email"
             label="Email"
             placeholder="john.doe@example.com"
@@ -111,6 +121,7 @@ const ProfileForm = () => {
         </div>
 
         <Button
+          disabled={loading}
           type="submit"
           className="bg-primary text-white px-7 md:py-7 rounded-[0.625rem] text-base w-[16%]"
         >

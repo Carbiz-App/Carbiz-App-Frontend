@@ -1,6 +1,5 @@
 import { useQuery } from "@apollo/client";
 import { useState } from "react";
-import { useLocation } from "react-router";
 
 type PaginationInput = {
   page: number;

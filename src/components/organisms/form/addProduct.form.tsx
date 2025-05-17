@@ -3,21 +3,57 @@ import InputField from "@/components/atoms/form/input";
 import SelectField from "@/components/atoms/form/select";
 import SelectInput from "@/components/atoms/form/select-input";
 import TextArea from "@/components/atoms/form/textarea";
+import Loader from "@/components/atoms/loader";
 import Uploader from "@/components/molecules/uploader";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { usePagination } from "@/hooks/usePagination";
-import { useAddProducts } from "@/queries/products";
+import {
+  useAddProducts,
+  useFetchProduct,
+  useUpdateProduct,
+} from "@/queries/products";
 import ProductSchema, { ProductSchemaType } from "@/schema/products.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Info } from "@phosphor-icons/react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { useLocation } from "react-router";
 
 const AddProductForm = () => {
   const form = useForm<ProductSchemaType>({
     resolver: zodResolver(ProductSchema),
   });
   const { loading, createProduct } = useAddProducts();
+  const { loading: updateLoading, updateProduct } = useUpdateProduct();
+  const { pathname } = useLocation();
+  const singleProduct: string = pathname.split("/")[2];
+  const path = singleProduct !== "new";
+  const {
+    fetchOneProduct,
+    data: productData,
+    loading: productLoading,
+  } = useFetchProduct();
+
+  useEffect(() => {
+    if (path) {
+      fetchOneProduct({
+        variables: { productID: singleProduct },
+      });
+    }
+  }, [singleProduct]);
+
+  useEffect(() => {
+    const payload = productData?.fetchOneProduct?.payload;
+    if (payload) {
+      const mappedPayload: ProductSchemaType = {
+        ...payload,
+        productCategory: payload?.productCategory?.productCategoryID,
+      };
+      form.reset(mappedPayload);
+    }
+  }, [productData, form]);
+
   const {
     data,
     // total,
@@ -39,11 +75,21 @@ const AddProductForm = () => {
   });
 
   const handleSubmit = async (data: ProductSchemaType) => {
-    await createProduct({
-      variables: {
-        input: data,
-      },
-    });
+    if (path) {
+      await updateProduct({
+        variables: {
+          input: data,
+          productID: singleProduct,
+        },
+      });
+      return;
+    } else {
+      await createProduct({
+        variables: {
+          input: data,
+        },
+      });
+    }
   };
 
   const productCategory = data?.map((i) => ({
@@ -54,6 +100,10 @@ const AddProductForm = () => {
     { label: "Brand New", value: "Brand_New" },
     { label: "Used", value: "Used" },
   ];
+
+  if (productLoading) {
+    return <Loader />;
+  }
 
   return (
     <Form {...form}>
@@ -204,16 +254,21 @@ const AddProductForm = () => {
               setValue={form.setValue}
               value={form.watch("productImages")}
               error={form.formState.errors.productImages?.message}
+              initialUrls={productData?.fetchOneProduct?.payload?.productImages}
             />
           </div>
           <Button
-            disabled={loading}
+            disabled={loading || updateLoading}
             size="lg"
             variant="default"
             type="submit"
             className=" mt-auto place-self-end sticky bottom-3 z-30"
           >
-            {loading ? "Adding Product..." : "Add Product"}
+            {loading || updateLoading
+              ? "Loading..."
+              : path
+              ? "Edit Product"
+              : "Add Product"}
           </Button>
         </div>
       </form>
