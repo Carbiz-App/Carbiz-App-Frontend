@@ -44,7 +44,7 @@ const PaymentForm = () => {
 
         <Button
           type="submit"
-          className="bg-primary text-white py-7 rounded-[0.625rem] text-base w-[16%]"
+          className="bg-primary text-white px-7 md:py-7 rounded-[0.625rem] text-base w-[16%]"
         >
           Edit
         </Button>

@@ -1,23 +1,29 @@
+import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "iconsax-reactjs";
-import { Link, NavLink, Outlet } from "react-router";
+import { NavLink, Outlet, useNavigate } from "react-router";
 
 const Settings = () => {
+  const navigate = useNavigate();
   return (
     <div className="space-y-10">
-      <Link to={".."} className="inline-flex items-center gap-2.5">
+      <Button
+        variant={"ghost"}
+        onClick={() => navigate("/dashboard")}
+        className="inline-flex items-center gap-2.5"
+      >
         <ArrowLeft size={20} color="#696572" />
         <h4 className="font-family-satoshi text-text-secondary text-base font-medium">
           Settings
         </h4>
-      </Link>
+      </Button>
 
       <div className="bg-white p-5 md:p-10 border border-background-light rounded-md">
         <h3 className="text-xl font-bold font-family-satoshi">Settings</h3>
 
-        <div className="inline-flex gap-2.5 mt-2 md:mt-5">
+        <div className="inline-flex gap-2.5 mt-3 md:mt-5">
           {["profile", "payment", "document"].map((nav) => (
             <NavLink
-            key={nav}
+              key={nav}
               to={`${nav !== "profile" ? `/settings/${nav}` : ""}`}
               end={nav === "profile"}
               className={({ isActive }) =>

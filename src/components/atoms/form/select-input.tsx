@@ -1,5 +1,5 @@
 import React from "react";
-import { Control } from "react-hook-form";
+import { Control, useFormState } from "react-hook-form";
 
 import {
   FormControl,
@@ -41,9 +41,11 @@ const SelectInput: React.FC<ProductPriceInputProps> = ({
   label = "Product price",
   currencyOptions = inputName === "price"
     ? [
-        { label: "₦", value: "NGN" },
-        { label: "$", value: "USD" },
-        { label: "€", value: "EUR" },
+        { label: "NGR", value: "NGR" },
+        { label: "USD", value: "USD" },
+        { label: "GBP", value: "GBP" },
+        { label: "CAD", value: "CAD" },
+        { label: "RMB", value: "RMB" },
       ]
     : [
         { label: "KG", value: "Kg" },
@@ -54,35 +56,44 @@ const SelectInput: React.FC<ProductPriceInputProps> = ({
         { label: "Milligram", value: "Milligram" },
       ],
 }) => {
+  // Get form state and access field errors
+  const { errors } = useFormState({ control });
+
+  const inputError = errors?.[inputName];
+  const selectError = errors?.[selectName];
+  const hasError = !!inputError || !!selectError;
+  const errorMessage = inputError?.message || selectError?.message;
+
   return (
     <FormItem>
       {label && (
-        <FormLabel className="text-sm lg:text-base text-primary-dark font-medium">
+        <FormLabel
+          className={`text-sm lg:text-base text-primary-dark font-medium ${
+            errorMessage ? "text-red-500" : ""
+          }`}
+        >
           {label}
         </FormLabel>
       )}
+
       <div
-        className={`flex items-center border-1 border-input shadow-xs rounded-lg px-2 py-1.5 max-h-max focus-within:ring-0 focus-within:border-primary  ${
+        className={`flex items-center rounded-lg px-2 py-1.5 gap-2 max-h-max border shadow-xs ${
           placement ? "flex-row-reverse" : ""
-        }`}
+        } ${hasError ? "border-red-500" : "border-input"}`}
       >
         {/* Currency Select */}
         <FormField
           control={control}
           name={selectName}
-          render={({ field, fieldState }) => (
+          render={({ field }) => (
             <FormControl>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <SelectTrigger
-                  className={` border-none shadow-none px-0 focus:ring-0 focus:ring-offset-0 text-muted-foreground focus:border-0  border-0 outline-0 ring-0 ${
-                    fieldState.error ? "border-red-500" : "border-border"
-                  }`}
-                >
+                <SelectTrigger className="text-muted-foreground border-none px-0 shadow-none focus:ring-0 focus:ring-offset-0 outline-none">
                   <SelectValue
-                    placeholder={inputName === "price" ? "₦" : "KG"}
+                    placeholder={inputName === "price" ? "NGR" : "KG"}
                   />
                 </SelectTrigger>
-                <SelectContent className=" !max-w-2">
+                <SelectContent>
                   {currencyOptions.map((option) => (
                     <SelectItem key={option.value} value={option.value}>
                       {option.label}
@@ -93,6 +104,7 @@ const SelectInput: React.FC<ProductPriceInputProps> = ({
             </FormControl>
           )}
         />
+
         {/* Price Input */}
         <FormField
           control={control}
@@ -103,13 +115,17 @@ const SelectInput: React.FC<ProductPriceInputProps> = ({
                 {...field}
                 type="number"
                 placeholder={placeholder ?? "0.00"}
-                className="text-sm lg:text-base border-none focus-visible:ring-0 focus-visible:ring-offset-0 focus:outline-0 w-full pl-2 border shadow-none"
+                className="w-full text-sm lg:text-base border-none shadow-none focus-visible:ring-0 focus-visible:ring-offset-0 outline-none"
               />
             </FormControl>
           )}
         />
       </div>
-      <FormMessage />
+
+      {/* Shared error message below the div */}
+      {hasError && typeof errorMessage === "string" && (
+        <FormMessage>{errorMessage}</FormMessage>
+      )}
     </FormItem>
   );
 };

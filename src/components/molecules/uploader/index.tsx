@@ -1,7 +1,7 @@
 import { uploadImageRest } from "@/api/imageUpload";
 import CircularProgress from "@/components/atoms/progress";
 import { ImagePlus } from "lucide-react";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { v4 as uuidv4 } from "uuid";
 import { UseFormSetValue } from "react-hook-form";
@@ -21,10 +21,31 @@ interface UploaderProps {
   setValue: UseFormSetValue<ProductSchemaType>;
   value: ProductSchemaType["productImages"];
   error?: string;
+  initialUrls?: string[];
 }
 
-const Uploader: React.FC<UploaderProps> = ({ setValue, error }) => {
+const Uploader: React.FC<UploaderProps> = ({
+  setValue,
+  error,
+  initialUrls = [],
+}) => {
   const [images, setImages] = useState<ImageItem[]>([]);
+
+  useEffect(() => {
+    if (initialUrls.length && images.length === 0) {
+      const preloaded: ImageItem[] = initialUrls.map((url, index) => ({
+        id: uuidv4(),
+        file: null,
+        url,
+        progress: 100,
+        uploading: false,
+        error: null,
+        isFeatured: index === 0, // first image is featured
+      }));
+      setImages(preloaded);
+      updateForm(preloaded);
+    }
+  }, [initialUrls]);
 
   const updateForm = (imgs: ImageItem[]) => {
     const uploaded = imgs

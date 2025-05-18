@@ -55,6 +55,13 @@ export const LOGIN = gql`
         user {
           businessName
           email
+          address
+          businessName
+          city
+          country
+          email
+          phoneNumber
+          postalCode
         }
       }
     }

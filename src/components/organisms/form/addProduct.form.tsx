@@ -1,58 +1,114 @@
-// import { FETCH_PRODUCT_CATEGORIES } from "@/api/product";
 import { FETCH_PRODUCT_CATEGORIES } from "@/api/product";
 import InputField from "@/components/atoms/form/input";
 import SelectField from "@/components/atoms/form/select";
 import SelectInput from "@/components/atoms/form/select-input";
 import TextArea from "@/components/atoms/form/textarea";
+import Loader from "@/components/atoms/loader";
 import Uploader from "@/components/molecules/uploader";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
-import { useAddProducts } from "@/queries/products";
+import { usePagination } from "@/hooks/usePagination";
+import {
+  useAddProducts,
+  useFetchProduct,
+  useUpdateProduct,
+} from "@/queries/products";
 import ProductSchema, { ProductSchemaType } from "@/schema/products.schema";
-import { useQuery } from "@apollo/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Info } from "@phosphor-icons/react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { useLocation } from "react-router";
 
 const AddProductForm = () => {
   const form = useForm<ProductSchemaType>({
     resolver: zodResolver(ProductSchema),
   });
+  const { loading, createProduct } = useAddProducts();
+  const { loading: updateLoading, updateProduct } = useUpdateProduct();
+  const { pathname } = useLocation();
+  const singleProduct: string = pathname.split("/")[2];
+  const path = singleProduct !== "new";
+  const {
+    fetchOneProduct,
+    data: productData,
+    loading: productLoading,
+  } = useFetchProduct();
 
-  const { loading } = useAddProducts();
+  useEffect(() => {
+    if (path) {
+      fetchOneProduct({
+        variables: { productID: singleProduct },
+      });
+    }
+  }, [singleProduct]);
+
+  useEffect(() => {
+    const payload = productData?.fetchOneProduct?.payload;
+    if (payload) {
+      const mappedPayload: ProductSchemaType = {
+        ...payload,
+        productCategory: payload?.productCategory?.productCategoryID,
+      };
+      form.reset(mappedPayload);
+    }
+  }, [productData, form]);
 
   const {
-    loading: productCategoriesLoading,
     data,
-    error,
-  } = useQuery(FETCH_PRODUCT_CATEGORIES);
+    // total,
+    // loading: categoriesLoading,
+    // pagination,
+    // setPage,
+  } = usePagination({
+    query: FETCH_PRODUCT_CATEGORIES,
+    paginationDefaults: {
+      page: 1,
+      limit: 10,
+      sortOrder: "DESC",
+      sortBy: "createdAt",
+    },
+    extractData: (res) => ({
+      data: res?.fetchallProductCategoriesMerchant?.payload?.data || [],
+      total: res?.fetchallProductCategoriesMerchant?.payload?.total || 0,
+    }),
+  });
 
-  console.log(data);
-
-  console.log(productCategoriesLoading, data, error);
-  const handleSubmit = (data: ProductSchemaType) => {
-    console.log(data);
-    // await createProduct({
-    //   variables: {
-    //     input: data,
-    //   },
-    // });
+  const handleSubmit = async (data: ProductSchemaType) => {
+    if (path) {
+      await updateProduct({
+        variables: {
+          input: data,
+          productID: singleProduct,
+        },
+      });
+      return;
+    } else {
+      await createProduct({
+        variables: {
+          input: data,
+        },
+      });
+    }
   };
 
-  const productCategory = [
-    { label: "Bar & Chain oil", value: "chainOil" },
-    { label: "Bearing & Chassis Grease", value: "bearing" },
-    { label: "Car Care & Detailing", value: "carCare" },
-    { label: "Cleaners & Protectant", value: "protectant" },
-  ];
+  const productCategory = data?.map((i) => ({
+    label: i?.productCategoryName,
+    value: i?.productCategoryID,
+  }));
   const status = [
-    { label: "Brand New", value: "Brand_new" },
+    { label: "Brand New", value: "Brand_New" },
     { label: "Used", value: "Used" },
   ];
+
+  if (productLoading) {
+    return <Loader />;
+  }
 
   return (
     <Form {...form}>
       <form
+        noValidate={false}
         onSubmit={form.handleSubmit(handleSubmit)}
         className="grid md:grid-cols-2 gap-3.5"
       >
@@ -146,7 +202,7 @@ const AddProductForm = () => {
               <SelectInput
                 inputName="productWeight"
                 label="Product weight"
-                selectName="priceWeightType"
+                selectName="productWeightType"
                 control={form.control}
                 placement
                 placeholder="enter product weight"
@@ -198,16 +254,21 @@ const AddProductForm = () => {
               setValue={form.setValue}
               value={form.watch("productImages")}
               error={form.formState.errors.productImages?.message}
+              initialUrls={productData?.fetchOneProduct?.payload?.productImages}
             />
           </div>
           <Button
-            disabled={loading}
+            disabled={loading || updateLoading}
             size="lg"
             variant="default"
             type="submit"
             className=" mt-auto place-self-end sticky bottom-3 z-30"
           >
-            {loading ? "Adding Product..." : "Add Product"}
+            {loading || updateLoading
+              ? "Loading..."
+              : path
+              ? "Edit Product"
+              : "Add Product"}
           </Button>
         </div>
       </form>

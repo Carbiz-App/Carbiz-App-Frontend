@@ -10,7 +10,7 @@ const ProductSchema = z.object({
   productCategory: z.string({ message: "Product category is required" }),
   productType: z.string({ message: "Product status is required" }),
   priceCurrencyType: z.string({ message: "currency type is required" }),
-  priceWeightType: z.string({ message: "weight type is required" }),
+  productWeightType: z.string({ message: "weight type is required" }),
   productStock: z.coerce.number({ message: "Provide available stock" }),
   productColor: z.string({ message: "Product color is required" }),
   price: z.coerce.number({ message: "Product price is required" }),

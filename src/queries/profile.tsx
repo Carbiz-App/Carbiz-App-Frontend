@@ -15,7 +15,7 @@ interface MerchantProfileResponse {
       address: string;
       city: string;
       country: string;
-      email: string;
+      email?: string;
       phoneNumber: string;
       postalCode: string;
     };
@@ -37,9 +37,13 @@ const useMerchantProfile = () => {
         handleError(result.message);
       }
 
-      handleSuccess("Profile updated");
+      if (result.success) {
+        handleSuccess("Profile updated");
 
-      setUser({ ...result.payload });
+        console.log(result.payload);
+
+        setUser({ ...result.payload });
+      }
     },
     onError: (error) => {
       handleError(error, "Updating failed");

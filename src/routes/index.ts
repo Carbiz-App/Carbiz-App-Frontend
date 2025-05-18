@@ -101,6 +101,10 @@ const router = createBrowserRouter([
             Component: Products,
           },
           {
+            path: ":id",
+            Component: AddProduct,
+          },
+          {
             path: "new",
             Component: AddProduct,
           },
