@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const init = axios.create({
-  baseURL: "https://carbiz-backend-euek.onrender.com/api/carbiz/v1/files/",
+  baseURL: "https://carbiz-backend-euek.onrender.com/api/carbiz/v1/files/upload/",
   headers: {
     "Content-Type": "multipart/form-data",
   },

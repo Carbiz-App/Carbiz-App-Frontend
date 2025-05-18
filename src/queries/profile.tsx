@@ -78,6 +78,7 @@ export const useUploadKyc = () => {
 
       if (!result.success) {
         handleError(result.message);
+        return;
       }
 
       handleSuccess("Profile updated");
@@ -86,6 +87,7 @@ export const useUploadKyc = () => {
     },
     onError: (error) => {
       handleError(error, "Updating failed");
+      return
     },
   });
 

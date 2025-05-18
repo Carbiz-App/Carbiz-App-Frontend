@@ -8,14 +8,18 @@ import ImagePicker from "@/components/atoms/form/imagepicker";
 import InputField from "@/components/atoms/form/input";
 
 import DocumentSchema, { DocumentSchemaType } from "@/schema/document.schema";
+import { useUploadKyc } from "@/queries/profile";
 
 const DocumentForm = () => {
   const form = useForm<DocumentSchemaType>({
     resolver: zodResolver(DocumentSchema),
   });
 
+  const { uploadKYCDocmentMerchant, loading } = useUploadKyc();
+
   const onSubmit = (data: DocumentSchemaType) => {
     console.log(data);
+    uploadKYCDocmentMerchant({ variables: { input: data } });
   };
 
   return (
@@ -27,6 +31,9 @@ const DocumentForm = () => {
             control={form.control}
             label="Business License"
             name="businessLicense"
+            onChange={(image: string) =>
+              form.setValue("businessLicense", image)
+            }
           />
 
           <ImagePicker
@@ -34,6 +41,7 @@ const DocumentForm = () => {
             control={form.control}
             label="Valid Identification Card"
             name="validIDcard"
+            onChange={(image: string) => form.setValue("validIDcard", image)}
           />
         </div>
 
@@ -43,6 +51,7 @@ const DocumentForm = () => {
             control={form.control}
             label="CAC"
             name="CAC"
+            onChange={(image: string) => form.setValue("CAC", image)}
           />
 
           <InputField
@@ -56,10 +65,12 @@ const DocumentForm = () => {
         </div>
 
         <Button
+          disabled={loading}
           type="submit"
           className="bg-primary text-white px-7 md:py-7 rounded-[0.625rem] text-base w-[16%]"
         >
-          Save
+          {loading ? "Processing..." : "Save"}
+         
         </Button>
       </form>
     </Form>

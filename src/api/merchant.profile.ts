@@ -23,7 +23,12 @@ export const UPLOAD_KYC = gql`
     uploadKYCDocumentMerchant(kyc: $input) {
       success
       message
-      payload
+      payload {
+      businessLicense
+      CAC
+      validIDcard
+      taxID
+      }
     }
   }
 `;
