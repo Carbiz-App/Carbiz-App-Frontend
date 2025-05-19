@@ -1,6 +1,6 @@
 import { Gallery } from "iconsax-reactjs";
 import React, { useState, useEffect } from "react";
-import { Control, Controller } from "react-hook-form";
+import { Control } from "react-hook-form";
 import { Progress } from "@/components/ui/progress";
 
 import {

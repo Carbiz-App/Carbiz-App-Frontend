@@ -3,16 +3,45 @@ import { gql } from "@apollo/client";
 export const FETCH_ALL_ORDERS = gql`
   query MerchantfetchallMyOrders($paginationQuery: PaginationDto!) {
     MerchantfetchallMyOrders(paginationQuery: $paginationQuery) {
-      success
+      errors
       message
-      status
       payload {
-        data
-        total
         currentPage
         pageSize
+        total
+        data {
+          RidersRide {
+            id
+          }
+          createdAT
+          customer {
+            name
+          }
+          deliveryFee
+          deliveryType
+          distance_ms
+          estimatedTimeOfTravel
+          id
+          isPooled
+          items {
+            price
+            product {
+              productName
+            }
+          }
+          merchants {
+            businessName
+          }
+          orderID
+          orderStatus
+          paymentStatus
+          subTotal
+          total
+          trackingID
+          updatedAT
+          vehicleType
+        }
       }
-      errors
     }
   }
 `;
