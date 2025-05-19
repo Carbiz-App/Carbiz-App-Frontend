@@ -45,7 +45,7 @@ const DocumentForm = () => {
           />
         </div>
 
-        <div className="flex gap-6 md:gap-10 w-full items-start">
+        <div className="flex gap-6 flex-col sm:flex-row md:gap-10 w-full items-start">
           <ImagePicker
             maxLength={1}
             control={form.control}

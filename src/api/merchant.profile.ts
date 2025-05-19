@@ -24,10 +24,10 @@ export const UPLOAD_KYC = gql`
       success
       message
       payload {
-      businessLicense
-      CAC
-      validIDcard
-      taxID
+        businessLicense
+        CAC
+        validIDcard
+        taxID
       }
     }
   }

@@ -23,7 +23,7 @@ const MainLayout = () => {
         <div className="sticky bottom-0 top-0 z-50">
           <SiteHeader />
         </div>
-        <div className="p-5 md:p-10">
+        <div className="p-5 md:p-6 lg:p-10">
           <Outlet />
         </div>
       </SidebarInset>
