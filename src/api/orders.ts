@@ -7,9 +7,7 @@ export const FETCH_ALL_ORDERS = gql`
       message
       status
       payload {
-        data {
-          
-        }
+        data
         total
         currentPage
         pageSize

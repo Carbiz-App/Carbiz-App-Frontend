@@ -1,6 +1,8 @@
 import { Gallery } from "iconsax-reactjs";
 import React, { useState, useEffect } from "react";
 import { Control, Controller } from "react-hook-form";
+import { Progress } from "@/components/ui/progress";
+
 import {
   FormControl,
   FormField,
@@ -36,19 +38,20 @@ const ImagePicker: React.FC<ImagePickerProp> = ({
         // Move state outside render function to avoid recreation on each render
         const [uploads, setUploads] = useState<File[]>([]);
         const [previewUrls, setPreviewUrls] = useState<string[]>([]);
-        
+        const [progress, setProgress] = useState<number>(0);
+
         // Create preview URLs when uploads change
         useEffect(() => {
           // Revoke previous URLs to avoid memory leaks
-          previewUrls.forEach(url => URL.revokeObjectURL(url));
-          
+          previewUrls.forEach((url) => URL.revokeObjectURL(url));
+
           // Create new preview URLs
-          const urls = uploads.map(file => URL.createObjectURL(file));
+          const urls = uploads.map((file) => URL.createObjectURL(file));
           setPreviewUrls(urls);
-          
+
           // Cleanup function to revoke URLs when component unmounts
           return () => {
-            urls.forEach(url => URL.revokeObjectURL(url));
+            urls.forEach((url) => URL.revokeObjectURL(url));
           };
         }, [uploads]);
 
@@ -63,13 +66,14 @@ const ImagePicker: React.FC<ImagePickerProp> = ({
             const data = await fileUploadReq({
               pathname: "product-images",
               payload: { productImages: newFiles },
+              onProgress: (percent) => setProgress(percent),
             });
-            
+
             field.onChange(multiple ? data : data[0]); // send to form
             if (onChange) onChange(multiple ? data : data[0]);
           } catch (error) {
             // Don't mutate state directly
-            setUploads(prevUploads => 
+            setUploads((prevUploads) =>
               multiple ? prevUploads.slice(0, -1) : []
             );
           }
@@ -98,9 +102,9 @@ const ImagePicker: React.FC<ImagePickerProp> = ({
                 {...getRootProps()}
               >
                 {uploads.length == 1 && previewUrls.length == 1 ? (
-                  <img 
-                    src={previewUrls[0]} 
-                    className="h-full w-full rounded-xl object-cover" 
+                  <img
+                    src={previewUrls[0]}
+                    className="h-full w-full rounded-xl object-cover"
                     alt="Uploaded image preview"
                   />
                 ) : (
@@ -116,6 +120,9 @@ const ImagePicker: React.FC<ImagePickerProp> = ({
                 )}
               </div>
             </FormControl>
+            {uploads.length > 1 && progress !== 100 && (
+              <Progress value={progress} />
+            )}
             <FormMessage />
           </FormItem>
         );

@@ -1,7 +1,8 @@
 import axios from "axios";
 
 const init = axios.create({
-  baseURL: "https://carbiz-backend-euek.onrender.com/api/carbiz/v1/files/upload/",
+  baseURL:
+    "https://carbiz-backend-euek.onrender.com/api/carbiz/v1/files/upload/",
   headers: {
     "Content-Type": "multipart/form-data",
   },
@@ -10,24 +11,30 @@ const init = axios.create({
 const fileUploadReq = async ({
   pathname,
   payload,
+  onProgress,
 }: {
   pathname: string;
   payload: Record<string, File[]>;
+  onProgress?: (value: number) => void;
 }) => {
   const formData = new FormData();
 
-  console.log(payload);
-
   // Append files to formData
   Object.entries(payload).forEach(([key, files]) => {
-    console.log("key: ", key);
     files.forEach((file) => {
       formData.append(key, file);
     });
   });
 
   try {
-    const response = await init.post(pathname, formData);
+    const response = await init.post(pathname, formData, {
+      onUploadProgress: (progress: any) => {
+        if (onProgress) {
+          const percent = Math.round((progress.loaded * 100) / progress.total);
+          onProgress(percent);
+        }
+      },
+    });
     const { success, message, payload } = response.data;
 
     if (!success) {
