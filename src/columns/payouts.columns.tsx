@@ -2,10 +2,10 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { ColumnDef } from "@tanstack/react-table";
 
 export type payoutType = {
-  recepient: string;
-  date: string;
+  customer: { name: string };
+  createdAT: string;
   amount: string;
-  paymentStatus: string;
+  status: string;
 };
 
 export const PayoutsColumn: ColumnDef<payoutType>[] = [
@@ -37,7 +37,7 @@ export const PayoutsColumn: ColumnDef<payoutType>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "recepient",
+    accessorKey: "customer",
     header: () => (
       <div className=" text-base font-[500] text-black !bg-[#FAFAFB] py-3.5  !border-none">
         Recepient
@@ -46,13 +46,13 @@ export const PayoutsColumn: ColumnDef<payoutType>[] = [
     cell: ({ row }) => {
       return (
         <div className=" font-normal py-3.5 uppercase">
-          {row.getValue("recepient")}
+          {row.getValue("name")}
         </div>
       );
     },
   },
   {
-    accessorKey: "date",
+    accessorKey: "createdAT",
     header: () => (
       <div className=" text-base font-[500] text-black bg-[#FAFAFB] px-7 py-3.5 border-none">
         Date
@@ -60,7 +60,9 @@ export const PayoutsColumn: ColumnDef<payoutType>[] = [
     ),
     cell: ({ row }) => {
       return (
-        <div className=" font-normal px-7 py-3.">{row.getValue("date")}</div>
+        <div className=" font-normal px-7 py-3.">
+          {row.getValue("createdAT")}
+        </div>
       );
     },
   },
@@ -79,14 +81,14 @@ export const PayoutsColumn: ColumnDef<payoutType>[] = [
   },
 
   {
-    accessorKey: "paymentStatus",
+    accessorKey: "status",
     header: () => (
       <div className=" text-base  font-[500] text-black bg-[#FAFAFB] px-7 py-3.5">
         Payment Status
       </div>
     ),
     cell: ({ row }) => {
-      const status: string | undefined = row.getValue("paymentStatus");
+      const status: string | undefined = row.getValue("status");
       const statusColor = () => {
         switch (status?.toLocaleLowerCase()) {
           case "paid":
@@ -102,7 +104,7 @@ export const PayoutsColumn: ColumnDef<payoutType>[] = [
       return (
         <div className={` font-normal px-7 py-3.5 `}>
           <span className={`px-3 py-1 rounded-2xl capitalize ${statusColor()}`}>
-            {row.getValue("paymentStatus")}
+            {row.getValue("status")}
           </span>
         </div>
       );

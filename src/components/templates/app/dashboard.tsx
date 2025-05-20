@@ -1,6 +1,6 @@
 import { CheckCircle } from "@phosphor-icons/react";
 import { Progress } from "@/components/ui/progress";
-import { columns } from "@/columns/columns";
+import { ordersColumns } from "@/columns/columns";
 import { DataTable } from "@/components/atoms/table";
 import { useAuthStore } from "@/store/auth.store";
 import { useMerchantProfile } from "@/queries/dashboard";
@@ -101,7 +101,7 @@ const Dashboard = () => {
 
       {/* Recent order logs */}
       <DataTable
-        columns={columns}
+        columns={ordersColumns}
         data={orderData}
         total={total}
         loading={orderLoading}

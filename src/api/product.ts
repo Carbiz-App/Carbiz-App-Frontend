@@ -75,7 +75,7 @@ export const FETCH_PRODUCT = gql`
       payload {
         productImages
         productName
-        prooductDescription
+        productDescription
         productCategory {
           productCategoryID
         }

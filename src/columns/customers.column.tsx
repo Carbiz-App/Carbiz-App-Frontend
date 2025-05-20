@@ -6,7 +6,7 @@ type CustomerType = {
   name: string;
   email: string;
   createdAt: string;
-  phone: string;
+  phoneNumber: string;
 };
 
 const CustomerColumns: ColumnDef<CustomerType>[] = [
@@ -64,14 +64,14 @@ const CustomerColumns: ColumnDef<CustomerType>[] = [
     },
   },
   {
-    accessorKey: "phone",
+    accessorKey: "phoneNumber",
     header: () => (
       <div className=" text-base font-[500] text-black bg-[#FAFAFB] px-7 py-3.5 border-none">
         Phone
       </div>
     ),
     cell: ({ row }) => {
-      const phone = row.getValue("phone")?.toString();
+      const phone = row.getValue("phoneNumber")?.toString();
       return (
         <div className=" font-normal px-7 py-3.">
           {phone?.replaceAll("-", "")}

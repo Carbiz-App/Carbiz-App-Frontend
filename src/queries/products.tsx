@@ -102,7 +102,7 @@ export const useUpdateProduct = (onSuccess?: () => void) => {
     },
 
     onError: (error) => {
-      handleError(error, "Adding Product Failed");
+      handleError(error, "Updating Product Failed");
       console.log("Mutation Error:", error);
     },
   });

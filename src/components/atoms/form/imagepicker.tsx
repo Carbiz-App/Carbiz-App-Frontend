@@ -120,7 +120,7 @@ const ImagePicker: React.FC<ImagePickerProp> = ({
                 )}
               </div>
             </FormControl>
-            {uploads.length > 1 && progress !== 100 && (
+            {uploads.length >= 1 && progress !== 100 && (
               <Progress value={progress} />
             )}
             <FormMessage />

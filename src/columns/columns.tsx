@@ -2,23 +2,17 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ColumnDef } from "@tanstack/react-table";
 import { Eye } from "lucide-react";
+import { useNavigate } from "react-router";
 
-// This type is used to define the shape of our data.
-// You can use a Zod schema here if you want.
-export type Payment = {
-  product: string;
-  created: string;
-  orderId: string;
-  paymentStatus: "paid" | "cancelled" | "refunded";
-  deliveryStatus:
-    | "processing"
-    | "shipped"
-    | "delivered"
-    | "cancelled"
-    | "awaiting";
+export type Order = {
+  items: { product: { productName: string } };
+  createdAT: string;
+  orderID: string;
+  paymentStatus: string;
+  orderStatus: string;
 };
 
-export const columns: ColumnDef<Payment>[] = [
+export const ordersColumns: ColumnDef<Order>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -47,7 +41,7 @@ export const columns: ColumnDef<Payment>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "product",
+    accessorKey: "items",
     header: () => (
       <div className=" text-base font-[500] text-black !bg-[#FAFAFB] py-3.5  !border-none">
         Product
@@ -56,13 +50,13 @@ export const columns: ColumnDef<Payment>[] = [
     cell: ({ row }) => {
       return (
         <div className=" font-normal py-3.5 uppercase">
-          {row.getValue("product")}
+          {row.getValue("items")}
         </div>
       );
     },
   },
   {
-    accessorKey: "created",
+    accessorKey: "createdAT",
     header: () => (
       <div className=" text-base font-[500] text-black bg-[#FAFAFB] px-7 py-3.5 border-none">
         Created
@@ -70,12 +64,14 @@ export const columns: ColumnDef<Payment>[] = [
     ),
     cell: ({ row }) => {
       return (
-        <div className=" font-normal px-7 py-3.">{row.getValue("created")}</div>
+        <div className=" font-normal px-7 py-3.">
+          {row.getValue("createdAT")}
+        </div>
       );
     },
   },
   {
-    accessorKey: "orderId",
+    accessorKey: "orderID",
     header: () => (
       <div className=" text-base  font-[500] text-black bg-[#FAFAFB] px-7 py-3.5">
         Order ID
@@ -83,7 +79,7 @@ export const columns: ColumnDef<Payment>[] = [
     ),
     cell: ({ row }) => {
       return (
-        <div className=" font-normal px-7 py-3.">{row.getValue("orderId")}</div>
+        <div className=" font-normal px-7 py-3.">{row.getValue("orderID")}</div>
       );
     },
   },
@@ -118,14 +114,14 @@ export const columns: ColumnDef<Payment>[] = [
     },
   },
   {
-    accessorKey: "deliveryStatus",
+    accessorKey: "orderStatus",
     header: () => (
       <div className=" text-base  font-[500] text-black bg-[#FAFAFB] px-7 py-3.5">
         Delivery Status
       </div>
     ),
     cell: ({ row }) => {
-      const status: string | undefined = row.getValue("deliveryStatus");
+      const status: string | undefined = row.getValue("orderStatus");
       const statusColor = () => {
         switch (status?.toLocaleLowerCase()) {
           case "processing":
@@ -145,7 +141,7 @@ export const columns: ColumnDef<Payment>[] = [
       return (
         <div className={` font-normal px-7 py-3.5 `}>
           <span className={`px-3 py-1 rounded-2xl ${statusColor()} capitalize`}>
-            {row.getValue("deliveryStatus")}
+            {row.getValue("orderStatus")}
           </span>
         </div>
       );
@@ -153,12 +149,15 @@ export const columns: ColumnDef<Payment>[] = [
   },
   {
     id: "action",
-    cell: ({}) => {
-      // const id = row.original;
-      // console.log(id);
+    cell: ({ row }) => {
+      const id = row.original;
+      const navigate = useNavigate();
       return (
         <div className=" font-normal px-7 py-3.">
-          <Button variant={"ghost"}>
+          <Button
+            variant={"ghost"}
+            onClick={() => navigate(`/orders/${id.orderID}`)}
+          >
             <Eye className=" text-3xl size-5 text-[#4F4C55]" />
           </Button>
         </div>

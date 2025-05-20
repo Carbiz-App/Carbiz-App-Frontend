@@ -1,31 +1,30 @@
-// import { FETCH_ALL_ORDERS } from "@/api/orders";
-// import { columns } from "@/columns/columns";
-// import { DataTable } from "@/components/atoms/table";
-// import { usePagination } from "@/hooks/usePagination";
+import { FETCH_ALL_ORDERS } from "@/api/orders";
+import { ordersColumns } from "@/columns/columns";
+import { DataTable } from "@/components/atoms/table";
+import { usePagination } from "@/hooks/usePagination";
 
 const Orders = () => {
-  // const {
-  //   data: orderData,
-  //   total,
-  //   loading: orderLoading,
-  //   pagination,
-  //   setPage,
-  //   message,
-  // } = usePagination({
-  //   query: FETCH_ALL_ORDERS,
-  //   extractData: (res) => ({
-  //     data: res?.MerchantfetchallMyOrders?.payload?.data || [],
-  //     total: res?.MerchantfetchallMyOrders?.payload?.total || 0,
-  //     message: res?.MerchantfetchallMyOrders?.message,
-  //   }),
-  // });
+  const {
+    data: orderData,
+    total,
+    loading: orderLoading,
+    pagination,
+    setPage,
+    message,
+  } = usePagination({
+    query: FETCH_ALL_ORDERS,
+    extractData: (res) => ({
+      data: res?.MerchantfetchallMyOrders?.payload?.data || [],
+      total: res?.MerchantfetchallMyOrders?.payload?.total || 0,
+      message: res?.MerchantfetchallMyOrders?.message,
+    }),
+  });
 
   return (
     <div>
-      orders coming
-      {/* <DataTable
+      <DataTable
         tableName="Orders"
-        columns={columns}
+        columns={ordersColumns}
         data={orderData}
         total={total}
         loading={orderLoading}
@@ -33,7 +32,7 @@ const Orders = () => {
         pageSize={pagination.limit}
         onPageChange={(index) => setPage(index + 1)}
         message={message}
-      /> */}
+      />
     </div>
   );
 };

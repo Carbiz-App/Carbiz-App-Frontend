@@ -13,6 +13,10 @@ interface LoginResponseTypeMerchant {
       user: {
         businessName: string;
         email: string;
+        businessLicense: string;
+        CAC: string;
+        taxID: string;
+        validIDcard: string;
       };
     };
   };

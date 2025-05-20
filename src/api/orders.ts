@@ -45,3 +45,34 @@ export const FETCH_ALL_ORDERS = gql`
     }
   }
 `;
+
+export const FETCH_ORDER = gql`
+  query MerchantfetchaOneOrder($orderID: String!) {
+    MerchantfetchaOneOrder(orderID: $orderID) {
+      success
+      message
+      status
+      errors
+      payload {
+        orderID
+        createdAT
+        paymentStatus
+        orderStatus
+        customer {
+          name
+          phoneNumber
+          email
+        }
+        items {
+          product {
+            productName
+            productImages
+          }
+          quantity
+          price
+        }
+        total
+      }
+    }
+  }
+`;

@@ -1,29 +1,14 @@
 import { Checkbox } from "@/components/ui/checkbox";
 import { ColumnDef } from "@tanstack/react-table";
 
-export type OrderType = {
-  product: { productName: string };
-  createdAT: string;
+export type customerOrder = {
+  items: { product: { productName: string; createdAt: string } };
   orderID: string;
-  paymentStatus: "paid" | "canceled" | "refunded";
-  deliveryStatus:
-    | "processing"
-    | "shipped"
-    | "delivered"
-    | "canceled"
-    | "awaiting_processing";
-};
-
-export type productType = {
-  id: number;
-  product: string;
-  created: string;
-  orderId: string;
   paymentStatus: string;
-  deliveryStatus: string;
+  orderStatus: string;
 };
 
-const OrderColumn: ColumnDef<OrderType | productType>[] = [
+export const customerOrder: ColumnDef<customerOrder>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -52,7 +37,7 @@ const OrderColumn: ColumnDef<OrderType | productType>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "product",
+    accessorKey: "items",
     header: () => (
       <div className=" text-base font-[500] text-black !bg-[#FAFAFB] py-3.5  !border-none">
         Product
@@ -61,13 +46,13 @@ const OrderColumn: ColumnDef<OrderType | productType>[] = [
     cell: ({ row }) => {
       return (
         <div className=" font-normal py-3.5 uppercase">
-          {row.getValue("product")}
+          {row.getValue("productName")}
         </div>
       );
     },
   },
   {
-    accessorKey: "created",
+    accessorKey: "items",
     header: () => (
       <div className=" text-base font-[500] text-black bg-[#FAFAFB] px-7 py-3.5 border-none">
         Created
@@ -75,35 +60,36 @@ const OrderColumn: ColumnDef<OrderType | productType>[] = [
     ),
     cell: ({ row }) => {
       return (
-        <div className=" font-normal px-7 py-3.">{row.getValue("created")}</div>
+        <div className=" font-normal px-7 py-3.">
+          {row.getValue("createdAt")}
+        </div>
       );
     },
   },
-
   {
     accessorKey: "paymentStatus",
     header: () => (
       <div className=" text-base  font-[500] text-black bg-[#FAFAFB] px-7 py-3.5">
-        Payment
+        Status
       </div>
     ),
     cell: ({ row }) => {
-      //   const status: string | undefined = row.getValue("paymentStatus");
-      //   const statusColor = () => {
-      //     switch (status?.toLocaleLowerCase()) {
-      //       case "paid":
-      //         return "bg-[#D1FADF] text-[#027A48]";
-      //       case "cancelled":
-      //         return "bg-[#FEE4E2] text-[#B42318]";
-      //       case "refunded":
-      //         return "text-[#DC6803] bg-[#FFF7E1]";
-      //       default:
-      //         return null;
-      //     }
-      //   };
+      const status: string | undefined = row.getValue("paymentStatus");
+      const statusColor = () => {
+        switch (status?.toLocaleLowerCase()) {
+          case "paid":
+            return "bg-[#D1FADF] text-[#027A48]";
+          case "cancelled":
+            return "bg-[#FEE4E2] text-[#B42318]";
+          case "refunded":
+            return "text-[#DC6803] bg-[#FFF7E1]";
+          default:
+            return null;
+        }
+      };
       return (
         <div className={` font-normal px-7 py-3.5 `}>
-          <span className={`px-3 py-1 rounded-2xl capitalize`}>
+          <span className={`px-3 py-1 rounded-2xl ${statusColor()} capitalize`}>
             {row.getValue("paymentStatus")}
           </span>
         </div>
@@ -111,7 +97,7 @@ const OrderColumn: ColumnDef<OrderType | productType>[] = [
     },
   },
   {
-    accessorKey: "orderId",
+    accessorKey: "orderID",
     header: () => (
       <div className=" text-base  font-[500] text-black bg-[#FAFAFB] px-7 py-3.5">
         Order ID
@@ -119,21 +105,19 @@ const OrderColumn: ColumnDef<OrderType | productType>[] = [
     ),
     cell: ({ row }) => {
       return (
-        <div className=" font-normal px-7 py-3.">{row.getValue("orderId")}</div>
+        <div className=" font-normal px-7 py-3.">{row.getValue("orderID")}</div>
       );
     },
   },
   {
-    accessorKey: "deliveryStatus",
+    accessorKey: "orderStatus",
     header: () => (
       <div className=" text-base  font-[500] text-black bg-[#FAFAFB] px-7 py-3.5">
-        Status
+        Delivery Status
       </div>
     ),
     cell: ({ row }) => {
-      const status: string | undefined = row
-        ?.getValue("deliveryStatus")
-        ?.toString();
+      const status: string | undefined = row.getValue("orderStatus");
       const statusColor = () => {
         switch (status?.toLocaleLowerCase()) {
           case "processing":
@@ -144,7 +128,7 @@ const OrderColumn: ColumnDef<OrderType | productType>[] = [
             return "text-[#B42318] bg-[#FEE4E2]";
           case "delivered":
             return "text-[#027A48] bg-[#D1FADF]";
-          case "awaiting_processing":
+          case "awaiting":
             return "text-[#343239] bg-[#E6E5E8]";
           default:
             return null;
@@ -153,12 +137,10 @@ const OrderColumn: ColumnDef<OrderType | productType>[] = [
       return (
         <div className={` font-normal px-7 py-3.5 `}>
           <span className={`px-3 py-1 rounded-2xl ${statusColor()} capitalize`}>
-            {status?.replaceAll("_", " ")}
+            {row.getValue("orderStatus")}
           </span>
         </div>
       );
     },
   },
 ];
-
-export default OrderColumn;

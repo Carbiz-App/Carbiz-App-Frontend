@@ -23,3 +23,23 @@ export const FETCH_ALL_TRANSACTIONS = gql`
     }
   }
 `;
+
+export const FETCH_TRANSACTION = gql`
+  query MerchantfetchaOneTransaction($transactionID: String!) {
+    MerchantfetchaOneTransaction(transactionID: $transactionID) {
+      success
+      message
+      status
+      errors
+      payload {
+        customer {
+          name
+        }
+        amount
+        createdAT
+        status
+        transactionID
+      }
+    }
+  }
+`;
