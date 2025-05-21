@@ -19,6 +19,7 @@ interface ImagePickerProp {
   label?: string;
   maxLength?: number;
   multiple?: boolean;
+  defaultValue?: string|string[];
   onChange?: (value: string) => void;
 }
 
@@ -28,6 +29,7 @@ const ImagePicker: React.FC<ImagePickerProp> = ({
   label,
   maxLength = 5,
   multiple = false,
+  defaultValue,
   onChange,
 }) => {
   return (
@@ -103,7 +105,7 @@ const ImagePicker: React.FC<ImagePickerProp> = ({
               >
                 {uploads.length == 1 && previewUrls.length == 1 ? (
                   <img
-                    src={previewUrls[0]}
+                    src={typeof defaultValue == "string" ? defaultValue: previewUrls[0]}
                     className="h-full w-full rounded-xl object-cover"
                     alt="Uploaded image preview"
                   />

@@ -18,6 +18,7 @@ interface MerchantProfileResponse {
       email?: string;
       phoneNumber: string;
       postalCode: string;
+      profilePictureUrl: string;
     };
   };
 }

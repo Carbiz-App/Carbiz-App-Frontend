@@ -12,11 +12,13 @@ import SelectField from "@/components/atoms/form/select";
 import { useAuthStore } from "@/store/auth.store";
 import { getCities, getCountries } from "../../../lib/utils";
 import useMerchantProfile from "@/queries/profile";
+import ImagePicker from "@/components/atoms/form/imagepicker";
 
 const ProfileForm = () => {
   const { user } = useAuthStore();
   const [countries, setCountries] = React.useState();
   const [cities, setCities] = React.useState();
+  const [picture, setPicture] = React.useState<string>("")
 
   const { updateMerchant, loading } = useMerchantProfile();
 
@@ -58,6 +60,7 @@ const ProfileForm = () => {
           city: data?.city,
           country: data?.country,
           postalCode: data?.postalCode,
+          profilePictureUrl: picture 
         },
       },
     });
@@ -66,6 +69,10 @@ const ProfileForm = () => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
+
+        <div className="max-w-md">
+          <ImagePicker name="profilePictureUrl" defaultValue={user?.profilePictureUrl} control={form.control} maxLength={1} label="Profile Picture" onChange={(value: string )=> setPicture(value)} />
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:mb-5">
           <InputField
             control={form.control}

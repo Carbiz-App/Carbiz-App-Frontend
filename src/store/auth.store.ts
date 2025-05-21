@@ -13,6 +13,7 @@ interface UserType {
   country?: string;
   phoneNumber?: string;
   postalCode?: string;
+  profilePictureUrl?: string;
 }
 
 interface AuthStoreType {
