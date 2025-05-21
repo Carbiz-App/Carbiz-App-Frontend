@@ -9,11 +9,22 @@ import InputField from "@/components/atoms/form/input";
 
 import DocumentSchema, { DocumentSchemaType } from "@/schema/document.schema";
 import { useUploadKyc } from "@/queries/profile";
+import { useAuthStore } from "@/store/auth.store";
 
 const DocumentForm = () => {
+
+  const {user} = useAuthStore();
   const form = useForm<DocumentSchemaType>({
     resolver: zodResolver(DocumentSchema),
+    defaultValues: {
+      businessLicense: user?.businessLicense,
+      CAC: user?.CAC,
+      validIDcard: user?.validIDcard,
+      taxID: user?.taxID,
+    }
   });
+
+  console.log("profile",user)
 
   const { uploadKYCDocmentMerchant, loading } = useUploadKyc();
 
@@ -31,6 +42,7 @@ const DocumentForm = () => {
             control={form.control}
             label="Business License"
             name="businessLicense"
+            defaultValue={user?.businessLicense}
             onChange={(image: string) =>
               form.setValue("businessLicense", image)
             }
@@ -42,6 +54,7 @@ const DocumentForm = () => {
             label="Valid Identification Card"
             name="validIDcard"
             onChange={(image: string) => form.setValue("validIDcard", image)}
+            defaultValue={user?.validIDcard}
           />
         </div>
 
@@ -52,6 +65,7 @@ const DocumentForm = () => {
             label="CAC"
             name="CAC"
             onChange={(image: string) => form.setValue("CAC", image)}
+            defaultValue={user?.CAC}
           />
 
           <InputField
@@ -67,7 +81,7 @@ const DocumentForm = () => {
         <Button
           disabled={loading}
           type="submit"
-          className="bg-primary text-white px-7 md:py-7 rounded-[0.625rem] text-base w-[16%]"
+          className="bg-primary text-white px-7 md:py-7 rounded-[0.625rem] text-base w-full sm:w-[16%]"
         >
           {loading ? "Processing..." : "Save"}
          

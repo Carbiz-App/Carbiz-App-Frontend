@@ -19,7 +19,7 @@ interface ImagePickerProp {
   label?: string;
   maxLength?: number;
   multiple?: boolean;
-  defaultValue?: string|string[];
+  defaultValue?: string | string[];
   onChange?: (value: string) => void;
 }
 
@@ -103,9 +103,15 @@ const ImagePicker: React.FC<ImagePickerProp> = ({
                 } flex flex-col justify-center items-center border border-[#F3F2F4] rounded-xl font-family-satoshi text-sm space-y-4 cursor-pointer`}
                 {...getRootProps()}
               >
-                {uploads.length == 1 && previewUrls.length == 1 ? (
+                {typeof defaultValue == "string" ? (
                   <img
-                    src={typeof defaultValue == "string" ? defaultValue: previewUrls[0]}
+                    src={typeof defaultValue == "string" ? defaultValue : ""}
+                    className="h-full md:h-[16rem] w-full rounded-xl object-cover"
+                    alt="Uploaded image preview"
+                  />
+                ) : uploads.length == 1 && previewUrls.length == 1 ? (
+                  <img
+                    src={previewUrls[0]}
                     className="h-full w-full rounded-xl object-cover"
                     alt="Uploaded image preview"
                   />
@@ -122,9 +128,7 @@ const ImagePicker: React.FC<ImagePickerProp> = ({
                 )}
               </div>
             </FormControl>
-            {uploads.length >= 1 && progress !== 100 && (
-              <Progress value={progress} />
-            )}
+            {progress > 0 && progress <= 100 && <Progress value={progress} />}
             <FormMessage />
           </FormItem>
         );

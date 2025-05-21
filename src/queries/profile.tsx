@@ -86,6 +86,8 @@ export const useUploadKyc = () => {
         return;
       }
 
+    
+
       handleSuccess("Profile updated");
 
       //   setUser({ ...result.payload });
