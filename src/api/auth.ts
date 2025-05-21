@@ -64,8 +64,8 @@ export const LOGIN = gql`
           postalCode
           businessLicense
           CAC
-          validIDcard
           taxID
+          validIDcard
         }
       }
     }
