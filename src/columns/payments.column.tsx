@@ -1,9 +1,10 @@
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { useDeleteProducts } from "@/queries/products";
+import { useDeleteBank } from "@/queries/payment";
+import { useModal } from "@/store/useModal";
 import { ColumnDef } from "@tanstack/react-table";
-import { Eye, PenLine, Trash2Icon } from "lucide-react";
-import { useNavigate } from "react-router";
+import { PenLine, Trash2Icon } from "lucide-react";
+import moment from "moment";
 
 export type paymentType = {
   bankID: string;
@@ -13,11 +14,7 @@ export type paymentType = {
   createdAT: string;
 };
 
-export const paymentColumn = ({
-  refetch,
-}: {
-  refetch: () => void;
-}): ColumnDef<paymentType>[] => [
+export const paymentColumn = (): ColumnDef<paymentType>[] => [
   {
     id: "select",
     header: ({ table }) => (
@@ -44,21 +41,6 @@ export const paymentColumn = ({
     ),
     enableSorting: false,
     enableHiding: true,
-  },
-  {
-    accessorKey: "bankID",
-    header: () => (
-      <div className=" text-base font-[500] text-black !bg-[#FAFAFB] py-3.5  !border-none">
-        Bank ID
-      </div>
-    ),
-    cell: ({ row }) => {
-      return (
-        <div className=" font-normal py-3.5 capitalize">
-          {row.getValue("bankID")}
-        </div>
-      );
-    },
   },
   {
     accessorKey: "accountName",
@@ -115,7 +97,7 @@ export const paymentColumn = ({
     cell: ({ row }) => {
       return (
         <div className=" font-normal px-7 py-3.">
-          {row.getValue("createdAT")}
+          {moment(row.getValue("createdAT")).format("DD-MM-YYYY")}
         </div>
       );
     },
@@ -128,21 +110,22 @@ export const paymentColumn = ({
     ),
     cell: ({ row }) => {
       const id = row.original;
-      const navigate = useNavigate();
-      const { deleteProduct, loading } = useDeleteProducts(refetch);
-      const handleDelete = async (productID: string) => {
-        await deleteProduct({
-          variables: { productID },
+      const { openModal } = useModal();
+      const { deleteBank, loading } = useDeleteBank();
+      const handleDelete = async (bankID: string) => {
+        await deleteBank({
+          variables: { bankID },
         });
       };
+
+      const handleEdit = (bankID: string) => {
+        openModal(bankID);
+      };
+
       return (
         <div className=" font-normal px-7 py-3.">
-          <Button variant={"ghost"} className=" p-4 border-r rounded-none">
-            <Eye className=" text-3xl size-5 text-[#4F4C55]" />
-          </Button>
-
           <Button
-            onClick={() => navigate(`/products/${id.bankID}`)}
+            onClick={() => handleEdit(id.bankID)}
             variant={"ghost"}
             className=" p-4 border-r rounded-none"
           >

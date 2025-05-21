@@ -7,8 +7,8 @@ import {
 } from "@/api/payments";
 import { useToast } from "@/hooks/Toast";
 import { PaymentSchemaType } from "@/schema/payment.schema";
+import { useModal } from "@/store/useModal";
 import { useLazyQuery, useMutation } from "@apollo/client";
-import { useNavigate } from "react-router";
 
 interface MerchantAddBankDetails {
   MerchantAddBankDetails: {
@@ -21,7 +21,7 @@ interface MerchantAddBankDetails {
 }
 export const useAddBankDetail = () => {
   const { handleError, handleInfo, handleSuccess } = useToast();
-  const navigate = useNavigate();
+  const { closeModal } = useModal();
   const [createBankDetail, { loading }] = useMutation<
     MerchantAddBankDetails,
     { bankDetails: PaymentSchemaType }
@@ -57,7 +57,7 @@ export const useAddBankDetail = () => {
         return;
       }
       handleSuccess("Bank Detail Added Successfully", result.message);
-      navigate("..");
+      closeModal();
     },
     onError: (error) => {
       handleError(error, "Adding Bank Detail Failed");
@@ -79,12 +79,24 @@ interface MerchantUpdateBankDetails {
 
 export const useUpdateBankDetails = () => {
   const { handleError, handleInfo, handleSuccess } = useToast();
-  const navigate = useNavigate();
-  const [updateProduct, { loading }] = useMutation<
+  const { closeModal } = useModal();
+  const [updateBankDetail, { loading }] = useMutation<
     MerchantUpdateBankDetails,
-    { input: PaymentSchemaType; productID: string }
+    { bankDetails: PaymentSchemaType; bankID: string }
   >(UPDATE_BANK_DETAILS, {
-    refetchQueries: [{ query: FETCH_ALL_BANK_DETAILS }],
+    refetchQueries: [
+      {
+        query: FETCH_ALL_BANK_DETAILS,
+        variables: {
+          paginationQuery: {
+            limit: 15,
+            page: 1,
+            sortBy: "createdAT",
+            sortOrder: "DESC",
+          },
+        },
+      },
+    ],
     awaitRefetchQueries: true,
     onCompleted: (data) => {
       const result = data?.MerchantUpdateBankDetails;
@@ -98,16 +110,13 @@ export const useUpdateBankDetails = () => {
 
       if (!result.success) {
         handleInfo(
-          "Add Product",
+          "Edit Bank Detail",
           result.message || "Update Bank Detail unsuccessful"
         );
         return;
       }
-
-      // If success
-      handleSuccess("Bank Detail Successfully", result.message);
-      //   onSuccess?.();
-      navigate("..");
+      handleSuccess("Bank Detail Successfully Updated", result.message);
+      closeModal();
     },
 
     onError: (error) => {
@@ -116,7 +125,7 @@ export const useUpdateBankDetails = () => {
     },
   });
 
-  return { updateProduct, loading };
+  return { updateBankDetail, loading };
 };
 
 interface MerchantDeleteBankDetails {
@@ -128,11 +137,23 @@ interface MerchantDeleteBankDetails {
 }
 export const useDeleteBank = () => {
   const { handleError, handleInfo, handleSuccess } = useToast();
-  const [deleteProduct, { loading }] = useMutation<
+  const [deleteBank, { loading }] = useMutation<
     MerchantDeleteBankDetails,
-    { productID: string }
+    { bankID: string }
   >(DELETE_BANK, {
-    refetchQueries: [{ query: FETCH_ALL_BANK_DETAILS }],
+    refetchQueries: [
+      {
+        query: FETCH_ALL_BANK_DETAILS,
+        variables: {
+          paginationQuery: {
+            limit: 15,
+            page: 1,
+            sortBy: "createdAT",
+            sortOrder: "DESC",
+          },
+        },
+      },
+    ],
     awaitRefetchQueries: true,
     onCompleted: (data) => {
       const result = data?.MerchantDeleteBankDetails;
@@ -153,7 +174,6 @@ export const useDeleteBank = () => {
         return;
       }
       handleSuccess("Bank Detail Deleted Successfully", result.message);
-      //   onSuccess?.();
     },
 
     onError: (error) => {
@@ -162,7 +182,7 @@ export const useDeleteBank = () => {
     },
   });
 
-  return { deleteProduct, loading };
+  return { deleteBank, loading };
 };
 
 interface MerchantFetchOneBankDetails {

@@ -37,8 +37,8 @@ export const ADD_BANK_DETAILS = gql`
 `;
 
 export const UPDATE_BANK_DETAILS = gql`
-  mutation MerchantUpdateBankDetails($input: BankDto!, $bankID: String!) {
-    MerchantUpdateBankDetails(input: $input, bankID: $bankID) {
+  mutation MerchantUpdateBankDetails($bankDetails: BankDto!, $bankID: String!) {
+    MerchantUpdateBankDetails(bankDetails: $bankDetails, bankID: $bankID) {
       success
       message
       errors

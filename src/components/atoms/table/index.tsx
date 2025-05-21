@@ -24,6 +24,7 @@ import { Pagination } from "./pagination";
 import { SearchNormal } from "iconsax-reactjs";
 import { useLocation, useNavigate } from "react-router";
 import { LucideDownload, Plus } from "lucide-react";
+import { useModal } from "@/store/useModal";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -37,7 +38,6 @@ interface DataTableProps<TData, TValue> {
   onPageChange: (pageIndex: number) => void;
   message?: string;
   payment?: boolean;
-  onButtonClick?: () => void;
 }
 
 export function DataTable<TData, TValue>({
@@ -52,12 +52,12 @@ export function DataTable<TData, TValue>({
   onPageChange,
   message,
   payment,
-  onButtonClick,
 }: DataTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
   );
+  const { openModal } = useModal();
   const table = useReactTable({
     data,
     columns,
@@ -140,7 +140,7 @@ export function DataTable<TData, TValue>({
         )}
         {payment && (
           <Button
-            onClick={onButtonClick}
+            onClick={() => openModal()}
             variant="default"
             className="md:py-6  border-0 shadow text-sm sm:text-sm md:text-[14px] font-bold "
           >
