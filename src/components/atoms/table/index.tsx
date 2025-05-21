@@ -36,6 +36,8 @@ interface DataTableProps<TData, TValue> {
   pageSize: number;
   onPageChange: (pageIndex: number) => void;
   message?: string;
+  payment?: boolean;
+  onButtonClick?: () => void;
 }
 
 export function DataTable<TData, TValue>({
@@ -49,6 +51,8 @@ export function DataTable<TData, TValue>({
   pageSize,
   onPageChange,
   message,
+  payment,
+  onButtonClick,
 }: DataTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -85,9 +89,9 @@ export function DataTable<TData, TValue>({
   return (
     <div className="rounded-md border bg-white ">
       <div
-        className={` p-4 md:p-8 flex flex-wrap items-center gap-4 sm:gap-4 md:gap-8 lg:gap-12   ${
-          productsPath && "border-b"
-        }`}
+        className={` p-4 md:p-8 flex flex-wrap items-center gap-4 sm:gap-4 md:gap-8 lg:gap-12 ${
+          payment ? "justify-between" : ""
+        }   ${productsPath && "border-b"}`}
       >
         <h1 className="text-[#020202] font-bold text-xl ">
           {tableName ? tableName : "Recent Orders"}
@@ -133,6 +137,16 @@ export function DataTable<TData, TValue>({
               New Product
             </Button>
           </div>
+        )}
+        {payment && (
+          <Button
+            onClick={onButtonClick}
+            variant="default"
+            className="md:py-6  border-0 shadow text-sm sm:text-sm md:text-[14px] font-bold "
+          >
+            <Plus className="size-4 md:size-7" />
+            Add Bank
+          </Button>
         )}
       </div>
 

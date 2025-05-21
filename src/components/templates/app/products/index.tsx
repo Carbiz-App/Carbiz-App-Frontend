@@ -9,7 +9,7 @@ const index = () => {
     paginationDefaults: {
       limit: 15,
       page: 1,
-      sortBy: "createdAt",
+      sortBy: "createdAT",
       sortOrder: "DESC",
     },
     extractData: (res) => ({

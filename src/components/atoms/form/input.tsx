@@ -21,7 +21,7 @@ interface InputFieldProps {
   description?: string;
   inputClassName?: string;
   itemClassName?: string;
-  disabled?: boolean
+  disabled?: boolean;
 }
 
 const InputField: React.FC<InputFieldProps> = ({
@@ -33,7 +33,7 @@ const InputField: React.FC<InputFieldProps> = ({
   description,
   inputClassName,
   itemClassName,
-  disabled = false
+  disabled = false,
 }) => {
   const { pathname } = useLocation();
 
@@ -51,7 +51,7 @@ const InputField: React.FC<InputFieldProps> = ({
       control={control}
       name={name}
       render={({ field, fieldState }) => (
-        <FormItem className={`mb-0 py-2.5  ${itemClassName}`}>
+        <FormItem className={`mb-0 py-1 md:py-2.5  ${itemClassName}`}>
           <div
             className={`${
               !isCreatePage && "flex justify-between items-center"
@@ -76,10 +76,10 @@ const InputField: React.FC<InputFieldProps> = ({
               }`}
             >
               <Input
-              disabled={disabled}
+                disabled={disabled}
                 placeholder={placeholder}
                 type={showPassword && type == "password" ? "text" : type}
-                className={`text-sm lg:text-base rounded-lg py-6 focus:outline-0 focus-visible:ring-0 focus-visible:border-primary placeholder:text-text-secondary ${
+                className={`text-sm lg:text-base rounded-lg py-5 md:py-6 focus:outline-0 focus-visible:ring-0 focus-visible:border-primary placeholder:text-text-secondary ${
                   fieldState.error ? "border-red-500" : "border-border"
                 }  ${inputClassName}`}
                 {...field}

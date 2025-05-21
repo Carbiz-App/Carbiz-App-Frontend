@@ -65,6 +65,7 @@ export const FETCH_ALL_PRODUCTS = gql`
     }
   }
 `;
+
 export const FETCH_PRODUCT = gql`
   query fetchOneProduct($productID: String!) {
     fetchOneProduct(productID: $productID) {
