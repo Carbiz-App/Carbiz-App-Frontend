@@ -46,7 +46,7 @@ const Dashboard = () => {
   return (
     <div className="font-satoshi">
       {/* User breadcrumb */}
-      <div className="mb-2 sm:mb-4 md:mb-6">
+      <div className="">
         <h4 className="text-sm sm:text-base font-satoshi text-[#837E8E]">
           Hello,
         </h4>
