@@ -13,7 +13,7 @@ const ProfileSchema = z.object({
   city: z.string().optional(),
   country: z.string().optional(),
   postalCode: z.string().optional(),
-  profilePictureUrl: z.string().optional(),
+  businessPictureUrl: z.string().optional(),
 });
 
 export default ProfileSchema;

@@ -53,47 +53,50 @@ const Dashboard = () => {
         <h3 className="font-bold text-2xl md:text-xl ">{user?.businessName}</h3>
       </div>
       {/* New user card */}
-      {loading
-        ? "Loading.."
-        : data?.onboardingPercentage !== 100 && (
-            <div className="bg-white rounded-xl p-5 md:p-10  w-full grid sm:grid-cols-2 border border-border-gray">
-              <div className="inline-flex flex-col gap-6">
-                <h2 className="text-lg sm:text-xl md:text-2xl font-bold">
-                  Get ready for your first sale
-                </h2>
-                <ul className="list-none">
-                  {onBoarding?.map((item) => (
-                    <li key={item.title} className="block py-1 md:py-2">
-                      <div className="inline-flex gap-1.5 md:gap-2.5 items-center">
-                        <CheckCircle
-                          className={`${
-                            item?.current && "bg-[#F1ECF9] rounded-full"
-                          }`}
-                          size={24}
-                          color={`${item?.current ? "#7046C6" : "#837E8E"}`}
-                        />
-                        <span className="text-[#1A191C] text-base md:text-lg font-medium">
-                          {item?.title}
-                        </span>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              </div>
 
-              <div className="flex justify-end items-center">
-                <div className="inline-flex flex-col items-end space-y-4 w-full">
-                  <h3 className="text-primary text-5xl font-semibold">
-                    {data?.onboardingPercentage}%
-                  </h3>
-                  <Progress
-                    value={data?.onboardingPercentage}
-                    className="w-[25%] md:w-[20%] h-2"
-                  />
-                </div>
-              </div>
+      {data?.onboardingPercentage !== 100 && loading ? (
+        "Loading.."
+      ) : data?.onboardingPercentage !== 100 ? (
+        <div className="bg-white rounded-xl p-5 md:p-10  w-full grid sm:grid-cols-2 border border-border-gray mt-4">
+          <div className="inline-flex flex-col gap-6">
+            <h2 className="text-lg sm:text-xl md:text-2xl font-bold">
+              Get ready for your first sale
+            </h2>
+            <ul className="list-none">
+              {onBoarding?.map((item) => (
+                <li key={item.title} className="block py-1 md:py-2">
+                  <div className="inline-flex gap-1.5 md:gap-2.5 items-center">
+                    <CheckCircle
+                      className={`${
+                        item?.current && "bg-[#F1ECF9] rounded-full"
+                      }`}
+                      size={24}
+                      color={`${item?.current ? "#7046C6" : "#837E8E"}`}
+                    />
+                    <span className="text-[#1A191C] text-base md:text-lg font-medium">
+                      {item?.title}
+                    </span>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="flex justify-end items-center">
+            <div className="inline-flex flex-col items-end space-y-4 w-full">
+              <h3 className="text-primary text-5xl font-semibold">
+                {data?.onboardingPercentage}%
+              </h3>
+              <Progress
+                value={data?.onboardingPercentage}
+                className="w-[25%] md:w-[20%] h-2"
+              />
             </div>
-          )}
+          </div>
+        </div>
+      ) : (
+        ""
+      )}
       {/* summary card */}
       <div className="py-6 md:py-10">
         <DashboardCards />

@@ -18,7 +18,7 @@ export const paymentColumn = (): ColumnDef<paymentType>[] => [
   {
     id: "select",
     header: ({ table }) => (
-      <div className=" pl-3 md:pl-7">
+      <div className=" pl-1 sm:pl-3 md:pl-7">
         <Checkbox
           checked={
             table.getIsAllPageRowsSelected() ||
@@ -31,7 +31,7 @@ export const paymentColumn = (): ColumnDef<paymentType>[] => [
       </div>
     ),
     cell: ({ row }) => (
-      <div className=" pl-3 md:pl-7">
+      <div className=" pl-1 sm:pl-3 md:pl-7">
         <Checkbox
           checked={row.getIsSelected()}
           onCheckedChange={(value) => row.toggleSelected(!!value)}
@@ -45,13 +45,13 @@ export const paymentColumn = (): ColumnDef<paymentType>[] => [
   {
     accessorKey: "accountName",
     header: () => (
-      <div className=" text-base font-[500] text-black bg-[#FAFAFB] px-7 py-3.5 border-none">
+      <div className=" text-base font-[500] text-black bg-[#FAFAFB] p-2  sm:px-3 md:py-3.5 border-none">
         Account Name
       </div>
     ),
     cell: ({ row }) => {
       return (
-        <div className=" font-normal px-7 py-3.">
+        <div className=" font-normal p-2  md:py-2.5">
           {row.getValue("accountName")}
         </div>
       );
@@ -60,13 +60,13 @@ export const paymentColumn = (): ColumnDef<paymentType>[] => [
   {
     accessorKey: "accountNumber",
     header: () => (
-      <div className=" text-base  font-[500] text-black bg-[#FAFAFB] px-7 py-3.5">
+      <div className=" text-base  font-[500] text-black bg-[#FAFAFB] p-2 md:px-7 sm:px-3 md:py-3.5">
         Account Number
       </div>
     ),
     cell: ({ row }) => {
       return (
-        <div className=" font-normal px-7 py-3.">
+        <div className=" font-normal p-2 md:px-7 md:py-2.5">
           {row.getValue("accountNumber")}
         </div>
       );
@@ -75,13 +75,13 @@ export const paymentColumn = (): ColumnDef<paymentType>[] => [
   {
     accessorKey: "bankName",
     header: () => (
-      <div className=" text-base  font-[500] text-black bg-[#FAFAFB] px-7 py-3.5">
+      <div className=" text-base  font-[500] text-black bg-[#FAFAFB] p-2 md:px-7 sm:px-3 md:py-3.5">
         Bank Name
       </div>
     ),
     cell: ({ row }) => {
       return (
-        <div className=" font-normal px-7 py-3.">
+        <div className=" font-normal p-2 md:px-7 md:py-2.5">
           {row.getValue("bankName")}
         </div>
       );
@@ -90,13 +90,13 @@ export const paymentColumn = (): ColumnDef<paymentType>[] => [
   {
     accessorKey: "createdAT",
     header: () => (
-      <div className=" text-base  font-[500] text-black bg-[#FAFAFB] px-7 py-3.5">
+      <div className=" text-base  font-[500] text-black bg-[#FAFAFB] p-2 md:px-7 sm:px-3 md:py-3.5">
         Created
       </div>
     ),
     cell: ({ row }) => {
       return (
-        <div className=" font-normal px-7 py-3.">
+        <div className=" font-normal p-2  md:py-2.5">
           {moment(row.getValue("createdAT")).format("DD-MM-YYYY")}
         </div>
       );
@@ -106,7 +106,7 @@ export const paymentColumn = (): ColumnDef<paymentType>[] => [
   {
     id: "action",
     header: () => (
-      <div className=" text-base  font-[500] text-black bg-[#FAFAFB] px-7 py-3.5"></div>
+      <div className=" text-base  font-[500] text-black bg-[#FAFAFB] p-2  sm:px-3 md:py-3.5"></div>
     ),
     cell: ({ row }) => {
       const id = row.original;
@@ -123,7 +123,7 @@ export const paymentColumn = (): ColumnDef<paymentType>[] => [
       };
 
       return (
-        <div className=" font-normal px-7 py-3.">
+        <div className=" font-normal">
           <Button
             onClick={() => handleEdit(id.bankID)}
             variant={"ghost"}

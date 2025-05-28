@@ -12,7 +12,7 @@ export const customerOrder: ColumnDef<customerOrder>[] = [
   {
     id: "select",
     header: ({ table }) => (
-      <div className=" pl-3 md:pl-7">
+      <div className=" pl-1 sm:pl-3 md:pl-7">
         <Checkbox
           checked={
             table.getIsAllPageRowsSelected() ||
@@ -25,7 +25,7 @@ export const customerOrder: ColumnDef<customerOrder>[] = [
       </div>
     ),
     cell: ({ row }) => (
-      <div className=" pl-3 md:pl-7">
+      <div className=" pl-1 sm:pl-3 md:pl-7">
         <Checkbox
           checked={row.getIsSelected()}
           onCheckedChange={(value) => row.toggleSelected(!!value)}
@@ -34,18 +34,18 @@ export const customerOrder: ColumnDef<customerOrder>[] = [
       </div>
     ),
     enableSorting: false,
-    enableHiding: false,
+    enableHiding: true,
   },
   {
     accessorKey: "items",
     header: () => (
-      <div className=" text-base font-[500] text-black !bg-[#FAFAFB] py-3.5  !border-none">
+      <div className=" text-base font-[500] text-black !bg-[#FAFAFB] p-2  sm:px-3 md:py-3.5  !border-none">
         Product
       </div>
     ),
     cell: ({ row }) => {
       return (
-        <div className=" font-normal py-3.5 uppercase">
+        <div className=" font-normal p-2  md:py-2.5 uppercase">
           {row.getValue("productName")}
         </div>
       );
@@ -54,13 +54,13 @@ export const customerOrder: ColumnDef<customerOrder>[] = [
   {
     accessorKey: "items",
     header: () => (
-      <div className=" text-base font-[500] text-black bg-[#FAFAFB] px-7 py-3.5 border-none">
+      <div className=" text-base font-[500] text-black bg-[#FAFAFB] p-2  sm:px-3 md:py-3.5 border-none">
         Created
       </div>
     ),
     cell: ({ row }) => {
       return (
-        <div className=" font-normal px-7 py-3.">
+        <div className=" font-normal p-2  md:py-2.5">
           {row.getValue("createdAt")}
         </div>
       );
@@ -69,7 +69,7 @@ export const customerOrder: ColumnDef<customerOrder>[] = [
   {
     accessorKey: "paymentStatus",
     header: () => (
-      <div className=" text-base  font-[500] text-black bg-[#FAFAFB] px-7 py-3.5">
+      <div className=" text-base  font-[500] text-black bg-[#FAFAFB] p-2  sm:px-3 md:py-3.5">
         Status
       </div>
     ),
@@ -88,7 +88,7 @@ export const customerOrder: ColumnDef<customerOrder>[] = [
         }
       };
       return (
-        <div className={` font-normal px-7 py-3.5 `}>
+        <div className={` font-normal p-2  md:py-2.5 `}>
           <span className={`px-3 py-1 rounded-2xl ${statusColor()} capitalize`}>
             {row.getValue("paymentStatus")}
           </span>
@@ -99,20 +99,22 @@ export const customerOrder: ColumnDef<customerOrder>[] = [
   {
     accessorKey: "orderID",
     header: () => (
-      <div className=" text-base  font-[500] text-black bg-[#FAFAFB] px-7 py-3.5">
+      <div className=" text-base  font-[500] text-black bg-[#FAFAFB] p-2  sm:px-3 md:py-3.5">
         Order ID
       </div>
     ),
     cell: ({ row }) => {
       return (
-        <div className=" font-normal px-7 py-3.">{row.getValue("orderID")}</div>
+        <div className=" font-normal p-2  md:py-2.5">
+          {row.getValue("orderID")}
+        </div>
       );
     },
   },
   {
     accessorKey: "orderStatus",
     header: () => (
-      <div className=" text-base  font-[500] text-black bg-[#FAFAFB] px-7 py-3.5">
+      <div className=" text-base  font-[500] text-black bg-[#FAFAFB] p-2  sm:px-3 md:py-3.5">
         Delivery Status
       </div>
     ),
@@ -135,7 +137,7 @@ export const customerOrder: ColumnDef<customerOrder>[] = [
         }
       };
       return (
-        <div className={` font-normal px-7 py-3.5 `}>
+        <div className={` font-normal p-2  md:py-2.5 `}>
           <span className={`px-3 py-1 rounded-2xl ${statusColor()} capitalize`}>
             {row.getValue("orderStatus")}
           </span>

@@ -18,7 +18,7 @@ interface MerchantProfileResponse {
       email?: string;
       phoneNumber: string;
       postalCode: string;
-      profilePictureUrl: string;
+      businessPics: string;
     };
   };
 }
@@ -72,7 +72,7 @@ interface MerchantKYCResponse {
 
 export const useUploadKyc = () => {
   const { handleError, handleSuccess } = useToast();
-  //   const { setUser } = useAuthStore();
+  // const { setUser } = useAuthStore();
 
   const [uploadKYCDocmentMerchant, { loading }] = useMutation<
     MerchantKYCResponse,
@@ -86,15 +86,12 @@ export const useUploadKyc = () => {
         return;
       }
 
-    
-
       handleSuccess("Profile updated");
-
-      //   setUser({ ...result.payload });
+      // setUser({ ...result.payload });
     },
     onError: (error) => {
       handleError(error, "Updating failed");
-      return
+      return;
     },
   });
 

@@ -12,7 +12,7 @@ export const PayoutsColumn: ColumnDef<payoutType>[] = [
   {
     id: "select",
     header: ({ table }) => (
-      <div className=" pl-3 md:pl-7">
+      <div className=" pl-1 sm:pl-3 md:pl-7">
         <Checkbox
           checked={
             table.getIsAllPageRowsSelected() ||
@@ -25,7 +25,7 @@ export const PayoutsColumn: ColumnDef<payoutType>[] = [
       </div>
     ),
     cell: ({ row }) => (
-      <div className=" pl-3 md:pl-7">
+      <div className=" pl-1 sm:pl-3 md:pl-7">
         <Checkbox
           checked={row.getIsSelected()}
           onCheckedChange={(value) => row.toggleSelected(!!value)}
@@ -34,18 +34,18 @@ export const PayoutsColumn: ColumnDef<payoutType>[] = [
       </div>
     ),
     enableSorting: false,
-    enableHiding: false,
+    enableHiding: true,
   },
   {
     accessorKey: "customer",
     header: () => (
-      <div className=" text-base font-[500] text-black !bg-[#FAFAFB] py-3.5  !border-none">
+      <div className=" text-base font-[500] text-black !bg-[#FAFAFB] p-2  sm:px-3 md:py-3.5  !border-none">
         Recepient
       </div>
     ),
     cell: ({ row }) => {
       return (
-        <div className=" font-normal py-3.5 uppercase">
+        <div className=" font-normal p-2  md:py-2.5 uppercase">
           {row.getValue("name")}
         </div>
       );
@@ -54,13 +54,13 @@ export const PayoutsColumn: ColumnDef<payoutType>[] = [
   {
     accessorKey: "createdAT",
     header: () => (
-      <div className=" text-base font-[500] text-black bg-[#FAFAFB] px-7 py-3.5 border-none">
+      <div className=" text-base font-[500] text-black bg-[#FAFAFB] p-2  sm:px-3 md:py-3.5 border-none">
         Date
       </div>
     ),
     cell: ({ row }) => {
       return (
-        <div className=" font-normal px-7 py-3.">
+        <div className=" font-normal p-2  md:py-2.5">
           {row.getValue("createdAT")}
         </div>
       );
@@ -69,13 +69,15 @@ export const PayoutsColumn: ColumnDef<payoutType>[] = [
   {
     accessorKey: "amount",
     header: () => (
-      <div className=" text-base  font-[500] text-black bg-[#FAFAFB] px-7 py-3.5">
+      <div className=" text-base  font-[500] text-black bg-[#FAFAFB] p-2  sm:px-3 md:py-3.5">
         Amount
       </div>
     ),
     cell: ({ row }) => {
       return (
-        <div className=" font-normal px-7 py-3.">{row.getValue("amount")}</div>
+        <div className=" font-normal p-2  md:py-2.5">
+          {row.getValue("amount")}
+        </div>
       );
     },
   },
@@ -83,7 +85,7 @@ export const PayoutsColumn: ColumnDef<payoutType>[] = [
   {
     accessorKey: "status",
     header: () => (
-      <div className=" text-base  font-[500] text-black bg-[#FAFAFB] px-7 py-3.5">
+      <div className=" text-base  font-[500] text-black bg-[#FAFAFB] p-2  sm:px-3 md:py-3.5">
         Payment Status
       </div>
     ),
@@ -102,7 +104,7 @@ export const PayoutsColumn: ColumnDef<payoutType>[] = [
         }
       };
       return (
-        <div className={` font-normal px-7 py-3.5 `}>
+        <div className={` font-normal p-2  md:py-2.5 `}>
           <span className={`px-3 py-1 rounded-2xl capitalize ${statusColor()}`}>
             {row.getValue("status")}
           </span>

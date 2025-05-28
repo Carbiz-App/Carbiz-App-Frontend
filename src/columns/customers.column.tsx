@@ -13,7 +13,7 @@ const CustomerColumns: ColumnDef<CustomerType>[] = [
   {
     id: "select",
     header: ({ table }) => (
-      <div className=" pl-3 md:pl-7">
+      <div className=" pl-1 sm:pl-3 md:pl-7">
         <Checkbox
           checked={
             table.getIsAllPageRowsSelected() ||
@@ -26,7 +26,7 @@ const CustomerColumns: ColumnDef<CustomerType>[] = [
       </div>
     ),
     cell: ({ row }) => (
-      <div className=" pl-3 md:pl-7">
+      <div className=" pl-1 sm:pl-3 md:pl-7">
         <Checkbox
           checked={row.getIsSelected()}
           onCheckedChange={(value) => row.toggleSelected(!!value)}
@@ -35,45 +35,49 @@ const CustomerColumns: ColumnDef<CustomerType>[] = [
       </div>
     ),
     enableSorting: false,
-    enableHiding: false,
+    enableHiding: true,
   },
   {
     accessorKey: "name",
     header: () => (
-      <div className="normal text-base font-[500] text-black !bg-[#FAFAFB] py-3.5  !border-none ">
+      <div className="normal text-base font-[500] text-black !bg-[#FAFAFB] p-2  sm:px-3 md:py-3.5  !border-none ">
         Name
       </div>
     ),
     cell: ({ row }) => {
       return (
-        <div className=" font-normal py-3.5 normal">{row.getValue("name")}</div>
+        <div className=" font-normal p-2  md:py-2.5 normal">
+          {row.getValue("name")}
+        </div>
       );
     },
   },
   {
     accessorKey: "email",
     header: () => (
-      <div className=" text-base font-[500] text-black bg-[#FAFAFB] px-7 py-3.5 border-none">
+      <div className=" text-base font-[500] text-black bg-[#FAFAFB] p-2  sm:px-3 md:py-3.5 border-none">
         Email
       </div>
     ),
     cell: ({ row }) => {
       return (
-        <div className=" font-normal px-7 py-3.">{row.getValue("email")}</div>
+        <div className=" font-normal p-2  md:py-2.5">
+          {row.getValue("email")}
+        </div>
       );
     },
   },
   {
     accessorKey: "phoneNumber",
     header: () => (
-      <div className=" text-base font-[500] text-black bg-[#FAFAFB] px-7 py-3.5 border-none">
+      <div className=" text-base font-[500] text-black bg-[#FAFAFB] p-2  sm:px-3 md:py-3.5 border-none">
         Phone
       </div>
     ),
     cell: ({ row }) => {
       const phone = row.getValue("phoneNumber")?.toString();
       return (
-        <div className=" font-normal px-7 py-3.">
+        <div className=" font-normal p-2  md:py-2.5">
           {phone?.replaceAll("-", "")}
         </div>
       );
@@ -82,13 +86,13 @@ const CustomerColumns: ColumnDef<CustomerType>[] = [
   {
     accessorKey: "createdAt",
     header: () => (
-      <div className=" text-base font-[500] text-black bg-[#FAFAFB] px-7 py-3.5 border-none">
+      <div className=" text-base font-[500] text-black bg-[#FAFAFB] p-2  sm:px-3 md:py-3.5 border-none">
         Added on
       </div>
     ),
     cell: ({ row }) => {
       return (
-        <div className=" font-normal px-7 py-3.">
+        <div className=" font-normal p-2  md:py-2.5">
           {moment(row.getValue("createdAt")).format("DD-MM-YYYY")}
         </div>
       );

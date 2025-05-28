@@ -60,7 +60,7 @@ const ProfileForm = () => {
           city: data?.city,
           country: data?.country,
           postalCode: data?.postalCode,
-          profilePictureUrl: data.profilePictureUrl 
+          businessPictureUrl: data.businessPictureUrl,
         },
       },
     });
@@ -69,9 +69,17 @@ const ProfileForm = () => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
-
         <div className="max-w-md">
-          <ImagePicker name="profilePictureUrl" defaultValue={user?.profilePictureUrl} control={form.control} maxLength={1} label="Profile Picture" onChange={(value: string )=> form.setValue("profilePictureUrl",value)} />
+          <ImagePicker
+            name="businessPictureUrl"
+            defaultValue={user?.businessPics}
+            control={form.control}
+            maxLength={1}
+            label="Profile Picture"
+            // onChange={(value: string) =>
+            //   form.setValue("businessPictureUrl", value ?? "")
+            // }
+          />
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:mb-5">
           <InputField
@@ -130,7 +138,7 @@ const ProfileForm = () => {
         <Button
           disabled={loading}
           type="submit"
-          className="bg-primary text-white px-7 md:py-7 rounded-[0.625rem] text-base w-[16%]"
+          className="bg-primary text-white px-7 md:py-7 rounded-[0.625rem] text-base "
         >
           {loading ? "Processing..." : "Edit"}
         </Button>

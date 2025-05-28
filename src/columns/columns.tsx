@@ -16,7 +16,7 @@ export const ordersColumns: ColumnDef<Order>[] = [
   {
     id: "select",
     header: ({ table }) => (
-      <div className=" pl-3 md:pl-7">
+      <div className=" pl-1 sm:pl-3 md:pl-7">
         <Checkbox
           checked={
             table.getIsAllPageRowsSelected() ||
@@ -29,7 +29,7 @@ export const ordersColumns: ColumnDef<Order>[] = [
       </div>
     ),
     cell: ({ row }) => (
-      <div className=" pl-3 md:pl-7">
+      <div className=" pl-1 sm:pl-3 md:pl-7">
         <Checkbox
           checked={row.getIsSelected()}
           onCheckedChange={(value) => row.toggleSelected(!!value)}
@@ -38,18 +38,18 @@ export const ordersColumns: ColumnDef<Order>[] = [
       </div>
     ),
     enableSorting: false,
-    enableHiding: false,
+    enableHiding: true,
   },
   {
     accessorKey: "items",
     header: () => (
-      <div className=" text-base font-[500] text-black !bg-[#FAFAFB] py-3.5  !border-none">
+      <div className=" text-base font-[500] text-black !bg-[#FAFAFB] p-2  sm:px-3 md:py-3.5  !border-none">
         Product
       </div>
     ),
     cell: ({ row }) => {
       return (
-        <div className=" font-normal py-3.5 uppercase">
+        <div className=" font-normal p-2  md:py-2.5 uppercase">
           {row.getValue("items")}
         </div>
       );
@@ -58,13 +58,13 @@ export const ordersColumns: ColumnDef<Order>[] = [
   {
     accessorKey: "createdAT",
     header: () => (
-      <div className=" text-base font-[500] text-black bg-[#FAFAFB] px-7 py-3.5 border-none">
+      <div className=" text-base font-[500] text-black bg-[#FAFAFB] p-2  sm:px-3 md:py-3.5 border-none">
         Created
       </div>
     ),
     cell: ({ row }) => {
       return (
-        <div className=" font-normal px-7 py-3.">
+        <div className=" font-normal p-2  md:py-2.5">
           {row.getValue("createdAT")}
         </div>
       );
@@ -73,20 +73,22 @@ export const ordersColumns: ColumnDef<Order>[] = [
   {
     accessorKey: "orderID",
     header: () => (
-      <div className=" text-base  font-[500] text-black bg-[#FAFAFB] px-7 py-3.5">
+      <div className=" text-base  font-[500] text-black bg-[#FAFAFB] p-2  sm:px-3 md:py-3.5">
         Order ID
       </div>
     ),
     cell: ({ row }) => {
       return (
-        <div className=" font-normal px-7 py-3.">{row.getValue("orderID")}</div>
+        <div className=" font-normal p-2  md:py-2.5">
+          {row.getValue("orderID")}
+        </div>
       );
     },
   },
   {
     accessorKey: "paymentStatus",
     header: () => (
-      <div className=" text-base  font-[500] text-black bg-[#FAFAFB] px-7 py-3.5">
+      <div className=" text-base  font-[500] text-black bg-[#FAFAFB] p-2  sm:px-3 md:py-3.5">
         Payment Status
       </div>
     ),
@@ -105,7 +107,7 @@ export const ordersColumns: ColumnDef<Order>[] = [
         }
       };
       return (
-        <div className={` font-normal px-7 py-3.5 `}>
+        <div className={` font-normal p-2  md:py-2.5 `}>
           <span className={`px-3 py-1 rounded-2xl ${statusColor()} capitalize`}>
             {row.getValue("paymentStatus")}
           </span>
@@ -116,7 +118,7 @@ export const ordersColumns: ColumnDef<Order>[] = [
   {
     accessorKey: "orderStatus",
     header: () => (
-      <div className=" text-base  font-[500] text-black bg-[#FAFAFB] px-7 py-3.5">
+      <div className=" text-base  font-[500] text-black bg-[#FAFAFB] p-2  sm:px-3 md:py-3.5">
         Delivery Status
       </div>
     ),
@@ -139,7 +141,7 @@ export const ordersColumns: ColumnDef<Order>[] = [
         }
       };
       return (
-        <div className={` font-normal px-7 py-3.5 `}>
+        <div className={` font-normal p-2  md:py-2.5 `}>
           <span className={`px-3 py-1 rounded-2xl ${statusColor()} capitalize`}>
             {row.getValue("orderStatus")}
           </span>
@@ -153,7 +155,7 @@ export const ordersColumns: ColumnDef<Order>[] = [
       const id = row.original;
       const navigate = useNavigate();
       return (
-        <div className=" font-normal px-7 py-3.">
+        <div className=" text-base  font-[500] text-black bg-[#FAFAFB] p-2  sm:px-3 md:py-3.5">
           <Button
             variant={"ghost"}
             onClick={() => navigate(`/orders/${id.orderID}`)}

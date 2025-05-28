@@ -17,6 +17,7 @@ interface LoginResponseTypeMerchant {
         CAC: string;
         taxID: string;
         validIDcard: string;
+        businessPics: string;
       };
     };
   };

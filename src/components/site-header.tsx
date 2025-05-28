@@ -41,10 +41,14 @@ export function SiteHeader() {
             <>
               <Avatar className=" sm:size-10 lg:size-12 rounded-lg grayscale">
                 <AvatarImage
-                  src={user?.businessName}
-                  alt={user?.businessName}
+                  src={user?.businessPics}
+                  alt={user?.businessPics}
                 />
-                <AvatarFallback className="rounded-md">CN</AvatarFallback>
+                <AvatarFallback className="rounded-md font-bold md:text-lg">
+                  {user?.businessName.split(" ")[0].split("")[0]}
+                  {""}
+                  {user?.businessName.split(" ")[1].split("")[0]}
+                </AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-medium capitalize md:text-base">

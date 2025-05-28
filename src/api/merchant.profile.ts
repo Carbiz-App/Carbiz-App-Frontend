@@ -13,7 +13,7 @@ export const UPDATE_PROFILE = gql`
         email
         phoneNumber
         postalCode
-        profilePictureUrl
+        businessPics
       }
     }
   }
@@ -33,5 +33,3 @@ export const UPLOAD_KYC = gql`
     }
   }
 `;
-
-

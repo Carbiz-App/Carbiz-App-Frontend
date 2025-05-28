@@ -21,7 +21,7 @@ export const productsColumn = ({
   {
     id: "select",
     header: ({ table }) => (
-      <div className=" pl-3 md:pl-7">
+      <div className=" pl-1 sm:pl-3 md:pl-7">
         <Checkbox
           checked={
             table.getIsAllPageRowsSelected() ||
@@ -34,7 +34,7 @@ export const productsColumn = ({
       </div>
     ),
     cell: ({ row }) => (
-      <div className=" pl-3 md:pl-7">
+      <div className=" pl-1 sm:pl-3 md:pl-7">
         <Checkbox
           checked={row.getIsSelected()}
           onCheckedChange={(value) => row.toggleSelected(!!value)}
@@ -48,13 +48,13 @@ export const productsColumn = ({
   {
     accessorKey: "productName",
     header: () => (
-      <div className=" text-base font-[500] text-black !bg-[#FAFAFB] py-3.5  !border-none">
+      <div className=" text-base font-[500] text-black !bg-[#FAFAFB] p-2  sm:px-3 md:py-3.5  !border-none">
         Product
       </div>
     ),
     cell: ({ row }) => {
       return (
-        <div className=" font-normal py-3.5 capitalize">
+        <div className=" font-normal p-2  md:py-2.5 capitalize">
           {row.getValue("productName")}
         </div>
       );
@@ -63,26 +63,28 @@ export const productsColumn = ({
   {
     accessorKey: "price",
     header: () => (
-      <div className=" text-base font-[500] text-black bg-[#FAFAFB] px-7 py-3.5 border-none">
+      <div className=" text-base font-[500] text-black bg-[#FAFAFB] p-2  sm:px-3 md:py-3.5 border-none">
         Price
       </div>
     ),
     cell: ({ row }) => {
       return (
-        <div className=" font-normal px-7 py-3.">{row.getValue("price")}</div>
+        <div className=" font-normal p-2  md:py-2.5">
+          {row.getValue("price")}
+        </div>
       );
     },
   },
   {
     accessorKey: "productStock",
     header: () => (
-      <div className=" text-base  font-[500] text-black bg-[#FAFAFB] px-7 py-3.5">
+      <div className=" text-base  font-[500] text-black bg-[#FAFAFB] p-2  sm:px-3 md:py-3.5">
         Quantity
       </div>
     ),
     cell: ({ row }) => {
       return (
-        <div className=" font-normal px-7 py-3.">
+        <div className=" font-normal p-2  md:py-2.5">
           {row.getValue("productStock")}
         </div>
       );
@@ -91,7 +93,7 @@ export const productsColumn = ({
   {
     accessorKey: "productStatus",
     header: () => (
-      <div className=" text-base  font-[500] text-black bg-[#FAFAFB] px-7 py-3.5">
+      <div className=" text-base  font-[500] text-black bg-[#FAFAFB] p-2  sm:px-3 md:py-3.5">
         Status
       </div>
     ),
@@ -110,7 +112,7 @@ export const productsColumn = ({
         }
       };
       return (
-        <div className={` font-normal px-7 py-3.5 `}>
+        <div className={` font-normal p-2  md:py-2.5 `}>
           <span className={`px-3 py-1 rounded-2xl ${statusColor()} capitalize`}>
             {_status}
           </span>
@@ -121,7 +123,7 @@ export const productsColumn = ({
   {
     id: "action",
     header: () => (
-      <div className=" text-base  font-[500] text-black bg-[#FAFAFB] px-7 py-3.5">
+      <div className=" text-base  font-[500] text-black bg-[#FAFAFB] p-2  sm:px-3 md:py-3.5">
         Action
       </div>
     ),

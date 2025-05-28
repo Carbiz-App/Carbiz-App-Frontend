@@ -66,6 +66,7 @@ export const LOGIN = gql`
           CAC
           taxID
           validIDcard
+          businessPics
         }
       }
     }
