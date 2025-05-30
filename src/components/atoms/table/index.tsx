@@ -152,10 +152,10 @@ export function DataTable<TData, TValue>({
 
       {productsPath && data.length === 0 ? (
         <div className="flex flex-col items-center justify-center h-[50vh] border border-[#B3B2AF] border-dashed m-4">
-          <h3 className=" text-[#35322C] text-lg font-medium">
+          <h3 className=" text-[#35322C] text-lg font-medium text-center">
             No product has been added
           </h3>
-          <p className="text-[14px] text-[#8E8B87] font-[400] mt-1">
+          <p className="text-[14px] text-[#8E8B87] font-[400] mt-1 text-center">
             Your product journey begins here. Add your first product to get
             started.
           </p>
