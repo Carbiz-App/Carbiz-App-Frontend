@@ -77,7 +77,19 @@ export const useUpdateProduct = (onSuccess?: () => void) => {
     updateProduct,
     { input: ProductSchemaType; productID: string }
   >(UPDATE_PRODUCT, {
-    refetchQueries: [{ query: FETCH_ALL_PRODUCTS }],
+    refetchQueries: [
+      {
+        query: FETCH_ALL_PRODUCTS,
+        variables: {
+          paginationQuery: {
+            limit: 15,
+            page: 1,
+            sortBy: "createdAt",
+            sortOrder: "DESC",
+          },
+        },
+      },
+    ],
     awaitRefetchQueries: true,
     onCompleted: (data) => {
       const result = data?.updateProduct;
