@@ -106,7 +106,7 @@ const ImagePicker: React.FC<ImagePickerProp> = ({
                 {typeof defaultValue == "string" ? (
                   <img
                     src={typeof defaultValue == "string" ? defaultValue : ""}
-                    className="h-full md:h-[16rem] w-full rounded-xl object-cover"
+                    className="h-full md:h-[12rem] w-full rounded-xl object-cover"
                     alt="Uploaded image preview"
                   />
                 ) : uploads.length == 1 && previewUrls.length == 1 ? (
