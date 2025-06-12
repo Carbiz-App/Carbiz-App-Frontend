@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { useDeleteProducts } from "@/queries/products";
+import { PopoverTrigger } from "@/components/ui/popover";
+import { useModal } from "@/store/useModal";
 import { ColumnDef } from "@tanstack/react-table";
 import { Eye, PenLine, Trash2Icon } from "lucide-react";
 import { useNavigate } from "react-router";
@@ -13,11 +14,7 @@ export type productsType = {
   productStatus: string;
 };
 
-export const productsColumn = ({
-  refetch,
-}: {
-  refetch: () => void;
-}): ColumnDef<productsType>[] => [
+export const productsColumn = (): ColumnDef<productsType>[] => [
   {
     id: "select",
     header: ({ table }) => (
@@ -130,11 +127,9 @@ export const productsColumn = ({
     cell: ({ row }) => {
       const id = row.original;
       const navigate = useNavigate();
-      const { deleteProduct, loading } = useDeleteProducts(refetch);
-      const handleDelete = async (productID: string) => {
-        await deleteProduct({
-          variables: { productID },
-        });
+      const { openModal } = useModal();
+      const handleDelete = (productID: string) => {
+        openModal(productID);
       };
       return (
         <div className=" font-normal px-7 py-3.">
@@ -149,18 +144,15 @@ export const productsColumn = ({
           >
             <PenLine className=" text-3xl size-5 text-[#4F4C55]" />
           </Button>
-          <Button
-            disabled={loading}
-            variant={"ghost"}
-            className=" p-4 rounded-none"
-            onClick={() => handleDelete(id.productID)}
-          >
-            {loading ? (
-              "loading..."
-            ) : (
+          <PopoverTrigger asChild>
+            <Button
+              variant={"ghost"}
+              className=" p-4 rounded-none"
+              onClick={() => handleDelete(id.productID)}
+            >
               <Trash2Icon className=" text-3xl size-5 text-[#4F4C55]" />
-            )}
-          </Button>
+            </Button>
+          </PopoverTrigger>
         </div>
       );
     },

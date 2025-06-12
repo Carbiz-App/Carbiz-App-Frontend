@@ -78,6 +78,7 @@ export const FETCH_PRODUCT = gql`
         productName
         productDescription
         productCategory {
+          productCategoryName
           productCategoryID
         }
         productType

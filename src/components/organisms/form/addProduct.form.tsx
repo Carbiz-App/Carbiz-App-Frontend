@@ -48,7 +48,6 @@ const AddProductForm = () => {
     if (payload) {
       const mappedPayload: ProductSchemaType = {
         ...payload,
-        productCategory: payload?.productCategory?.productCategoryID,
       };
       form.reset(mappedPayload);
     }
@@ -220,7 +219,7 @@ const AddProductForm = () => {
                   type="number"
                   itemClassName="!py-0"
                   name="productBreadth_cm"
-                  label="Product breadth (cm)"
+                  label="Product height (cm)"
                   control={form.control}
                   placeholder="enter breadth"
                 />

@@ -1,6 +1,6 @@
 import * as React from "react";
 import { HouseSimple, HandCoins, Gear } from "@phosphor-icons/react";
-import { LogOut, ShoppingBag, UsersRound } from "lucide-react";
+import { LogOut, ShoppingBag } from "lucide-react";
 
 import { IconCoins } from "@tabler/icons-react";
 
@@ -37,11 +37,11 @@ const data = {
       url: "/orders",
       icon: ShoppingBag,
     },
-    {
-      title: "Customers",
-      url: "/customers",
-      icon: UsersRound,
-    },
+    // {
+    //   title: "Customers",
+    //   url: "/customers",
+    //   icon: UsersRound,
+    // },
     {
       title: "Products",
       url: "/products",

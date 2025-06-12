@@ -58,7 +58,9 @@ const SelectField: React.FC<SelectFieldProps> = ({
                 <SelectValue
                   placeholder={placeholder}
                   className="text-text-primary  text-sm lg:text-base "
-                />
+                >
+                  {items?.find((item) => item.value === field.value)?.label}
+                </SelectValue>
               </SelectTrigger>
             </FormControl>
             <SelectContent className="w-full border-[#D4C7EE]">
