@@ -18,7 +18,6 @@ const ProfileForm = () => {
   const { user } = useAuthStore();
   const [countries, setCountries] = React.useState();
   const [cities, setCities] = React.useState();
-  // const [picture, setPicture] = React.useState<string>("")
 
   const { updateMerchant, loading } = useMerchantProfile();
 
@@ -74,11 +73,7 @@ const ProfileForm = () => {
             name="businessPictureUrl"
             defaultValue={user?.businessPics}
             control={form.control}
-            maxLength={1}
             label="Profile Picture"
-            // onChange={(value: string) =>
-            //   form.setValue("businessPictureUrl", value ?? "")
-            // }
           />
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:mb-5">
@@ -92,7 +87,7 @@ const ProfileForm = () => {
             control={form.control}
             label="Country"
             name="country"
-            placeholder="Choose"
+            placeholder="Select coountry"
             items={countries}
           />
 

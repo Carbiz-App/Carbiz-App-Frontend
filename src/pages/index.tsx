@@ -11,6 +11,7 @@ export { default as Customers } from "@/components/templates/app/customers";
 export { default as PreviewCustomer } from "@/components/templates/app/customers/preview";
 
 export { default as Orders } from "@/components/templates/app/orders";
+export { default as PreviewOrder } from "@/components/templates/app/orders/preview";
 
 export { default as Payouts } from "@/components/templates/app/payout";
 export { default as PreviewPayout } from "@/components/templates/app/payout/preview";
@@ -21,4 +22,3 @@ export { default as Settings } from "@/components/templates/app/settings";
 export { default as Profile } from "@/components/templates/app/settings/profile";
 export { default as Payment } from "@/components/templates/app/settings/payment";
 export { default as Documents } from "@/components/templates/app/settings/documents";
-export { default as PreviewOrder } from "@/components/templates/app/orders/preview";

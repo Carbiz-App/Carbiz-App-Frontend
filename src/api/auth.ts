@@ -53,6 +53,7 @@ export const LOGIN = gql`
       payload {
         token
         user {
+          isVerified
           businessName
           email
           address

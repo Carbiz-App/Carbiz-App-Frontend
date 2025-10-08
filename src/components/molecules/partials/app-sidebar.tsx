@@ -20,6 +20,54 @@ import logo from "@/assets/images/logo.svg";
 import { Button } from "@/components/ui/button";
 import { useAuthStore } from "@/store/auth.store";
 
+// const data = {
+//   publicNav: [
+//     {
+//       title: "Dashboard",
+//       url: "/dashboard",
+//       icon: HouseSimple,
+//     },
+//     {
+//       title: "Settings",
+//       url: "/settings",
+//       icon: Gear,
+//     },
+//   ],
+
+//   protectedNav: [
+//     {
+//       title: "Dashboard",
+//       url: "/dashboard",
+//       icon: HouseSimple,
+//     },
+//     {
+//       title: "Orders",
+//       url: "/orders",
+//       icon: ShoppingBag,
+//     },
+//     // {
+//     //   title: "Customers",
+//     //   url: "/customers",
+//     //   icon: UsersRound,
+//     // },
+//     {
+//       title: "Products",
+//       url: "/products",
+//       icon: IconCoins,
+//     },
+//     {
+//       title: "Payouts",
+//       url: "/payouts",
+//       icon: HandCoins,
+//     },
+//     {
+//       title: "Settings",
+//       url: "/settings",
+//       icon: Gear,
+//     },
+//   ],
+// };
+
 const data = {
   user: {
     name: "shadcn",
@@ -36,21 +84,19 @@ const data = {
       title: "Orders",
       url: "/orders",
       icon: ShoppingBag,
+      requiresVerification: true,
     },
-    // {
-    //   title: "Customers",
-    //   url: "/customers",
-    //   icon: UsersRound,
-    // },
     {
       title: "Products",
       url: "/products",
       icon: IconCoins,
+      requiresVerification: true,
     },
     {
       title: "Payouts",
       url: "/payouts",
       icon: HandCoins,
+      requiresVerification: true,
     },
     {
       title: "Settings",
@@ -61,7 +107,7 @@ const data = {
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const { logout } = useAuthStore();
+  const { logout, user } = useAuthStore();
   const [isLoggingOut, setIsLoggingOut] = React.useState<boolean>(false);
   const nav = useNavigate();
   const onLogout = () => {
@@ -71,6 +117,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       nav("/");
     }, 2000);
   };
+
+  console.log(user?.isVerified);
+
+  const filteredNavItems = user?.isVerified
+    ? data.navMain
+    : data.navMain.filter((item) => !item.requiresVerification);
+
   return (
     <Sidebar backgroundColor="bg-white" {...props}>
       <SidebarHeader className="flex  gap-2 pt-5 md:pt-10 h-auto px-4">
@@ -92,7 +145,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
 
       <SidebarContent>
-        <NavMain items={data.navMain} />
+        <NavMain items={filteredNavItems} />
       </SidebarContent>
       <SidebarFooter>
         <Button

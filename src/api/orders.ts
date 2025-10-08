@@ -11,10 +11,20 @@ export const FETCH_ALL_ORDERS = gql`
         total
         data {
           RidersRide {
+            rider {
+              firstName
+              lastName
+              phoneNumber
+            }
             id
           }
           createdAT
           customer {
+            addresses {
+              fullAddress
+            }
+            email
+            phoneNumber
             name
           }
           deliveryFee
@@ -64,7 +74,14 @@ export const FETCH_ORDER = gql`
           email
         }
         items {
+          order {
+            subTotal
+            total
+            optimizedRoute
+          }
           product {
+            productColor
+            isDiscountApplied
             productName
             productImages
           }

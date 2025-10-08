@@ -50,7 +50,7 @@ export function SiteHeader() {
                   {user?.businessName.split(" ")[1].split("")[0]}
                 </AvatarFallback>
               </Avatar>
-              <div className="grid flex-1 text-left text-sm leading-tight">
+              <div className="sm:grid flex-1 text-left text-sm leading-tight hidden ">
                 <span className="truncate font-medium capitalize md:text-base">
                   {user?.businessName}
                 </span>

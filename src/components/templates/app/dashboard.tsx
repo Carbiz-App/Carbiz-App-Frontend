@@ -7,10 +7,13 @@ import { useMerchantProfile } from "@/queries/dashboard";
 import DashboardCards from "@/components/molecules/DashboardCards";
 import { usePagination } from "@/hooks/usePagination";
 import { FETCH_ALL_ORDERS } from "@/api/orders";
+import { Link } from "react-router";
 
 const Dashboard = () => {
   const { user } = useAuthStore();
   const { loading, data } = useMerchantProfile();
+  const docState =
+    !!user?.businessLicense && !!user?.CAC && !!user?.validIDcard;
 
   const {
     data: orderData,
@@ -32,19 +35,27 @@ const Dashboard = () => {
     {
       title: "Create account",
       current: data?.onboardingStatus?.create_Account,
+      link: "",
+    },
+    {
+      title: "Upload your documents",
+      current: docState,
+      link: "/settings/document",
     },
     {
       title: "Add your products",
       current: data?.onboardingStatus?.add_Products,
+      link: "/products",
     },
     {
       title: "Set up your payment",
       current: data?.onboardingStatus?.setup_Payment,
+      link: "/settings/payment",
     },
   ];
 
   return (
-    <div className="font-satoshi">
+    <div className="font-satoshi my-3 flex flex-col gap-y-2.5 md:gap-y-5">
       {/* User breadcrumb */}
       <div className="">
         <h4 className="text-sm sm:text-base font-satoshi text-[#837E8E]">
@@ -57,7 +68,7 @@ const Dashboard = () => {
       {data?.onboardingPercentage !== 100 && loading ? (
         "Loading.."
       ) : data?.onboardingPercentage !== 100 ? (
-        <div className="bg-white rounded-xl p-5 md:p-10  w-full grid sm:grid-cols-2 border border-border-gray mt-4">
+        <div className="bg-white rounded-xl p-5 md:p-10  w-full grid sm:grid-cols-2 border border-border-gray">
           <div className="inline-flex flex-col gap-6">
             <h2 className="text-lg sm:text-xl md:text-2xl font-bold">
               Get ready for your first sale
@@ -65,18 +76,20 @@ const Dashboard = () => {
             <ul className="list-none">
               {onBoarding?.map((item) => (
                 <li key={item.title} className="block py-1 md:py-2">
-                  <div className="inline-flex gap-1.5 md:gap-2.5 items-center">
-                    <CheckCircle
-                      className={`${
-                        item?.current && "bg-[#F1ECF9] rounded-full"
-                      }`}
-                      size={24}
-                      color={`${item?.current ? "#7046C6" : "#837E8E"}`}
-                    />
-                    <span className="text-[#1A191C] text-base md:text-lg font-medium">
-                      {item?.title}
-                    </span>
-                  </div>
+                  <Link to={item.link}>
+                    <div className="inline-flex gap-1.5 md:gap-2.5 items-center">
+                      <CheckCircle
+                        className={`${
+                          item?.current && "bg-[#F1ECF9] rounded-full"
+                        }`}
+                        size={24}
+                        color={`${item?.current ? "#7046C6" : "#837E8E"}`}
+                      />
+                      <span className="text-[#1A191C] text-base md:text-lg font-medium">
+                        {item?.title}
+                      </span>
+                    </div>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -98,7 +111,7 @@ const Dashboard = () => {
         ""
       )}
       {/* summary card */}
-      <div className="py-6 md:py-10">
+      <div className="">
         <DashboardCards />
       </div>
 
