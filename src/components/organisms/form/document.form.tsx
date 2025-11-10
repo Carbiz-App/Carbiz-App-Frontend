@@ -12,8 +12,7 @@ import { useUploadKyc } from "@/queries/profile";
 import { useAuthStore } from "@/store/auth.store";
 
 const DocumentForm = () => {
-
-  const {user} = useAuthStore();
+  const { user } = useAuthStore();
   const form = useForm<DocumentSchemaType>({
     resolver: zodResolver(DocumentSchema),
     defaultValues: {
@@ -21,10 +20,10 @@ const DocumentForm = () => {
       CAC: user?.CAC,
       validIDcard: user?.validIDcard,
       taxID: user?.taxID,
-    }
+    },
   });
 
-  console.log("profile",user)
+  console.log("profile", user);
 
   const { uploadKYCDocmentMerchant, loading } = useUploadKyc();
 
@@ -38,7 +37,7 @@ const DocumentForm = () => {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
         <div className="flex flex-col sm:flex-row  items-center gap-6 md:gap-10">
           <ImagePicker
-            maxLength={1}
+            // maxLength={1}
             control={form.control}
             label="Business License"
             name="businessLicense"
@@ -49,7 +48,7 @@ const DocumentForm = () => {
           />
 
           <ImagePicker
-            maxLength={1}
+            // maxLength={1}
             control={form.control}
             label="Valid Identification Card"
             name="validIDcard"
@@ -84,7 +83,6 @@ const DocumentForm = () => {
           className="bg-primary text-white px-7 md:py-7 rounded-[0.625rem] text-base w-full sm:w-[16%]"
         >
           {loading ? "Processing..." : "Save"}
-         
         </Button>
       </form>
     </Form>

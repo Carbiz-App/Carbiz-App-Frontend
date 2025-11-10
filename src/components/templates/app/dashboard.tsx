@@ -24,12 +24,17 @@ const Dashboard = () => {
     message,
   } = usePagination({
     query: FETCH_ALL_ORDERS,
-    extractData: (res) => ({
-      data: res?.MerchantfetchallMyOrders?.payload?.data || [],
-      total: res?.MerchantfetchallMyOrders?.payload?.total || 0,
-      message: res?.MerchantfetchallMyOrders?.message,
-    }),
+    extractData: (res) => {
+      console.log(res);
+      return {
+        data: res?.MerchantfetchallMyOrders?.payload?.data || [],
+        total: res?.MerchantfetchallMyOrders?.payload?.total || 0,
+        message: res?.MerchantfetchallMyOrders?.message,
+      };
+    },
   });
+
+  console.log(message);
 
   const onBoarding = [
     {

@@ -119,7 +119,8 @@ const PreviewOrder = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const path = pathname.split("/")[2];
-  const { MerchantfetchaOneOrder, data, loading } = useFetchOrder();
+  // const { MerchantfetchaOneOrder, data, loading } = useFetchOrder();
+  const { MerchantfetchaOneOrder } = useFetchOrder();
   useEffect(() => {
     if (path) {
       MerchantfetchaOneOrder({

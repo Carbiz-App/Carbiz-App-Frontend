@@ -20,6 +20,8 @@ const Customers = () => {
       message: res?.fetchallMerchantCustomers?.message,
     }),
   });
+
+  // console.log(data);
   return (
     <>
       <DataTable
