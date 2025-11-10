@@ -43,18 +43,29 @@ export const ordersColumns: ColumnDef<Order>[] = [
   {
     accessorKey: "items",
     header: () => (
-      <div className=" text-base font-[500] text-black !bg-[#FAFAFB] p-2  sm:px-3 md:py-3.5  !border-none">
+      <div className="text-base font-[500] text-black !bg-[#FAFAFB] p-2 sm:px-3 md:py-3.5 !border-none">
         Product
       </div>
     ),
     cell: ({ row }) => {
+      const items = row.getValue("items");
+      // handle both array or object safely
+      const productName = Array.isArray(items)
+        ? items[0]?.product?.productName
+        : items &&
+          typeof items === "object" &&
+          "product" in items &&
+          (items as { product?: { productName?: string } }).product
+            ?.productName;
+
       return (
-        <div className=" font-normal p-2  md:py-2.5 uppercase">
-          {row.getValue("items")}
+        <div className="font-normal p-2 md:py-2.5 uppercase">
+          {productName ?? "-"}
         </div>
       );
     },
   },
+
   {
     accessorKey: "createdAT",
     header: () => (

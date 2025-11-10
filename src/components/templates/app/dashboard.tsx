@@ -5,9 +5,8 @@ import { DataTable } from "@/components/atoms/table";
 import { useAuthStore } from "@/store/auth.store";
 import { useMerchantProfile } from "@/queries/dashboard";
 import DashboardCards from "@/components/molecules/DashboardCards";
-import { usePagination } from "@/hooks/usePagination";
-import { FETCH_ALL_ORDERS } from "@/api/orders";
 import { Link } from "react-router";
+import { useFetchAllOrders } from "@/queries/orders";
 
 const Dashboard = () => {
   const { user } = useAuthStore();
@@ -15,26 +14,8 @@ const Dashboard = () => {
   const docState =
     !!user?.businessLicense && !!user?.CAC && !!user?.validIDcard;
 
-  const {
-    data: orderData,
-    total,
-    loading: orderLoading,
-    pagination,
-    setPage,
-    message,
-  } = usePagination({
-    query: FETCH_ALL_ORDERS,
-    extractData: (res) => {
-      console.log(res);
-      return {
-        data: res?.MerchantfetchallMyOrders?.payload?.data || [],
-        total: res?.MerchantfetchallMyOrders?.payload?.total || 0,
-        message: res?.MerchantfetchallMyOrders?.message,
-      };
-    },
-  });
-
-  console.log(message);
+  const { orderData, total, orderLoading, pagination, setPage, message } =
+    useFetchAllOrders();
 
   const onBoarding = [
     {

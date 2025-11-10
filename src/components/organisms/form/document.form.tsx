@@ -37,7 +37,6 @@ const DocumentForm = () => {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
         <div className="flex flex-col sm:flex-row  items-center gap-6 md:gap-10">
           <ImagePicker
-            // maxLength={1}
             control={form.control}
             label="Business License"
             name="businessLicense"
@@ -59,7 +58,7 @@ const DocumentForm = () => {
 
         <div className="flex gap-6 flex-col sm:flex-row md:gap-10 w-full items-start">
           <ImagePicker
-            maxLength={1}
+            // maxLength={1}
             control={form.control}
             label="CAC"
             name="CAC"

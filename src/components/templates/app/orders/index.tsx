@@ -1,24 +1,10 @@
-import { FETCH_ALL_ORDERS } from "@/api/orders";
 import { ordersColumns } from "@/columns/columns";
 import { DataTable } from "@/components/atoms/table";
-import { usePagination } from "@/hooks/usePagination";
+import { useFetchAllOrders } from "@/queries/orders";
 
 const Orders = () => {
-  const {
-    data: orderData,
-    total,
-    loading: orderLoading,
-    pagination,
-    setPage,
-    message,
-  } = usePagination({
-    query: FETCH_ALL_ORDERS,
-    extractData: (res) => ({
-      data: res?.MerchantfetchallMyOrders?.payload?.data || [],
-      total: res?.MerchantfetchallMyOrders?.payload?.total || 0,
-      message: res?.MerchantfetchallMyOrders?.message,
-    }),
-  });
+  const { orderData, total, orderLoading, pagination, setPage, message } =
+    useFetchAllOrders();
 
   return (
     <div>
