@@ -1,7 +1,7 @@
-import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ColumnDef } from "@tanstack/react-table";
 import { Eye } from "lucide-react";
+import moment from "moment";
 import { useNavigate } from "react-router";
 
 export type Order = {
@@ -44,7 +44,7 @@ export const ordersColumns: ColumnDef<Order>[] = [
     accessorKey: "items",
     header: () => (
       <div className="text-base font-[500] text-black !bg-[#FAFAFB] p-2 sm:px-3 md:py-3.5 !border-none">
-        Product
+        Product Name
       </div>
     ),
     cell: ({ row }) => {
@@ -76,7 +76,7 @@ export const ordersColumns: ColumnDef<Order>[] = [
     cell: ({ row }) => {
       return (
         <div className=" font-normal p-2  md:py-2.5">
-          {row.getValue("createdAT")}
+          {moment(row.getValue("createdAT")).format("DD MMM, YYYY hh:mm A")}
         </div>
       );
     },
@@ -120,7 +120,7 @@ export const ordersColumns: ColumnDef<Order>[] = [
       return (
         <div className={` font-normal p-2  md:py-2.5 `}>
           <span className={`px-3 py-1 rounded-2xl ${statusColor()} capitalize`}>
-            {row.getValue("paymentStatus")}
+            {row.getValue("paymentStatus") ?? "-"}
           </span>
         </div>
       );
@@ -130,13 +130,14 @@ export const ordersColumns: ColumnDef<Order>[] = [
     accessorKey: "orderStatus",
     header: () => (
       <div className=" text-base  font-[500] text-black bg-[#FAFAFB] p-2  sm:px-3 md:py-3.5">
-        Delivery Status
+        Order Status
       </div>
     ),
     cell: ({ row }) => {
-      const status: string | undefined = row.getValue("orderStatus");
+      const rawStatus = row.getValue("orderStatus");
+      const statusStr = String(rawStatus ?? "");
       const statusColor = () => {
-        switch (status?.toLocaleLowerCase()) {
+        switch (statusStr.toLowerCase()) {
           case "processing":
             return "bg-[#E2DAF4] text-[#7046C6]";
           case "shipped":
@@ -147,14 +148,17 @@ export const ordersColumns: ColumnDef<Order>[] = [
             return "text-[#027A48] bg-[#D1FADF]";
           case "awaiting":
             return "text-[#343239] bg-[#E6E5E8]";
+          case "packed_and_ready_for_pickup":
+            return "text-[#343239] bg-[#E6E5E8]";
           default:
             return null;
         }
       };
+      const displayStatus = statusStr.replaceAll("_", " ");
       return (
         <div className={` font-normal p-2  md:py-2.5 `}>
           <span className={`px-3 py-1 rounded-2xl ${statusColor()} capitalize`}>
-            {row.getValue("orderStatus")}
+            {displayStatus || "-"}
           </span>
         </div>
       );
@@ -166,13 +170,11 @@ export const ordersColumns: ColumnDef<Order>[] = [
       const id = row.original;
       const navigate = useNavigate();
       return (
-        <div className=" text-base  font-[500] text-black bg-[#FAFAFB] p-2  sm:px-3 md:py-3.5">
-          <Button
-            variant={"ghost"}
+        <div className=" text-base  font-[500] text-black  p-2  sm:px-3 md:py-3.5">
+          <Eye
+            className=" text-3xl size-5 text-[#4F4C55] cursor-pointer"
             onClick={() => navigate(`/orders/${id.orderID}`)}
-          >
-            <Eye className=" text-3xl size-5 text-[#4F4C55]" />
-          </Button>
+          />
         </div>
       );
     },

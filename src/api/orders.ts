@@ -73,13 +73,30 @@ export const FETCH_ORDER = gql`
           phoneNumber
           email
         }
+        merchants {
+          businessName
+          address
+          phoneNumber
+        }
+        RidersRide {
+          rider {
+            lastName
+            phoneNumber
+          }
+        }
         items {
           order {
             subTotal
             total
-            optimizedRoute
+            optimizedRoute {
+              lat
+              lng
+            }
           }
           product {
+            priceCurrencyType
+            discountedPrice
+            discountPercentage
             productColor
             isDiscountApplied
             productName
@@ -89,7 +106,22 @@ export const FETCH_ORDER = gql`
           price
         }
         total
+        pooledSavings
+        subTotal
+        total
+        deliveryFee
+        updatedAT
       }
+    }
+  }
+`;
+
+export const UpdateOrderForPickup = gql`
+  mutation MerchantUpdateOrderToPackedAndReadyForPickup($orderID: String!) {
+    MerchantUpdateOrderToPackedAndReadyForPickup(orderID: $orderID) {
+      success
+      message
+      payload
     }
   }
 `;

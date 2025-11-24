@@ -1,13 +1,27 @@
-import { FETCH_ALL_ORDERS, FETCH_ORDER } from "@/api/orders";
+import {
+  FETCH_ALL_ORDERS,
+  FETCH_ORDER,
+  UpdateOrderForPickup,
+} from "@/api/orders";
 import { useToast } from "@/hooks/Toast";
 import { usePagination } from "@/hooks/usePagination";
-import { useLazyQuery } from "@apollo/client";
+import { useModal } from "@/store/useModal";
+import OrderEntity from "@/types/order.type";
+import { useLazyQuery, useMutation } from "@apollo/client";
 
-interface MerchantfetchaOneOrder {
-  MerchantfetchaOneOrder: {
+// interface MerchantfetchaOneOrder {
+//   MerchantfetchaOneOrder: {
+//     success: boolean;
+//     message: string;
+//     payload: any;
+//   };
+// }
+
+interface UpdateForPickup {
+  MerchantUpdateOrderToPackedAndReadyForPickup: {
     success: boolean;
     message: string;
-    payload: any;
+    payload: boolean;
   };
 }
 
@@ -52,9 +66,16 @@ export const useFetchAllOrders = () => {
 
 export const useFetchOrder = () => {
   const { handleError } = useToast();
+  type FetchOrderResult = {
+    MerchantfetchaOneOrder?: {
+      success?: boolean;
+      message?: string;
+      payload?: OrderEntity;
+    };
+  };
 
   const [MerchantfetchaOneOrder, { data, loading, error }] =
-    useLazyQuery<MerchantfetchaOneOrder>(FETCH_ORDER, {
+    useLazyQuery<FetchOrderResult>(FETCH_ORDER, {
       onCompleted: () => {},
       onError: (error) => {
         handleError(error, "Error fetching order");
@@ -63,5 +84,56 @@ export const useFetchOrder = () => {
       nextFetchPolicy: "cache-first",
     });
 
-  return { MerchantfetchaOneOrder, data, loading, error };
+  return {
+    MerchantfetchaOneOrder,
+    data: data?.MerchantfetchaOneOrder?.payload,
+    loading,
+    error,
+  };
+};
+
+export const updateOrderForPickup = (orderID: string) => {
+  const { handleError, handleInfo, handleSuccess } = useToast();
+  const { closeModal } = useModal();
+  const [makeOrderReady, { loading }] = useMutation<
+    UpdateForPickup,
+    { orderID: string }
+  >(UpdateOrderForPickup, {
+    refetchQueries: [
+      {
+        query: FETCH_ORDER,
+        variables: {
+          orderID: orderID,
+        },
+      },
+    ],
+    awaitRefetchQueries: true,
+    onCompleted: (data) => {
+      const result = data?.MerchantUpdateOrderToPackedAndReadyForPickup;
+      if (!result) {
+        handleError(
+          new Error("No response received"),
+          "Updating Order Status Failed"
+        );
+        return;
+      }
+
+      if (!result.success) {
+        handleInfo(
+          "Order Status",
+          result.message || "Updating Order Status Unsuccessful"
+        );
+        return;
+      }
+      handleSuccess("Order Status", result.message);
+      closeModal();
+    },
+
+    onError: (error) => {
+      handleError(error, "Updating Bank Detail");
+      console.log("Mutation Error:", error);
+    },
+  });
+
+  return { makeOrderReady, loading };
 };

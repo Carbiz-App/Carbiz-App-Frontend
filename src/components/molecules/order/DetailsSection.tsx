@@ -19,7 +19,7 @@ export interface RiderDetails {
 
 export interface DetailRowProps {
   label: string;
-  value: string;
+  value?: string;
   isMultiline?: boolean;
 }
 
