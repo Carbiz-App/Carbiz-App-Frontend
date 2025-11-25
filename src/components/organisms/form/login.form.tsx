@@ -2,12 +2,12 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { Form } from "@/components/ui/form";
-import { Button } from "@/components/ui/button";
 
 import InputField from "@/components/atoms/form/input";
 
 import LoginSchema, { LoginSchemaType } from "@/schema/login.schema";
 import { useLoginMerchant } from "@/queries/login";
+import CustomButton from "@/components/atoms/button";
 
 const LoginForm = () => {
   const form = useForm<LoginSchemaType>({
@@ -35,13 +35,13 @@ const LoginForm = () => {
           label="Password"
           placeholder="******************"
         />
-        <Button
-          disabled={loading}
+        <CustomButton
+          loading={loading}
           type="submit"
           className="bg-primary text-white w-full mt-10 py-6 rounded-[0.625rem] text-base"
         >
-          {loading ? "Loading..." : "Login"}
-        </Button>
+          Login
+        </CustomButton>
       </form>
     </Form>
   );

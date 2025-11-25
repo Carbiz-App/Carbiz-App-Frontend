@@ -53,7 +53,7 @@ function Button({
   return (
     <Comp
       data-slot="button"
-      className={`  ${cn(
+      className={`transition-all duration-300  ${cn(
         buttonVariants({ variant, size, className })
       )} cursor-pointer`}
       {...props}

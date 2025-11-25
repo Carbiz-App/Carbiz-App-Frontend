@@ -1,3 +1,4 @@
+import CustomButton from "@/components/atoms/button";
 import DetailsSection, {
   // CustomerDetails,
   DetailRow,
@@ -209,13 +210,12 @@ const PreviewOrder = () => {
           </p>
         </div>
         {data?.orderStatus?.toLowerCase() === "processing" && (
-          <Button
+          <CustomButton
             loading={makeOrderReadyLoading}
-            disabled={makeOrderReadyLoading}
             onClick={() => makeOrderReady({ variables: { orderID: path } })}
           >
             Prepare Order for Pickup
-          </Button>
+          </CustomButton>
         )}
       </div>
 

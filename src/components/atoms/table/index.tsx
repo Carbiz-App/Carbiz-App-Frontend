@@ -25,6 +25,7 @@ import { SearchNormal } from "iconsax-reactjs";
 import { useLocation, useNavigate } from "react-router";
 import { LucideDownload, Plus } from "lucide-react";
 import { useModal } from "@/store/useModal";
+import { Spinner } from "@/components/ui/spinner";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -174,11 +175,10 @@ export function DataTable<TData, TValue>({
             <TableBody>
               {loading ? (
                 <TableRow>
-                  <TableCell
-                    colSpan={columns.length}
-                    className="h-24 text-center"
-                  >
-                    Loading....{" "}
+                  <TableCell colSpan={columns.length}>
+                    <div className="flex justify-center items-center py-12 w-full">
+                      <Spinner className="text-primary size-12" />
+                    </div>
                   </TableCell>
                 </TableRow>
               ) : table.getRowModel().rows?.length ? (
@@ -219,7 +219,7 @@ export function DataTable<TData, TValue>({
                   <TableRow>
                     <TableCell
                       colSpan={columns.length}
-                      className="h-24 text-center capitalize"
+                      className="h-24 text-center capitalize pb-0"
                     >
                       {message ?? "no data found"}
                     </TableCell>

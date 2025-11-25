@@ -3,7 +3,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useLocation, useNavigate } from "react-router";
 
 import { Form } from "@/components/ui/form";
-import { Button } from "@/components/ui/button";
 import FormOtpInput from "@/components/atoms/form/otpinput";
 
 import VerifyOtpSchema, {
@@ -12,6 +11,7 @@ import VerifyOtpSchema, {
 import { toast } from "sonner";
 import { useVerifyOtpMerchant } from "@/queries/verifyOtp";
 import { useToast } from "@/hooks/Toast";
+import CustomButton from "@/components/atoms/button";
 
 function VerifyOtpForm() {
   const { pathname } = useLocation();
@@ -97,14 +97,13 @@ function VerifyOtpForm() {
             </button>
           </p>
         </div>
-
-        <Button
-          disabled={loading || verifyResetOtpLoading}
+        <CustomButton
+          loading={loading || verifyResetOtpLoading}
           type="submit"
-          className="bg-primary text-white w-full mt-10 py-6 rounded-[0.625rem] text-base"
+          className="w-full py-6 rounded-[0.625rem] text-base flex items-center justify-center "
         >
-          {loading || verifyResetOtpLoading ? "Loading..." : "Submit"}
-        </Button>
+          Submit
+        </CustomButton>
       </form>
     </Form>
   );

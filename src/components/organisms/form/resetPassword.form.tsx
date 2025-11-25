@@ -10,6 +10,7 @@ import ResetPasswordSchema, {
   ResetPasswordType,
 } from "@/schema/resetPassword.schema";
 import { useResetPassword } from "@/queries/resetPassword";
+import CustomButton from "@/components/atoms/button";
 
 const ResetPasswordForm = () => {
   const { state } = useLocation();
@@ -56,13 +57,13 @@ const ResetPasswordForm = () => {
           label="Enter Password Again"
           placeholder="******************"
         />
-        <Button
-          disabled={loading}
-          type="submit"
+        <CustomButton
+          loading={loading}
+          type={"submit"}
           className="bg-primary text-white w-full mt-10 py-6 rounded-[0.625rem] text-base"
         >
-          {loading ? "Loading..." : "Proceed"}
-        </Button>
+          Proceed
+        </CustomButton>
       </form>
     </Form>
   );

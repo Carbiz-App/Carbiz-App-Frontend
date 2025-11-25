@@ -39,7 +39,6 @@ export const useFetchAllOrders = () => {
       const api = res?.MerchantfetchallMyOrders;
 
       if (!api?.payload) {
-        console.log("GraphQL returned null payload:", api);
         return {
           data: [],
           total: 0,
@@ -104,6 +103,17 @@ export const updateOrderForPickup = (orderID: string) => {
         query: FETCH_ORDER,
         variables: {
           orderID: orderID,
+        },
+      },
+      {
+        query: FETCH_ALL_ORDERS,
+        variables: {
+          paginationQuery: {
+            page: 1,
+            limit: 10,
+            sortBy: "createdAT",
+            sortOrder: "DESC",
+          },
         },
       },
     ],
