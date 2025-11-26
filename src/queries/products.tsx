@@ -1,3 +1,4 @@
+import { PROFILE_MERCHANT } from "@/api/dashboard";
 import {
   ADD_PRODUCT,
   DELETE_PRODUCT,
@@ -29,6 +30,7 @@ export const useAddProducts = () => {
     createProduct,
     { input: ProductSchemaType }
   >(ADD_PRODUCT, {
+    refetchQueries: [PROFILE_MERCHANT],
     onCompleted: (data) => {
       const result = data?.createProduct;
 

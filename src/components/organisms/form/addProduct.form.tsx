@@ -1,4 +1,5 @@
 import { FETCH_PRODUCT_CATEGORIES } from "@/api/product";
+import CustomButton from "@/components/atoms/button";
 import InputField from "@/components/atoms/form/input";
 import SelectField from "@/components/atoms/form/select";
 import SelectInput from "@/components/atoms/form/select-input";
@@ -256,19 +257,15 @@ const AddProductForm = () => {
               initialUrls={productData?.fetchOneProduct?.payload?.productImages}
             />
           </div>
-          <Button
-            disabled={loading || updateLoading}
+          <CustomButton
+            loading={loading || updateLoading}
             size="lg"
             variant="default"
             type="submit"
             className=" mt-auto place-self-end sticky bottom-3 z-30"
           >
-            {loading || updateLoading
-              ? "Loading..."
-              : path
-              ? "Edit Product"
-              : "Add Product"}
-          </Button>
+            {path ? "Edit Product" : "Add Product"}
+          </CustomButton>
         </div>
       </form>
     </Form>

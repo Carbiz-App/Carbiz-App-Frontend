@@ -14,7 +14,7 @@ const ProductSchema = z.object({
   productStock: z.coerce.number({ message: "Provide available stock" }),
   productColor: z.string({ message: "Product color is required" }),
   price: z.coerce.number({ message: "Product price is required" }),
-  discountPercentage: z.coerce.number({ message: "Discount is required" }),
+  discountPercentage: z.coerce.number().optional(),
   productWeight: z.coerce.number({ message: "Product weight is required" }),
   productLength_cm: z.coerce.number({ message: "Product Length is required" }),
   productBreadth_cm: z.coerce.number({

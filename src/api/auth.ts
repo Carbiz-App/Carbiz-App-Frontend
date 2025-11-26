@@ -54,6 +54,7 @@ export const LOGIN = gql`
         token
         user {
           isVerified
+          isApproved
           businessName
           email
           address

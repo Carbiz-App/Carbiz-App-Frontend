@@ -2,7 +2,7 @@ import { z } from "zod";
 
 const ProfileSchema = z.object({
   businessName: z.string({ message: "Business name is required" }),
-  email: z.string().email("Invalid email address").optional().or(z.literal("")), // Allows empty string if needed
+  email: z.string().email("Invalid email address").optional().or(z.literal("")),
   phoneNumber: z
     .string({ message: "Phone number is required" })
     .regex(
@@ -10,7 +10,7 @@ const ProfileSchema = z.object({
       "Invalid phone number. Use 07012345678, +2347012345678, or 2347012345678"
     ),
   address: z.string().optional(),
-  city: z.string().optional(),
+  // city: z.string().optional(),
   country: z.string().optional(),
   postalCode: z.string().optional(),
   businessPictureUrl: z.string().optional(),

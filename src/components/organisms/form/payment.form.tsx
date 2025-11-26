@@ -12,6 +12,7 @@ import {
 import { useModal } from "@/store/useModal";
 import { useEffect } from "react";
 import { Loader } from "lucide-react";
+import CustomButton from "@/components/atoms/button";
 
 const PaymentForm = () => {
   const form = useForm<PaymentSchemaType>({
@@ -25,8 +26,6 @@ const PaymentForm = () => {
     data: bankData,
     loading: bankLoading,
   } = useFetchBankDetail();
-
-  console.log(bankData);
 
   useEffect(() => {
     if (modal.data) {
@@ -92,17 +91,13 @@ const PaymentForm = () => {
           </div>
         )}
 
-        <Button
-          disabled={loading || updateLoading}
+        <CustomButton
+          loading={loading || updateLoading}
           type="submit"
           className="bg-primary text-white px-7 md:py-6 rounded-[0.625rem] text-base "
         >
-          {loading || updateLoading
-            ? "loading..."
-            : modal.data
-            ? "Edit"
-            : "Add"}
-        </Button>
+          {modal.data ? "Edit" : "Add"}
+        </CustomButton>
       </form>
     </Form>
   );

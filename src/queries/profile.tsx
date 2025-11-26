@@ -1,3 +1,4 @@
+import { PROFILE_MERCHANT } from "@/api/dashboard";
 import { UPDATE_PROFILE, UPLOAD_KYC } from "@/api/merchant.profile";
 import { useToast } from "@/hooks/Toast";
 import { DocumentSchemaType } from "@/schema/document.schema";
@@ -57,7 +58,7 @@ const useMerchantProfile = () => {
 export default useMerchantProfile;
 
 interface MerchantKYCResponse {
-  uploadKYCDocmentMerchant: {
+  uploadKYCDocumentMerchant: {
     success: boolean;
     message: string;
     error: string;
@@ -78,15 +79,15 @@ export const useUploadKyc = () => {
     MerchantKYCResponse,
     { input: DocumentSchemaType }
   >(UPLOAD_KYC, {
+    refetchQueries: [PROFILE_MERCHANT],
     onCompleted: (data) => {
-      const result = data.uploadKYCDocmentMerchant;
+      const result = data?.uploadKYCDocumentMerchant;
 
-      if (!result.success) {
-        handleError(result.message);
+      if (!result?.success) {
+        handleError(result?.message || "Upload failed");
         return;
       }
-
-      handleSuccess("Profile updated");
+      handleSuccess("Profile updated", result?.message);
       // setUser({ ...result.payload });
     },
     onError: (error) => {

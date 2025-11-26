@@ -4,6 +4,7 @@ import { createJSONStorage, persist } from "zustand/middleware";
 interface UserType {
   businessName: string;
   isVerified?: boolean;
+  isApproved?: boolean;
   email?: string;
   businessLicense?: string;
   CAC?: string;

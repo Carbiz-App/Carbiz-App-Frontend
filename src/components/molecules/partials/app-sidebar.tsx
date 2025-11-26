@@ -17,56 +17,8 @@ import {
 import { Link, useNavigate } from "react-router";
 
 import logo from "@/assets/images/logo.svg";
-import { Button } from "@/components/ui/button";
 import { useAuthStore } from "@/store/auth.store";
-
-// const data = {
-//   publicNav: [
-//     {
-//       title: "Dashboard",
-//       url: "/dashboard",
-//       icon: HouseSimple,
-//     },
-//     {
-//       title: "Settings",
-//       url: "/settings",
-//       icon: Gear,
-//     },
-//   ],
-
-//   protectedNav: [
-//     {
-//       title: "Dashboard",
-//       url: "/dashboard",
-//       icon: HouseSimple,
-//     },
-//     {
-//       title: "Orders",
-//       url: "/orders",
-//       icon: ShoppingBag,
-//     },
-//     // {
-//     //   title: "Customers",
-//     //   url: "/customers",
-//     //   icon: UsersRound,
-//     // },
-//     {
-//       title: "Products",
-//       url: "/products",
-//       icon: IconCoins,
-//     },
-//     {
-//       title: "Payouts",
-//       url: "/payouts",
-//       icon: HandCoins,
-//     },
-//     {
-//       title: "Settings",
-//       url: "/settings",
-//       icon: Gear,
-//     },
-//   ],
-// };
+import CustomButton from "@/components/atoms/button";
 
 const data = {
   user: {
@@ -118,9 +70,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     }, 2000);
   };
 
-  console.log(user?.isVerified);
-
-  const filteredNavItems = user?.isVerified
+  const filteredNavItems = user?.isApproved
     ? data.navMain
     : data.navMain.filter((item) => !item.requiresVerification);
 
@@ -148,15 +98,14 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavMain items={filteredNavItems} />
       </SidebarContent>
       <SidebarFooter>
-        <Button
+        <CustomButton
           variant="ghost"
           className="justify-start text-[#4F4C55] text-base"
           onClick={onLogout}
-          disabled={isLoggingOut}
+          loading={isLoggingOut}
         >
-          <LogOut className="size-4" />
-          {isLoggingOut ? "Loading..." : "Logout"}
-        </Button>
+          Logout
+        </CustomButton>
         {/* <NavUser user={data.user} /> */}
       </SidebarFooter>
     </Sidebar>

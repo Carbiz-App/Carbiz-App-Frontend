@@ -7,6 +7,7 @@ import { useMerchantProfile } from "@/queries/dashboard";
 import DashboardCards from "@/components/molecules/DashboardCards";
 import { Link } from "react-router";
 import { useFetchAllOrders } from "@/queries/orders";
+import { Spinner } from "@/components/ui/spinner";
 
 const Dashboard = () => {
   const { user } = useAuthStore();
@@ -29,16 +30,24 @@ const Dashboard = () => {
       link: "/settings/document",
     },
     {
-      title: "Add your products",
-      current: data?.onboardingStatus?.add_Products,
-      link: "/products",
-    },
-    {
       title: "Set up your payment",
       current: data?.onboardingStatus?.setup_Payment,
       link: "/settings/payment",
     },
+    {
+      title: "Add your products",
+      current: data?.onboardingStatus?.add_Products,
+      link: "",
+    },
   ];
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-full ">
+        <Spinner />
+      </div>
+    );
+  }
 
   return (
     <div className="font-satoshi my-3 flex flex-col gap-y-2.5 md:gap-y-5">
@@ -51,9 +60,7 @@ const Dashboard = () => {
       </div>
       {/* New user card */}
 
-      {data?.onboardingPercentage !== 100 && loading ? (
-        "Loading.."
-      ) : data?.onboardingPercentage !== 100 ? (
+      {data?.onboardingPercentage !== 100 ? (
         <div className="bg-white rounded-xl p-5 md:p-10  w-full grid sm:grid-cols-2 border border-border-gray">
           <div className="inline-flex flex-col gap-6">
             <h2 className="text-lg sm:text-xl md:text-2xl font-bold">

@@ -7,7 +7,7 @@ import {
 import { useToast } from "@/hooks/Toast";
 import { useQuery } from "@apollo/client";
 
-interface MerchantProfileResponseType {
+export interface MerchantProfileResponseType {
   profileMerchant: {
     success: boolean;
     message: string;

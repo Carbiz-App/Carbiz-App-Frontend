@@ -10,6 +10,7 @@ import InputField from "@/components/atoms/form/input";
 import DocumentSchema, { DocumentSchemaType } from "@/schema/document.schema";
 import { useUploadKyc } from "@/queries/profile";
 import { useAuthStore } from "@/store/auth.store";
+import CustomButton from "@/components/atoms/button";
 
 const DocumentForm = () => {
   const { user } = useAuthStore();
@@ -23,12 +24,9 @@ const DocumentForm = () => {
     },
   });
 
-  console.log("profile", user);
-
   const { uploadKYCDocmentMerchant, loading } = useUploadKyc();
 
   const onSubmit = (data: DocumentSchemaType) => {
-    console.log(data);
     uploadKYCDocmentMerchant({ variables: { input: data } });
   };
 
@@ -76,13 +74,13 @@ const DocumentForm = () => {
           />
         </div>
 
-        <Button
-          disabled={loading}
+        <CustomButton
           type="submit"
+          loading={loading}
           className="bg-primary text-white px-7 md:py-7 rounded-[0.625rem] text-base w-full sm:w-[16%]"
         >
-          {loading ? "Processing..." : "Save"}
-        </Button>
+          Save
+        </CustomButton>
       </form>
     </Form>
   );

@@ -46,7 +46,7 @@ export const productsColumn = (): ColumnDef<productsType>[] => [
     accessorKey: "productName",
     header: () => (
       <div className=" text-base font-[500] text-black !bg-[#FAFAFB] p-2  sm:px-3 md:py-3.5  !border-none">
-        Product
+        Product Name
       </div>
     ),
     cell: ({ row }) => {

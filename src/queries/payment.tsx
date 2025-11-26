@@ -1,3 +1,4 @@
+import { PROFILE_MERCHANT } from "@/api/dashboard";
 import {
   ADD_BANK_DETAILS,
   DELETE_BANK,
@@ -27,6 +28,7 @@ export const useAddBankDetail = () => {
     { bankDetails: PaymentSchemaType }
   >(ADD_BANK_DETAILS, {
     refetchQueries: [
+      PROFILE_MERCHANT,
       {
         query: FETCH_ALL_BANK_DETAILS,
         variables: {

@@ -13,6 +13,7 @@ import { useAuthStore } from "@/store/auth.store";
 import { getCities, getCountries } from "../../../lib/utils";
 import useMerchantProfile from "@/queries/profile";
 import ImagePicker from "@/components/atoms/form/imagepicker";
+import CustomButton from "@/components/atoms/button";
 
 const ProfileForm = () => {
   const { user } = useAuthStore();
@@ -56,7 +57,7 @@ const ProfileForm = () => {
           businessName: data?.businessName,
           phoneNumber: data?.phoneNumber,
           address: data?.address,
-          city: data?.city,
+          // city: data?.city,
           country: data?.country,
           postalCode: data?.postalCode,
           businessPictureUrl: data.businessPictureUrl,
@@ -100,13 +101,13 @@ const ProfileForm = () => {
             disabled
           />
 
-          <SelectField
+          {/* <SelectField
             control={form.control}
             label="City"
             name="city"
             placeholder="Choose"
             items={cities}
-          />
+          /> */}
           <InputField
             control={form.control}
             name="phoneNumber"
@@ -130,13 +131,13 @@ const ProfileForm = () => {
           />
         </div>
 
-        <Button
-          disabled={loading}
+        <CustomButton
+          loading={loading}
           type="submit"
           className="bg-primary text-white px-7 md:py-7 rounded-[0.625rem] text-base "
         >
-          {loading ? "Processing..." : "Edit"}
-        </Button>
+          Save
+        </CustomButton>
       </form>
     </Form>
   );
