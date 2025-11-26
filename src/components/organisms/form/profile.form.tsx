@@ -36,7 +36,7 @@ const ProfileForm = () => {
     },
   });
 
-  const selectedCountry = form.watch("country");
+  // const selectedCountry = form.watch("country");
 
   // React.useEffect(() => {
   //   const fetchCities = async () => {
