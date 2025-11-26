@@ -2,7 +2,6 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { Form } from "@/components/ui/form";
-import { Button } from "@/components/ui/button";
 
 import ImagePicker from "@/components/atoms/form/imagepicker";
 import InputField from "@/components/atoms/form/input";

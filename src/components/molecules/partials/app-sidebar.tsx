@@ -1,6 +1,6 @@
 import * as React from "react";
 import { HouseSimple, HandCoins, Gear } from "@phosphor-icons/react";
-import { LogOut, ShoppingBag } from "lucide-react";
+import { ShoppingBag } from "lucide-react";
 
 import { IconCoins } from "@tabler/icons-react";
 

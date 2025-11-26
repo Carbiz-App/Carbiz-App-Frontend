@@ -3,14 +3,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
 
 import { Form } from "@/components/ui/form";
-import { Button } from "@/components/ui/button";
 
 import InputField from "@/components/atoms/form/input";
 
 import ProfileSchema, { ProfileSchemaType } from "@/schema/profile.schema";
 import SelectField from "@/components/atoms/form/select";
 import { useAuthStore } from "@/store/auth.store";
-import { getCities, getCountries } from "../../../lib/utils";
+import { getCountries } from "../../../lib/utils";
 import useMerchantProfile from "@/queries/profile";
 import ImagePicker from "@/components/atoms/form/imagepicker";
 import CustomButton from "@/components/atoms/button";
@@ -18,7 +17,7 @@ import CustomButton from "@/components/atoms/button";
 const ProfileForm = () => {
   const { user } = useAuthStore();
   const [countries, setCountries] = React.useState();
-  const [cities, setCities] = React.useState();
+  // const [cities, setCities] = React.useState();
 
   const { updateMerchant, loading } = useMerchantProfile();
 
@@ -39,16 +38,16 @@ const ProfileForm = () => {
 
   const selectedCountry = form.watch("country");
 
-  React.useEffect(() => {
-    const fetchCities = async () => {
-      if (selectedCountry) {
-        const res = await getCities(selectedCountry);
-        setCities(res);
-      }
-    };
+  // React.useEffect(() => {
+  //   const fetchCities = async () => {
+  //     if (selectedCountry) {
+  //       const res = await getCities(selectedCountry);
+  //       setCities(res);
+  //     }
+  //   };
 
-    fetchCities();
-  }, [selectedCountry]);
+  //   fetchCities();
+  // }, [selectedCountry]);
 
   const onSubmit = async (data: ProfileSchemaType) => {
     await updateMerchant({
