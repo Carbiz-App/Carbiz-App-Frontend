@@ -47,6 +47,7 @@ export interface OrderItem {
   originalPrice?: number;
   color: string;
   image: string;
+  isDiscountApplied: boolean;
 }
 
 export interface OrderSummaryItem {

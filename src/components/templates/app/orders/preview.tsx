@@ -82,15 +82,11 @@ const PreviewOrder = () => {
   const products: OrderItem[] = (data?.items ?? []).map((item, idx) => ({
     id: idx + 1,
     title: item?.product.productName,
-    originalPrice: item?.price ? parseFloat(item.price) : 0,
+    originalPrice: item?.product?.price || 0,
     color: item?.product?.productColor || "N/A",
     image: item?.product?.productImages?.[0] || "",
-    price:
-      item?.product?.discountedPrice != null
-        ? Number(item.product.discountedPrice)
-        : item?.price
-        ? parseFloat(item.price)
-        : 0,
+    price: item?.product?.discountedPrice || 0,
+    isDiscountApplied: item?.product?.isDiscountApplied,
   }));
 
   const summaryItems: OrderSummaryItem[] = [
@@ -102,7 +98,20 @@ const PreviewOrder = () => {
       label: "Delivery Subtotal:",
       amount: Number(data?.deliveryFee),
     },
+    {
+      label: "Total",
+      amount: Number(data?.total),
+    },
   ];
+
+  const saved = data?.pooledSavings || 0;
+  if (saved !== 0) {
+    summaryItems.push({
+      label: "Saved:",
+      amount: -saved,
+      isSaved: data?.isPooled || false,
+    });
+  }
 
   const timelineSteps: TimelineStep[] = [
     {
@@ -156,15 +165,6 @@ const PreviewOrder = () => {
       label: "Promo Discount:",
       amount: -data?.pooledSavings || 0,
       isDiscount: true,
-    });
-  }
-  const expectedTotal = (data?.subTotal || 0) + (data?.deliveryFee || 0);
-  const saved = expectedTotal - (data?.total || 0);
-  if (saved !== 0) {
-    summaryItems.push({
-      label: "Saved:",
-      amount: -saved,
-      isSaved: true,
     });
   }
 
@@ -221,7 +221,7 @@ const PreviewOrder = () => {
 
       <div className="flex-1">
         {loading ? (
-          <div className="flex items-center justify-center h-full w-full min-h-60vh">
+          <div className="flex items-center justify-center  h-[calc(50vh-2rem)]">
             {" "}
             <Spinner className="size-8 text-primary" />
           </div>

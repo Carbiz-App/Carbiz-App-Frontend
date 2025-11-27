@@ -101,6 +101,7 @@ export const FETCH_ORDER = gql`
             isDiscountApplied
             productName
             productImages
+            price
           }
           quantity
           price
