@@ -1,10 +1,5 @@
 import CustomButton from "@/components/atoms/button";
-import DetailsSection, {
-  // CustomerDetails,
-  DetailRow,
-  // MerchantDetails,
-  RiderDetails,
-} from "@/components/molecules/order/DetailsSection";
+import DetailsSection from "@/components/molecules/order/DetailsSection";
 import OrderProductItemCard from "@/components/molecules/order/OrderProductItemCard";
 import OrderTimelineItem from "@/components/molecules/order/OrderTimelineItem";
 import { Button } from "@/components/ui/button";
@@ -12,8 +7,9 @@ import { Spinner } from "@/components/ui/spinner";
 import { formatAmount } from "@/lib/functions";
 import Status from "@/lib/statusClass";
 import { updateOrderForPickup, useFetchOrder } from "@/queries/orders";
-import { MerchantEntity } from "@/types/merchants.type";
+import Customer from "@/types/customer.type";
 import { OrderItem, OrderSummaryItem, TimelineStep } from "@/types/order.type";
+import RiderEntity from "@/types/rider.type";
 import { ArrowLeft } from "@phosphor-icons/react";
 import moment from "moment";
 import { useEffect } from "react";
@@ -57,11 +53,6 @@ import { useLocation, useNavigate } from "react-router";
 //   { label: "Saved:", amount: -21345, isSaved: true },
 // ];
 
-const riderDetails: RiderDetails = {
-  name: "-",
-  phoneNumber: "-",
-};
-
 const PreviewOrder = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -75,6 +66,7 @@ const PreviewOrder = () => {
     if (path) {
       MerchantfetchaOneOrder({
         variables: { orderID: path },
+        pollInterval: 10000,
       });
     }
   }, [path]);
@@ -128,59 +120,75 @@ const PreviewOrder = () => {
       time: data?.updatedAT
         ? moment(data?.updatedAT).format("DD MMM, YYYY hh:mm A")
         : "-",
-      isCompleted: data?.orderStatus === "Packed_And_Ready_For_Pickup",
+      isCompleted:
+        data?.orderStatus === "Packed_And_Ready_For_Pickup" ||
+        Boolean(data?.updatedAT),
     },
     {
       id: 3,
       title: "Courier Pick-up",
       description: "Courier collected package from Merchant.",
-      time: "-",
-      isCompleted: false,
+      time: data?.RidersRide?.picked_up_parcelAT
+        ? moment(data?.RidersRide?.picked_up_parcelAT).format(
+            "DD MMM, YYYY hh:mm A"
+          )
+        : "-",
+      isCompleted: Boolean(data?.RidersRide?.picked_up_parcelAT),
     },
     {
       id: 4,
       title: "In-Transit",
       description: "Package is on the way to you.",
-      time: "-",
-      isCompleted: false,
+      time: data?.RidersRide?.enroute_to_dropoff_locationAT
+        ? moment(data?.RidersRide?.enroute_to_dropoff_locationAT).format(
+            "DD MMM, YYYY hh:mm A"
+          )
+        : "-",
+      isCompleted: Boolean(data?.RidersRide?.enroute_to_dropoff_locationAT),
     },
     {
       id: 5,
       title: "Order Arrived",
       description: "Courier arrived at delivery address.",
-      time: "-",
-      isCompleted: false,
+      time: data?.RidersRide?.at_dropoff_locationAT
+        ? moment(data?.RidersRide?.at_dropoff_locationAT).format(
+            "DD MMM, YYYY hh:mm A"
+          )
+        : "-",
+      isCompleted: Boolean(data?.RidersRide?.at_dropoff_locationAT),
     },
     {
       id: 6,
       title: "Order Delivered",
       description: "Package handed to customer.",
-      time: "-",
-      isCompleted: false,
+      time: data?.RidersRide?.dropped_off_parcelAT
+        ? moment().format("DD MMM, YYYY hh:mm A")
+        : "-",
+      isCompleted: Boolean(data?.RidersRide?.dropped_off_parcelAT),
     },
   ];
 
-  if (data?.pooledSavings) {
-    summaryItems.push({
-      label: "Promo Discount:",
-      amount: -data?.pooledSavings || 0,
-      isDiscount: true,
-    });
-  }
+  const splitOne = Object.fromEntries(Object.entries(data?.merchants ?? {}));
 
-  const merchantsArray: MerchantEntity[] = Array.isArray(data?.merchants)
-    ? data.merchants
-    : data?.merchants
-    ? [data.merchants]
-    : [];
+  const splitTwo = Object.entries(splitOne[0] ?? {}).filter(
+    ([key]) => key !== "__typename"
+  );
 
-  const merchantDetails = merchantsArray.map((i: MerchantEntity) => ({
-    "Business Name": i?.businessName,
-    "Phone Number": i?.phoneNumber,
-    Address: i?.address,
-  }));
-
-  const customerDetails = data?.customer;
+  const merchants = Object.fromEntries(splitTwo);
+  const customerDetails: Partial<Customer> | undefined = data?.customer
+    ? (Object.fromEntries(
+        Object.entries(data.customer ?? {}).filter(
+          ([key]) => key !== "__typename"
+        )
+      ) as Partial<Customer>)
+    : undefined;
+  const riderDetails: Partial<RiderEntity> | undefined = data?.RidersRide?.rider
+    ? (Object.fromEntries(
+        Object.entries(data.RidersRide.rider ?? {}).filter(
+          ([key]) => key !== "__typename"
+        )
+      ) as Partial<RiderEntity>)
+    : undefined;
 
   return (
     <div className="space-y-2.5 md:space-y-5 flex flex-col flex-1 h-full">
@@ -292,57 +300,20 @@ const PreviewOrder = () => {
               {/* Merchant Details */}
               <DetailsSection
                 title="Merchant Details"
-                viewText="View Merchant"
-                // onViewClick={handleViewMerchant}
-              >
-                {merchantDetails?.map((merchant, i) =>
-                  Object.entries(merchant).map(([key, value], j) => (
-                    <DetailRow
-                      key={`${i}-${j}`}
-                      label={key}
-                      value={String(value ?? "")}
-                    />
-                  ))
-                )}
-              </DetailsSection>
+                details={merchants ?? {}}
+              />
 
               {/* Customer Details */}
               <DetailsSection
                 title="Customer Details"
-                viewText="View Customer"
-                // onViewClick={handleViewCustomer}
-              >
-                <DetailRow
-                  label="Customer Name"
-                  value={customerDetails?.name}
-                />
-                {/* <DetailRow
-                label="Customer Address"
-                value={customerDetails?.address}
-                isMultiline={true}
-              /> */}
-                <DetailRow
-                  label="Customer Email Address"
-                  value={customerDetails?.email}
-                />
-                <DetailRow
-                  label="Customer Phone Number"
-                  value={customerDetails?.phoneNumber ?? "-"}
-                />
-              </DetailsSection>
+                details={customerDetails ?? {}}
+              />
 
               {/* Rider Details */}
               <DetailsSection
-                title="Rider Details"
-                viewText="View Rider"
-                // onViewClick={handleViewRider}
-              >
-                <DetailRow label="Rider Name" value={riderDetails.name} />
-                <DetailRow
-                  label="Rider Phone Number"
-                  value={riderDetails.phoneNumber}
-                />
-              </DetailsSection>
+                title="Riders Details"
+                details={riderDetails ?? {}}
+              />
             </div>
           </div>
         )}
