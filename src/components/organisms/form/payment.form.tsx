@@ -12,6 +12,7 @@ import { useModal } from "@/store/useModal";
 import { useEffect } from "react";
 import { Loader } from "lucide-react";
 import CustomButton from "@/components/atoms/button";
+import { Spinner } from "@/components/ui/spinner";
 
 const PaymentForm = () => {
   const form = useForm<PaymentSchemaType>({
@@ -66,7 +67,9 @@ const PaymentForm = () => {
         className="space-y-4 md:space-y-5"
       >
         {bankLoading ? (
-          <Loader />
+          <div className=" flex justify-center items-center">
+            <Spinner />
+          </div>
         ) : (
           <div className="grid gap-2 md:gap-4">
             <InputField

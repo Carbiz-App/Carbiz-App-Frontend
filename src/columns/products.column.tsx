@@ -129,7 +129,7 @@ export const productsColumn = (): ColumnDef<productsType>[] => [
       const navigate = useNavigate();
       const { openModal } = useModal();
       const handleDelete = (productID: string) => {
-        openModal(productID);
+        openModal({ data: productID });
       };
       return (
         <div className=" font-normal px-7 py-3.">

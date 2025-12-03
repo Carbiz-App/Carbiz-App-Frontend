@@ -141,7 +141,7 @@ export function DataTable<TData, TValue>({
         )}
         {payment && (
           <Button
-            onClick={() => openModal()}
+            onClick={() => openModal({})}
             variant="default"
             className="md:py-6  border-0 shadow text-sm sm:text-sm md:text-[14px] font-bold "
           >

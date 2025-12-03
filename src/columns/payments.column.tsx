@@ -119,7 +119,7 @@ export const paymentColumn = (): ColumnDef<paymentType>[] => [
       };
 
       const handleEdit = (bankID: string) => {
-        openModal(bankID);
+        openModal({ data: bankID });
       };
 
       return (
