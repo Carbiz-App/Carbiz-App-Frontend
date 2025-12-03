@@ -8,10 +8,17 @@ import DashboardCards from "@/components/molecules/DashboardCards";
 import { Link } from "react-router";
 import { useFetchAllOrders } from "@/queries/orders";
 import { Spinner } from "@/components/ui/spinner";
+import { useAppNotificationQuery } from "@/queries/notifications.query";
+import { useEffect } from "react";
 
 const Dashboard = () => {
   const { user } = useAuthStore();
   const { loading, data } = useMerchantProfile();
+  const { refetch } = useAppNotificationQuery();
+
+  useEffect(() => {
+    refetch();
+  }, []);
   const docState =
     !!user?.businessLicense && !!user?.CAC && !!user?.validIDcard;
 
@@ -43,7 +50,7 @@ const Dashboard = () => {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-[calc(100vh-2rem)] ">
+      <div className="flex justify-center items-center h-[calc(50vh-2rem)] ">
         <Spinner className=" text-primary size-12" />
       </div>
     );
