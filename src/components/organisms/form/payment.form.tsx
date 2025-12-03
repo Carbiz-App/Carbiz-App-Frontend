@@ -10,7 +10,6 @@ import {
 } from "@/queries/payment";
 import { useModal } from "@/store/useModal";
 import { useEffect } from "react";
-import { Loader } from "lucide-react";
 import CustomButton from "@/components/atoms/button";
 import { Spinner } from "@/components/ui/spinner";
 
