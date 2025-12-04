@@ -11,6 +11,7 @@ import Customer from "@/types/customer.type";
 import { OrderItem, OrderSummaryItem, TimelineStep } from "@/types/order.type";
 import RiderEntity from "@/types/rider.type";
 import { ArrowLeft } from "@phosphor-icons/react";
+import { BoxIcon } from "lucide-react";
 import moment from "moment";
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router";
@@ -278,6 +279,30 @@ const PreviewOrder = () => {
                       </span>
                     </div>
                   ))}
+                </div>
+              </div>
+              <div className="bg-white border border-gray-200 rounded-[0.75rem] ">
+                <div className="p-4 border-b ">
+                  <h3 className="text-base font-bold ">Delivery Type</h3>
+                </div>
+                <div className=" p-4">
+                  <div className=" p-4 flex items-center space-x-1.5 bg-primary/10 rounded-sm">
+                    <div className=" border border-primary p-0.5 rounded-full">
+                      <p className=" size-4 bg-primary rounded-full"></p>
+                    </div>
+                    <p className=" bg-primary/10 rounded-full p-2 inline-flex">
+                      <BoxIcon className="size-5 text-primary" />
+                    </p>
+                    <p className="flex flex-col">
+                      <span className=" text-sm font-medium">
+                        {data?.deliveryType} Delivery
+                      </span>
+                      <span className="text-xs">
+                        {data?.deliveryType === "standard" ? "3 - 4" : "1 - 2"}{" "}
+                        business day
+                      </span>
+                    </p>
+                  </div>
                 </div>
               </div>
 
