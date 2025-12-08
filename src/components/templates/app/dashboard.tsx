@@ -50,7 +50,7 @@ const Dashboard = () => {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-[calc(50vh-2rem)] ">
+      <div className="flex justify-center items-center h-full ">
         <Spinner className=" text-primary size-12" />
       </div>
     );

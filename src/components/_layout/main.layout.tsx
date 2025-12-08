@@ -19,11 +19,11 @@ const MainLayout = () => {
   return (
     <SidebarProvider>
       <AppSidebar />
-      <SidebarInset className="bg-[#FBFBFC]">
+      <SidebarInset className="bg-[#FBFBFC] flex flex-col min-h-screen">
         <div className="sticky bottom-0 top-0 z-50">
           <SiteHeader />
         </div>
-        <div className="p-5 md:p-6 lg:p-8  xl:p-10 2xl:p-12x ">
+        <div className="p-5 md:p-6 lg:p-8  xl:p-10 2xl:p-12">
           <Outlet />
         </div>
       </SidebarInset>
