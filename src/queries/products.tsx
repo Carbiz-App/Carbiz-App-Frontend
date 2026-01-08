@@ -7,9 +7,63 @@ import {
   UPDATE_PRODUCT,
 } from "@/api/product";
 import { useToast } from "@/hooks/Toast";
+import { usePaginatedQuery } from "@/hooks/usePagination";
+import { useTableState } from "@/hooks/useTableState";
 import { ProductSchemaType } from "@/schema/products.schema";
 import { useLazyQuery, useMutation } from "@apollo/client";
+import React from "react";
 import { useNavigate } from "react-router";
+
+export type paginationQuery = {
+  limit: number;
+  page: number;
+  sortBy: string;
+  sortOrder: string;
+  searchTerm?: string;
+  endDate?: Date | string | undefined;
+  startDate?: Date | string | undefined;
+};
+
+export const useFetchProducts = () => {
+  const { currentPage, pageSize, searchTerm, filters, setPageTotal } =
+    useTableState("products");
+  const { sortBy, sortOrder, startDate, endDate } = filters;
+
+  const paginationQuery = {
+    page: currentPage,
+    limit: pageSize,
+    sortBy,
+    sortOrder,
+    searchTerm,
+    ...(startDate && { startDate }),
+    ...(endDate && { endDate }),
+  };
+
+  const { data, loading, total, message, refetch } = usePaginatedQuery({
+    query: FETCH_ALL_PRODUCTS,
+    pagination: paginationQuery,
+    extractData: (res) => {
+      const payload = res?.fetchallProductRelatedToMerchant?.payload;
+      return {
+        data: payload?.data ?? [],
+        total: payload?.total ?? 0,
+        message: res?.fetchallProductRelatedToMerchant?.message,
+      };
+    },
+  });
+
+  // sync total with table store
+  React.useEffect(() => {
+    if (total) setPageTotal(total);
+  }, [total]);
+
+  return {
+    data,
+    refetch,
+    message,
+    loading,
+  };
+};
 
 interface createProduct {
   createProduct: {
@@ -137,6 +191,19 @@ export const useDeleteProducts = (onSuccess?: () => void) => {
     deleteProduct,
     { productID: string }
   >(DELETE_PRODUCT, {
+    refetchQueries: [
+      {
+        query: FETCH_ALL_PRODUCTS,
+        variables: {
+          paginationQuery: {
+            limit: 15,
+            page: 1,
+            sortBy: "createdAt",
+            sortOrder: "DESC",
+          },
+        },
+      },
+    ],
     onCompleted: (data) => {
       const result = data?.deleteProduct;
 

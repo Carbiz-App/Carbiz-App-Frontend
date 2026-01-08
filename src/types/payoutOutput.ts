@@ -1,0 +1,78 @@
+import Customer from "./customer.type";
+import Merchant from "./merchants.type";
+import OrderEntity from "./order.type";
+import RiderEntity from "./rider.type";
+
+export interface adminEntity {
+  adminAccess: string;
+  adminID: string;
+  createdAt: Date;
+  deletedAt: Date;
+  email: string;
+  id: Number;
+  isVerified: Boolean;
+  my_completed_payouts: [PayoutOutput];
+  name: string;
+  password: string;
+  phoneNumber: string;
+  profilePics: string;
+  resetPasswordOtp: string;
+  resetPasswordOtpExpirationTime: Date;
+  role: string;
+  status: string;
+  updatedAt: Date;
+}
+
+export interface PayoutOutput {
+  commision: GLfloat;
+  completedBy: adminEntity;
+  completedOn: Date;
+  createdAt: Date;
+  deletedAt: Date;
+  grossSaleAmount: GLfloat;
+  id: Number;
+  invoiceStatus: string;
+  merchant: Merchant;
+  netPayout: GLfloat;
+  paymentMethod: string;
+  paymentNote: string;
+  paymentReceipt: string;
+  paymentStatus: string;
+  payoutAt: Date;
+  payoutID: string;
+  payoutRequestAmount: GLfloat;
+  payoutRequetID: string;
+  payoutStatus: string;
+  platformCommisions: GLfloat;
+  processingFee: GLfloat;
+  relatedOrders: [OrderEntity];
+  rider: RiderEntity;
+  taxDeduction: GLfloat;
+  totalDeductions: GLfloat;
+  transactionReference: string;
+  updatedAt: Date;
+}
+
+type TransactionEntity = {
+  amount: number;
+  createdAt: Date;
+  customer: Customer;
+  description: string;
+  id: number;
+  merchant: Merchant;
+  metadata: TransactionMetadata;
+  orderID: string;
+  reference: string;
+  rider: RiderEntity;
+  status: string;
+  transactionID: string;
+  type: string;
+};
+
+export default TransactionEntity;
+
+type TransactionMetadata = {
+  additionalInfo: string;
+  orderReference: string;
+  type: string;
+};

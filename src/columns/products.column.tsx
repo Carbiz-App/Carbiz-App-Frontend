@@ -1,10 +1,6 @@
-import { Button } from "@/components/ui/button";
+import { ProductAction } from "@/components/templates/app/products/productAction";
 import { Checkbox } from "@/components/ui/checkbox";
-import { PopoverTrigger } from "@/components/ui/popover";
-import { useModal } from "@/store/useModal";
 import { ColumnDef } from "@tanstack/react-table";
-import { Eye, PenLine, Trash2Icon } from "lucide-react";
-import { useNavigate } from "react-router";
 
 export type productsType = {
   productID: string;
@@ -126,34 +122,30 @@ export const productsColumn = (): ColumnDef<productsType>[] => [
     ),
     cell: ({ row }) => {
       const id = row.original;
-      const navigate = useNavigate();
-      const { openModal } = useModal();
-      const handleDelete = (productID: string) => {
-        openModal({ data: productID });
-      };
       return (
-        <div className=" font-normal px-7 py-3.">
-          <Button variant={"ghost"} className=" p-4 border-r rounded-none">
-            <Eye className=" text-3xl size-5 text-[#4F4C55]" />
-          </Button>
+        <ProductAction id={id?.productID} />
+        // <div className=" font-normal">
+        //   <Button variant={"ghost"} className=" p-4 border-r rounded-none">
+        //     <Eye className=" text-3xl size-5 text-[#4F4C55]" />
+        //   </Button>
 
-          <Button
-            onClick={() => navigate(`/products/${id.productID}`)}
-            variant={"ghost"}
-            className=" p-4 border-r rounded-none"
-          >
-            <PenLine className=" text-3xl size-5 text-[#4F4C55]" />
-          </Button>
-          <PopoverTrigger asChild>
-            <Button
-              variant={"ghost"}
-              className=" p-4 rounded-none"
-              onClick={() => handleDelete(id.productID)}
-            >
-              <Trash2Icon className=" text-3xl size-5 text-[#4F4C55]" />
-            </Button>
-          </PopoverTrigger>
-        </div>
+        //   <Button
+        //     onClick={() => navigate(`/products/${id.productID}`)}
+        //     variant={"ghost"}
+        //     className=" p-4 border-r rounded-none"
+        //   >
+        //     <PenLine className=" text-3xl size-5 text-[#4F4C55]" />
+        //   </Button>
+        //   <PopoverTrigger asChild>
+        //     <Button
+        //       variant={"ghost"}
+        //       className=" p-4 rounded-none"
+        //       onClick={() => handleDelete(id.productID)}
+        //     >
+        //       <Trash2Icon className=" text-3xl size-5 text-[#4F4C55]" />
+        //     </Button>
+        //   </PopoverTrigger>
+        // </div>
       );
     },
   },

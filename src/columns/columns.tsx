@@ -43,13 +43,12 @@ export const ordersColumns: ColumnDef<Order>[] = [
   {
     accessorKey: "items",
     header: () => (
-      <div className="text-base font-[500] text-black !bg-[#FAFAFB] p-2 sm:px-3 md:py-3.5 !border-none">
+      <div className="text-base font-[500] text-black !bg-[#FAFAFB] p-2  !border-none max-w-sm">
         Product Name
       </div>
     ),
     cell: ({ row }) => {
       const items = row.getValue("items");
-      // handle both array or object safely
       const productName = Array.isArray(items)
         ? items[0]?.product?.productName
         : items &&
@@ -59,7 +58,7 @@ export const ordersColumns: ColumnDef<Order>[] = [
             ?.productName;
 
       return (
-        <div className="font-normal p-2 md:py-2.5 uppercase">
+        <div className="font-normal p-2  uppercase max-w-xs text-wrap">
           {productName ?? "-"}
         </div>
       );
@@ -69,13 +68,13 @@ export const ordersColumns: ColumnDef<Order>[] = [
   {
     accessorKey: "createdAT",
     header: () => (
-      <div className=" text-base font-[500] text-black bg-[#FAFAFB] p-2  sm:px-3 md:py-3.5 border-none">
+      <div className=" text-base font-[500] text-black bg-[#FAFAFB] p-2    border-none">
         Created
       </div>
     ),
     cell: ({ row }) => {
       return (
-        <div className=" font-normal p-2  md:py-2.5">
+        <div className=" font-normal p-2  ">
           {moment(row.getValue("createdAT")).format("DD MMM, YYYY hh:mm A")}
         </div>
       );
@@ -84,22 +83,20 @@ export const ordersColumns: ColumnDef<Order>[] = [
   {
     accessorKey: "orderID",
     header: () => (
-      <div className=" text-base  font-[500] text-black bg-[#FAFAFB] p-2  sm:px-3 md:py-3.5">
+      <div className=" text-base  font-[500] text-black bg-[#FAFAFB] p-2  ">
         Order ID
       </div>
     ),
     cell: ({ row }) => {
       return (
-        <div className=" font-normal p-2  md:py-2.5">
-          {row.getValue("orderID")}
-        </div>
+        <div className=" font-normal p-2  ">{row.getValue("orderID")}</div>
       );
     },
   },
   {
     accessorKey: "paymentStatus",
     header: () => (
-      <div className=" text-base  font-[500] text-black bg-[#FAFAFB] p-2  sm:px-3 md:py-3.5">
+      <div className=" text-base  font-[500] text-black bg-[#FAFAFB] p-2  ">
         Payment Status
       </div>
     ),
@@ -118,9 +115,9 @@ export const ordersColumns: ColumnDef<Order>[] = [
         }
       };
       return (
-        <div className={` font-normal p-2  md:py-2.5 `}>
+        <div className={` font-normal p-2   `}>
           <span className={`px-3 py-1 rounded-2xl ${statusColor()} capitalize`}>
-            {row.getValue("paymentStatus") ?? "-"}
+            {row.original?.paymentStatus?.toLowerCase() ?? "~~~"}
           </span>
         </div>
       );
@@ -129,7 +126,7 @@ export const ordersColumns: ColumnDef<Order>[] = [
   {
     accessorKey: "orderStatus",
     header: () => (
-      <div className=" text-base  font-[500] text-black bg-[#FAFAFB] p-2  sm:px-3 md:py-3.5">
+      <div className=" text-base  font-[500] text-black bg-[#FAFAFB] p-2  ">
         Order Status
       </div>
     ),
@@ -142,7 +139,7 @@ export const ordersColumns: ColumnDef<Order>[] = [
             return "bg-[#E2DAF4] text-[#7046C6]";
           case "shipped":
             return "bg-[#FFF7E1] text-[#DC6803]";
-          case "canceled":
+          case "cancelled":
             return "text-[#B42318] bg-[#FEE4E2]";
           case "delivered":
             return "text-[#027A48] bg-[#D1FADF]";
@@ -156,7 +153,7 @@ export const ordersColumns: ColumnDef<Order>[] = [
       };
       const displayStatus = statusStr.replaceAll("_", " ");
       return (
-        <div className={` font-normal p-2  md:py-2.5 `}>
+        <div className={` font-normal p-2   `}>
           <span className={`px-3 py-1 rounded-2xl ${statusColor()} capitalize`}>
             {displayStatus || "-"}
           </span>
@@ -170,7 +167,7 @@ export const ordersColumns: ColumnDef<Order>[] = [
       const id = row.original;
       const navigate = useNavigate();
       return (
-        <div className=" text-base  font-[500] text-black  p-2  sm:px-3 md:py-3.5">
+        <div className=" text-base  font-[500] text-black  p-2  ">
           <Eye
             className=" text-3xl size-5 text-[#4F4C55] cursor-pointer"
             onClick={() => navigate(`/orders/${id.orderID}`)}

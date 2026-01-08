@@ -7,7 +7,7 @@ export const uploadImageRest = (
   const formData = new FormData();
 
   files.forEach((file) => {
-    formData.append("productImages", file); // Ensure backend expects this key
+    formData.append("productImages", file);
   });
 
   return axios
@@ -26,7 +26,7 @@ export const uploadImageRest = (
         },
       }
     )
-    .then((res) => res.data.payload); // should be an array of URLs
+    .then((res) => res.data.payload);
 };
 
 export const submitImageMetadata = async (

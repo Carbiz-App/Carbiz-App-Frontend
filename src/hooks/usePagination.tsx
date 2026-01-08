@@ -1,7 +1,8 @@
 import { useQuery } from "@apollo/client";
-import { useState } from "react";
+import { useEffect } from "react";
+import { useToast } from "./Toast";
 
-type PaginationInput = {
+type PaginationQuery = {
   page: number;
   limit: number;
   sortBy?: string;
@@ -10,8 +11,8 @@ type PaginationInput = {
 
 type UsePaginatedQueryProps<TVariables> = {
   query: any;
-  initialVariables?: TVariables;
-  paginationDefaults?: PaginationInput;
+  variables?: TVariables;
+  pagination: PaginationQuery;
   extractData: (response: any) => {
     data: any[];
     total: number;
@@ -19,38 +20,38 @@ type UsePaginatedQueryProps<TVariables> = {
   };
 };
 
-export function usePagination<TVariables = any>({
+export function usePaginatedQuery<TVariables = any>({
   query,
-  initialVariables,
-  paginationDefaults = {
-    page: 1,
-    limit: 10,
-    sortBy: "createdAT",
-    sortOrder: "DESC",
-  },
+  variables,
+  pagination,
   extractData,
 }: UsePaginatedQueryProps<TVariables>) {
-  const [pagination, setPagination] =
-    useState<PaginationInput>(paginationDefaults);
-
-  // const { pathname } = useLocation();
-  // const path = pathname.includes("products");
-
-  const variables = {
-    ...initialVariables,
-    paginationQuery: {
-      page: pagination.page,
-      limit: pagination.limit,
-      sortBy: pagination.sortBy || "CreatedAt",
-      sortOrder: pagination.sortOrder,
-    },
-  };
+  const { handleError } = useToast();
 
   const { data, loading, error, refetch } = useQuery(query, {
-    variables,
+    variables: {
+      ...variables,
+      paginationQuery: pagination,
+    },
     fetchPolicy: "cache-and-network",
     nextFetchPolicy: "cache-first",
   });
+
+  useEffect(() => {
+    if (!error) return;
+    if (error.networkError) {
+      handleError(
+        "Network error. Please check your internet connection and try again."
+      );
+      return;
+    }
+
+    if (error.graphQLErrors?.length) {
+      error.graphQLErrors.forEach((err) => {
+        handleError(err.message || "Something went wrong");
+      });
+    }
+  }, [error, handleError]);
 
   const {
     data: tableData = [],
@@ -58,25 +59,12 @@ export function usePagination<TVariables = any>({
     message = "",
   } = extractData(data || {});
 
-  const setPage = (newPage: number) =>
-    setPagination((prev) => ({ ...prev, page: newPage }));
-
-  const setLimit = (newLimit: number) =>
-    setPagination((prev) => ({ ...prev, limit: newLimit, page: 1 }));
-
-  const setSort = (sortBy: string, sortOrder: "ASC" | "DESC") =>
-    setPagination((prev) => ({ ...prev, sortBy, sortOrder }));
-
   return {
     loading,
-    error,
+    error, // still expose for UI conditions
     data: tableData,
     total,
-    pagination,
-    setPage,
-    setLimit,
-    setSort,
-    refetch,
     message,
+    refetch,
   };
 }

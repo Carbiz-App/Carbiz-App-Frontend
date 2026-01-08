@@ -7,14 +7,15 @@ export { default as ResetPassword } from "@/components/templates/authentication/
 
 // APP
 export { default as Dashboard } from "@/components/templates/app/dashboard";
-export { default as Customers } from "@/components/templates/app/customers";
-export { default as PreviewCustomer } from "@/components/templates/app/customers/preview";
+// export { default as Customers } from "@/components/templates/app/customers";
+// export { default as PreviewCustomer } from "@/components/templates/app/customers/preview";
 
 export { default as Orders } from "@/components/templates/app/orders";
 export { default as PreviewOrder } from "@/components/templates/app/orders/preview";
 
 export { default as Payouts } from "@/components/templates/app/payout";
-export { default as PreviewPayout } from "@/components/templates/app/payout/preview";
+// export { default as PreviewPayout } from "@/components/templates/app/payout/preview";
+
 export { default as Products } from "@/components/templates/app/products";
 export { default as AddProduct } from "@/components/templates/app/products/add";
 

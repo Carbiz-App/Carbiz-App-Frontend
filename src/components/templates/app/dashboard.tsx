@@ -22,8 +22,7 @@ const Dashboard = () => {
   const docState =
     !!user?.businessLicense && !!user?.CAC && !!user?.validIDcard;
 
-  const { orderData, total, orderLoading, pagination, setPage, message } =
-    useFetchAllOrders();
+  const { orderData, orderLoading, message } = useFetchAllOrders();
 
   const onBoarding = [
     {
@@ -117,13 +116,10 @@ const Dashboard = () => {
 
       {/* Recent order logs */}
       <DataTable
+        tableKey="orders"
         columns={ordersColumns}
         data={orderData}
-        total={total}
         loading={orderLoading}
-        pageIndex={pagination.page - 1}
-        pageSize={pagination.limit}
-        onPageChange={(index) => setPage(index + 1)}
         message={message}
       />
     </div>

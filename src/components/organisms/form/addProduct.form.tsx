@@ -7,7 +7,7 @@ import TextArea from "@/components/atoms/form/textarea";
 import Loader from "@/components/atoms/loader";
 import Uploader from "@/components/molecules/uploader";
 import { Form } from "@/components/ui/form";
-import { usePagination } from "@/hooks/usePagination";
+import { usePaginatedQuery } from "@/hooks/usePagination";
 import {
   useAddProducts,
   useFetchProduct,
@@ -59,9 +59,9 @@ const AddProductForm = () => {
     // loading: categoriesLoading,
     // pagination,
     // setPage,
-  } = usePagination({
+  } = usePaginatedQuery({
     query: FETCH_PRODUCT_CATEGORIES,
-    paginationDefaults: {
+    pagination: {
       page: 1,
       limit: 10,
       sortOrder: "DESC",

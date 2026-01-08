@@ -43,3 +43,44 @@ export const FETCH_TRANSACTION = gql`
     }
   }
 `;
+
+export const FETCH_ALL_PAYOUTS = gql`
+  query MerchantfetchallPayouts($paginationQuery: PaginatedPayoutFiltersDto!) {
+    MerchantfetchallPayouts(paginationQuery: $paginationQuery) {
+      success
+      message
+      status
+      errors
+      payload {
+        currentPage
+        pageSize
+        total
+        data {
+          merchant {
+            businessName
+            merchantID
+            bank_details {
+              accountNumber
+            }
+          }
+          rider {
+            riderID
+            firstName
+            lastName
+            bank_details {
+              accountNumber
+            }
+          }
+          payoutID
+          netPayout
+          paymentMethod
+          paymentStatus
+          commision
+          payoutAt
+          createdAt
+          payoutRequetID
+        }
+      }
+    }
+  }
+`;

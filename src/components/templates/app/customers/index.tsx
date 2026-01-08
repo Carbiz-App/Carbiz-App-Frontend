@@ -3,12 +3,12 @@ import CustomerColumns from "@/columns/customers.column";
 // import { customers } from "@/assets/data/index.json";
 
 import { FETCH_ALL_CUSTOMERS } from "@/api/customers";
-import { usePagination } from "@/hooks/usePagination";
+import { usePaginatedQuery } from "@/hooks/usePagination";
 
 const Customers = () => {
-  const { data, total, loading, pagination, setPage, message } = usePagination({
+  const { data, loading, message } = usePaginatedQuery({
     query: FETCH_ALL_CUSTOMERS,
-    paginationDefaults: {
+    pagination: {
       page: 1,
       limit: 10,
       sortOrder: "DESC",
@@ -26,14 +26,11 @@ const Customers = () => {
     <>
       <DataTable
         tableName="Customers"
+        tableKey="customers"
         // isClickable
         columns={CustomerColumns}
         data={data}
-        total={total}
         loading={loading}
-        pageIndex={pagination.page - 1}
-        pageSize={pagination.limit}
-        onPageChange={(index) => setPage(index + 1)}
         message={message}
       />
     </>

@@ -4,18 +4,12 @@ import {
   UpdateOrderForPickup,
 } from "@/api/orders";
 import { useToast } from "@/hooks/Toast";
-import { usePagination } from "@/hooks/usePagination";
+import { usePaginatedQuery } from "@/hooks/usePagination";
+import { useTableState } from "@/hooks/useTableState";
 import { useModal } from "@/store/useModal";
 import OrderEntity from "@/types/order.type";
 import { useLazyQuery, useMutation } from "@apollo/client";
-
-// interface MerchantfetchaOneOrder {
-//   MerchantfetchaOneOrder: {
-//     success: boolean;
-//     message: string;
-//     payload: any;
-//   };
-// }
+import React from "react";
 
 interface UpdateForPickup {
   MerchantUpdateOrderToPackedAndReadyForPickup: {
@@ -26,39 +20,42 @@ interface UpdateForPickup {
 }
 
 export const useFetchAllOrders = () => {
-  const {
-    data: orderData,
-    total,
-    loading: orderLoading,
-    pagination,
-    setPage,
-    message,
-  } = usePagination({
-    query: FETCH_ALL_ORDERS,
-    extractData: (res) => {
-      const api = res?.MerchantfetchallMyOrders;
+  const { currentPage, pageSize, searchTerm, filters, setPageTotal } =
+    useTableState("orders");
+  const { sortBy, sortOrder, startDate, endDate, orderStatus } = filters;
 
-      if (!api?.payload) {
-        return {
-          data: [],
-          total: 0,
-          message: api?.message || "Something went wrong on the server.",
-        };
-      }
+  const paginationQuery = {
+    page: currentPage,
+    limit: pageSize,
+    sortBy,
+    sortOrder,
+    searchTerm,
+    ...(startDate && { startDate }),
+    ...(endDate && { endDate }),
+    ...(orderStatus && { orderStatus }),
+  };
+
+  const { data, loading, total, message } = usePaginatedQuery({
+    query: FETCH_ALL_ORDERS,
+    pagination: paginationQuery,
+    extractData: (res) => {
+      const payload = res?.MerchantfetchallMyOrders?.payload;
       return {
-        data: res?.MerchantfetchallMyOrders?.payload?.data || [],
-        total: res?.MerchantfetchallMyOrders?.payload?.total || 0,
+        data: payload?.data ?? [],
+        total: payload?.total ?? 0,
         message: res?.MerchantfetchallMyOrders?.message,
       };
     },
   });
 
+  // sync total with table store
+  React.useEffect(() => {
+    if (total) setPageTotal(total);
+  }, [total]);
+
   return {
-    orderData,
-    total,
-    orderLoading,
-    pagination,
-    setPage,
+    orderData: data,
+    orderLoading: loading,
     message,
   };
 };

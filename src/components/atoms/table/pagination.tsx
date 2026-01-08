@@ -2,18 +2,25 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useMemo } from "react";
 
-export function Pagination({ table }: { table: any }) {
-  const pageIndex = table.getState().pagination.pageIndex;
-  const pageCount = table.getPageCount();
-  const pageSize = table.getState().pagination.pageSize;
-  const total = table.getFilteredRowModel().rows.length;
+interface PaginationProps {
+  total: number;
+  pageSize: number;
+  currentPage: number; // 1-based
+  onPageChange: (page: number) => void;
+}
 
-  const currentStart = pageIndex * pageSize + 1;
-  const currentEnd = Math.min((pageIndex + 1) * pageSize, total);
+export function Pagination({
+  total,
+  pageSize,
+  currentPage,
+  onPageChange,
+}: PaginationProps) {
+  const pageCount = Math.ceil(total / pageSize);
 
-  // Create a compact range: [1, 2, 3, ..., 50]
+  const currentStart = (currentPage - 1) * pageSize + 1;
+  const currentEnd = Math.min(currentPage * pageSize, total);
+
   const visiblePages = useMemo(() => {
-    // const range = [];
     const siblingCount = 1;
     const totalNumbers = siblingCount * 2 + 5;
 
@@ -21,50 +28,57 @@ export function Pagination({ table }: { table: any }) {
       return Array.from({ length: pageCount }, (_, i) => i + 1);
     }
 
-    const leftSiblingIndex = Math.max(pageIndex - siblingCount, 1);
-    const rightSiblingIndex = Math.min(pageIndex + siblingCount + 1, pageCount);
+    const leftSibling = Math.max(currentPage - siblingCount, 1);
+    const rightSibling = Math.min(currentPage + siblingCount, pageCount);
 
-    const shouldShowLeftDots = leftSiblingIndex > 2;
-    const shouldShowRightDots = rightSiblingIndex < pageCount - 1;
+    const showLeftDots = leftSibling > 2;
+    const showRightDots = rightSibling < pageCount - 1;
 
-    const firstPageIndex = 1;
-    const lastPageIndex = pageCount;
-
-    if (!shouldShowLeftDots && shouldShowRightDots) {
-      const leftItems = Array.from(
-        { length: 3 + 2 * siblingCount },
-        (_, i) => i + 1
-      );
-      return [...leftItems, "...", lastPageIndex];
+    if (!showLeftDots && showRightDots) {
+      return [
+        ...Array.from({ length: 3 + 2 * siblingCount }, (_, i) => i + 1),
+        "...",
+        pageCount,
+      ];
     }
 
-    if (shouldShowLeftDots && !shouldShowRightDots) {
-      const rightItems = Array.from(
-        { length: 3 + 2 * siblingCount },
-        (_, i) => pageCount - (4 - i)
-      );
-      return [firstPageIndex, "...", ...rightItems];
+    if (showLeftDots && !showRightDots) {
+      return [
+        1,
+        "...",
+        ...Array.from(
+          { length: 3 + 2 * siblingCount },
+          (_, i) => pageCount - (4 - i)
+        ),
+      ];
     }
 
-    const middleItems = Array.from(
-      { length: 2 * siblingCount + 1 },
-      (_, i) => leftSiblingIndex + i
-    );
-    return [firstPageIndex, "...", ...middleItems, "...", lastPageIndex];
-  }, [pageIndex, pageCount]);
+    return [
+      1,
+      "...",
+      ...Array.from(
+        { length: 2 * siblingCount + 1 },
+        (_, i) => leftSibling + i
+      ),
+      "...",
+      pageCount,
+    ];
+  }, [currentPage, pageCount]);
+
+  if (pageCount <= 1) return null;
 
   return (
-    <div className="flex items-center justify-between border-t p-5 md:p-8 w-full flex-wrap gap-1.5 my-2">
-      <div className="text-muted-foreground md:text-base font-[500] mb-2.5">
+    <div className="flex items-center justify-between border-t p-5 md:p-8 w-full flex-wrap gap-2 my-2">
+      <div className="text-muted-foreground md:text-base font-medium">
         Showing {currentStart}–{currentEnd} of {total}
       </div>
 
-      <div className="flex items-center gap-2 flex-1 justify-center">
+      <div className="flex items-center gap-2 justify-center">
         <Button
           variant="outline"
           size="lg"
-          onClick={() => table.previousPage()}
-          disabled={!table.getCanPreviousPage()}
+          onClick={() => onPageChange(currentPage - 1)}
+          disabled={currentPage === 1}
         >
           <ChevronLeft className="h-4 w-4 mr-1" />
           Prev
@@ -78,12 +92,14 @@ export function Pagination({ table }: { table: any }) {
           ) : (
             <Button
               key={i}
-              variant={pageIndex === page - 1 ? "outline" : "ghost"}
               size="lg"
-              onClick={() => table.setPageIndex(page - 1)}
-              className={`"px-4 text-[#74737D] border-none ${
-                pageIndex === page - 1 ? "bg-[#F7F7F8] text-black" : ""
-              } `}
+              variant={page === currentPage ? "outline" : "ghost"}
+              onClick={() => onPageChange(page as number)}
+              className={
+                page === currentPage
+                  ? "bg-[#F7F7F8] text-black"
+                  : "text-[#74737D]"
+              }
             >
               {page}
             </Button>
@@ -93,8 +109,8 @@ export function Pagination({ table }: { table: any }) {
         <Button
           variant="outline"
           size="lg"
-          onClick={() => table.nextPage()}
-          disabled={!table.getCanNextPage()}
+          onClick={() => onPageChange(currentPage + 1)}
+          disabled={currentPage === pageCount}
         >
           Next
           <ChevronRight className="h-4 w-4 ml-1" />

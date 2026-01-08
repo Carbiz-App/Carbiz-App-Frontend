@@ -1,54 +1,55 @@
-import { Link, useLocation } from "react-router";
-import { ArrowLeft } from "iconsax-reactjs";
-import { CardDetail } from "@/components/atoms/card/previewCard";
-import { usePagination } from "@/hooks/usePagination";
-import { FETCH_CUSTOMER_ORDER } from "@/api/customers";
-import { DataTable } from "@/components/atoms/table";
-import { ordersColumns } from "@/columns/columns";
-import { Skeleton } from "@/components/ui/skeleton";
+// import { Link, useLocation } from "react-router";
+// import { ArrowLeft } from "iconsax-reactjs";
+// import { CardDetail } from "@/components/atoms/card/previewCard";
+// import { FETCH_CUSTOMER_ORDER } from "@/api/customers";
+// import { DataTable } from "@/components/atoms/table";
+// import { ordersColumns } from "@/columns/columns";
+// import { Skeleton } from "@/components/ui/skeleton";
+// import { usePaginatedQuery } from "@/hooks/usePagination";
 
-type details = {
-  title: string;
-  value: string;
-};
+// type details = {
+//   title: string;
+//   value: string;
+// };
 
 const PreviewCustomer = () => {
-  const { pathname } = useLocation();
-  const path = pathname.split("/")[2];
-  const { data, total, loading, pagination, setPage, message } = usePagination({
-    query: FETCH_CUSTOMER_ORDER,
-    initialVariables: { customerID: path },
-    paginationDefaults: {
-      page: 1,
-      limit: 10,
-      sortOrder: "DESC",
-      sortBy: "createdAT",
-    },
-    extractData: (res) => ({
-      data:
-        res?.MerchantfetchallMyCustomerOrderRelatedToMeAlone?.payload?.data ||
-        [],
-      total:
-        res?.MerchantfetchallMyCustomerOrderRelatedToMeAlone?.payload?.total ||
-        0,
-      message: res?.MerchantfetchallMyCustomerOrderRelatedToMeAlone?.message,
-    }),
-  });
+  // const { pathname } = useLocation();
+  // const path = pathname.split("/")[2];
+  // const { data, total, loading, pagination, setPage, message } =
+  //   usePaginatedQuery({
+  //     query: FETCH_CUSTOMER_ORDER,
+  //     initialVariables: { customerID: path },
+  //     paginationDefaults: {
+  //       page: 1,
+  //       limit: 10,
+  //       sortOrder: "DESC",
+  //       sortBy: "createdAT",
+  //     },
+  //     extractData: (res) => ({
+  //       data:
+  //         res?.MerchantfetchallMyCustomerOrderRelatedToMeAlone?.payload?.data ||
+  //         [],
+  //       total:
+  //         res?.MerchantfetchallMyCustomerOrderRelatedToMeAlone?.payload
+  //           ?.total || 0,
+  //       message: res?.MerchantfetchallMyCustomerOrderRelatedToMeAlone?.message,
+  //     }),
+  //   });
 
-  const customer = data?.[0]?.customer;
+  // const customer = data?.[0]?.customer;
 
-  const itemDetails: details[] = customer
-    ? [
-        { title: "Name", value: customer?.name ?? "" },
-        { title: "Email", value: customer?.email ?? "" },
-        { title: "Phone", value: customer?.phoneNumber ?? "" },
-        { title: "Added on", value: customer?.createdAt ?? "" },
-      ]
-    : [];
+  // const itemDetails: details[] = customer
+  //   ? [
+  //       { title: "Name", value: customer?.name ?? "" },
+  //       { title: "Email", value: customer?.email ?? "" },
+  //       { title: "Phone", value: customer?.phoneNumber ?? "" },
+  //       { title: "Added on", value: customer?.createdAt ?? "" },
+  //     ]
+  //   : [];
 
   return (
     <div className="space-y-10">
-      <Link to={".."} className="inline-flex items-center gap-2.5">
+      {/* <Link to={".."} className="inline-flex items-center gap-2.5">
         <ArrowLeft size={20} color="#696572" />
         <h4 className="font-family-satoshi text-text-secondary text-base font-medium">
           Customer Details
@@ -87,7 +88,7 @@ const PreviewCustomer = () => {
         pageSize={pagination.limit}
         onPageChange={(index) => setPage(index + 1)}
         message={message}
-      />
+      /> */}
     </div>
   );
 };
