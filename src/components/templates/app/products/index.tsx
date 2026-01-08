@@ -16,19 +16,12 @@ const index = () => {
       tableKey="products"
       data={data}
       tableName="Proucts"
-      // isClickable m
+      // isClickable
       message={data.length === 0 ? "No product has been added" : message}
       loading={loading}
       actions
     >
       <div className="flex items-center gap-4 lg:ml-auto">
-        {/* <Button
-          variant="outline"
-          className="md:py-6  border-0 shadow text-[#807F94] text-xs sm:text-sm md:text-[14px] font-[500]"
-        >
-          <LucideDownload className="size-3 md:size-5" />
-          Export Data
-        </Button> */}
         <Button
           onClick={() => router(`${pathname}/new`)} // Navigate to the new product page
           variant="default"

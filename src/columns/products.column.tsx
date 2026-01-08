@@ -122,31 +122,7 @@ export const productsColumn = (): ColumnDef<productsType>[] => [
     ),
     cell: ({ row }) => {
       const id = row.original;
-      return (
-        <ProductAction id={id?.productID} />
-        // <div className=" font-normal">
-        //   <Button variant={"ghost"} className=" p-4 border-r rounded-none">
-        //     <Eye className=" text-3xl size-5 text-[#4F4C55]" />
-        //   </Button>
-
-        //   <Button
-        //     onClick={() => navigate(`/products/${id.productID}`)}
-        //     variant={"ghost"}
-        //     className=" p-4 border-r rounded-none"
-        //   >
-        //     <PenLine className=" text-3xl size-5 text-[#4F4C55]" />
-        //   </Button>
-        //   <PopoverTrigger asChild>
-        //     <Button
-        //       variant={"ghost"}
-        //       className=" p-4 rounded-none"
-        //       onClick={() => handleDelete(id.productID)}
-        //     >
-        //       <Trash2Icon className=" text-3xl size-5 text-[#4F4C55]" />
-        //     </Button>
-        //   </PopoverTrigger>
-        // </div>
-      );
+      return <ProductAction id={id?.productID} />;
     },
   },
 ];

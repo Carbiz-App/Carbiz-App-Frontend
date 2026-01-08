@@ -8,7 +8,7 @@ import { useDeleteProducts } from "@/queries/products";
 import { useModal } from "@/store/useModal";
 import { Info } from "@phosphor-icons/react";
 import { PopoverClose } from "@radix-ui/react-popover";
-import { Eye, PenLine, Trash2Icon } from "lucide-react";
+import { PenLine, Trash2Icon } from "lucide-react";
 import { useNavigate } from "react-router";
 
 export const ProductAction = ({ id }: { id: string }) => {
@@ -36,9 +36,9 @@ export const ProductAction = ({ id }: { id: string }) => {
       }}
     >
       <div className=" font-normal">
-        <Button variant={"ghost"} className=" p-4 border-r rounded-none">
+        {/* <Button variant={"ghost"} className=" p-4 border-r rounded-none">
           <Eye className=" text-3xl size-5 text-[#4F4C55]" />
-        </Button>
+        </Button> */}
 
         <Button
           onClick={() => navigate(`/products/${id}`)}
