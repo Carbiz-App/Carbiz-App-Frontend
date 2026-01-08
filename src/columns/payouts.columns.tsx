@@ -191,6 +191,6 @@ export const PayoutsColumn: ColumnDef<PayoutOutput>[] = [
       </div>
     ),
     // cell: ({ row }) => <PayoutActions payout={row.original} />,
-    cell: ({ row }) => <></>,
+    cell: ({}) => <></>,
   },
 ];
