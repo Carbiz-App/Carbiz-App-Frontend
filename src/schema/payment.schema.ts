@@ -4,10 +4,10 @@ const PaymentSchema = z.object({
   accountName: z.string({ message: "Account name is required" }),
   accountNumber: z
     .string({ message: "Account number is required" })
-    .regex(/^(0\d{10}|\d{10})$/, "Invalid account number. Use 07012345678"),
+    .regex(/^(0\d{10}|\d{10})$/, "Invalid account number. Use 2064103644"),
   bankName: z.string({ message: "Bank name is required" }),
+  bankCode: z.string().optional(),
 });
-
 
 export default PaymentSchema;
 

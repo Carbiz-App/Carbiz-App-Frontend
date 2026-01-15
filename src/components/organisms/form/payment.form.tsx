@@ -45,7 +45,7 @@ const PaymentForm = () => {
     if (modal.data) {
       await updateBankDetail({
         variables: {
-          bankDetails: data,
+          bankDetails: { ...data, bankCode: "bank-code" },
           bankID: modal.data,
         },
       });
@@ -53,7 +53,7 @@ const PaymentForm = () => {
     } else {
       await createBankDetail({
         variables: {
-          bankDetails: data,
+          bankDetails: { ...data, bankCode: "bank-code" },
         },
       });
     }

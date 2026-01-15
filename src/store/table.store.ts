@@ -4,7 +4,6 @@ export type TableFilterType = {
   adminAccess?: ("SUPER_ADMIN" | "ADMIN")[];
   endDate?: string;
   startDate?: string;
-  sortBy: string;
   sortOrder: "ASC" | "DESC";
   status?: ("ACTIVE" | "INACTIVE")[];
   orderStatus?: ("PENDING" | "ENROUTE" | "DELIVERED")[];
@@ -32,7 +31,6 @@ export interface TableStore {
 }
 
 export const defaultFilters: TableFilterType = {
-  sortBy: "createdAt",
   sortOrder: "DESC",
 };
 

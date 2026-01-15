@@ -27,12 +27,11 @@ export type paginationQuery = {
 export const useFetchProducts = () => {
   const { currentPage, pageSize, searchTerm, filters, setPageTotal } =
     useTableState("products");
-  const { sortBy, sortOrder, startDate, endDate } = filters;
+  const { sortOrder, startDate, endDate } = filters;
 
   const paginationQuery = {
     page: currentPage,
     limit: pageSize,
-    sortBy,
     sortOrder,
     searchTerm,
     ...(startDate && { startDate }),

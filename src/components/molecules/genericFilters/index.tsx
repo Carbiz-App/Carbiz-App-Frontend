@@ -15,7 +15,7 @@ interface GenericFiltersProps {
   tableKey: tableKeyType;
 }
 
-const GENERIC_FILTERS = ["startDate", "endDate", "sortBy", "sortOrder"];
+const GENERIC_FILTERS = ["startDate", "endDate", "sortOrder"];
 
 // Define extra filters per tableKey
 const TABLE_SPECIFIC_FILTERS: Record<string, string[]> = {
@@ -40,7 +40,7 @@ const GenericFilters = ({ tableKey }: GenericFiltersProps) => {
       { label: "Processing", value: "Processing" },
       {
         label: "Packed and Ready for Pickup",
-        value: "Parked_And_Ready_For_Pickup",
+        value: "Packed_And_Ready_For_Pickup",
       },
       { label: "Rider Assigned", value: "Rider_Assigned" },
       { label: "In Transit", value: "In_Transit" },
@@ -70,10 +70,6 @@ const GenericFilters = ({ tableKey }: GenericFiltersProps) => {
       { label: "Pending", value: "PENDING" },
       { label: "Paid", value: "PAID" },
     ],
-    sortBy: [
-      { label: "Created At", value: "createdAt" },
-      { label: "Updated At", value: "updatedAt" },
-    ],
     sortOrder: [
       { label: "Ascending", value: "ASC" },
       { label: "Descending", value: "DESC" },
@@ -100,7 +96,6 @@ const GenericFilters = ({ tableKey }: GenericFiltersProps) => {
   });
 
   const onSubmit = (values: FilterValues) => {
-    console.log("Filter Values:", values);
     update(values);
   };
 

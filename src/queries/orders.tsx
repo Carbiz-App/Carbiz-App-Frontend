@@ -22,17 +22,17 @@ interface UpdateForPickup {
 export const useFetchAllOrders = () => {
   const { currentPage, pageSize, searchTerm, filters, setPageTotal } =
     useTableState("orders");
-  const { sortBy, sortOrder, startDate, endDate, orderStatus } = filters;
+  const { sortOrder, startDate, endDate, orderStatus, paymentStatus } = filters;
 
   const paginationQuery = {
     page: currentPage,
     limit: pageSize,
-    sortBy,
     sortOrder,
     searchTerm,
     ...(startDate && { startDate }),
     ...(endDate && { endDate }),
-    ...(orderStatus && { orderStatus }),
+    ...(orderStatus && { deliveryStatus: orderStatus }),
+    ...(paymentStatus && { paymentStatus }),
   };
 
   const { data, loading, total, message } = usePaginatedQuery({

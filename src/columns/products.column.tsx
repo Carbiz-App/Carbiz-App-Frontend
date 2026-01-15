@@ -92,13 +92,13 @@ export const productsColumn = (): ColumnDef<productsType>[] => [
     ),
     cell: ({ row }) => {
       const status: string | undefined = row.getValue("productStatus");
-      const _status = status?.replaceAll("_", " ")?.toLocaleLowerCase();
+      const _status = status?.replaceAll("_", " ")?.toLowerCase();
 
       const statusColor = () => {
         switch (_status) {
           case "new arrival":
             return "bg-[#D1FADF] text-[#027A48]";
-          case "used":
+          case "out of stock":
             return "bg-[#FEE4E2] text-[#B42318]";
           default:
             return null;

@@ -1,3 +1,4 @@
+import Loader from "@/components/atoms/loader";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useDeleteBank } from "@/queries/payment";
@@ -90,13 +91,13 @@ export const paymentColumn = (): ColumnDef<paymentType>[] => [
   {
     accessorKey: "createdAT",
     header: () => (
-      <div className=" text-base  font-[500] text-black bg-[#FAFAFB] p-2 md:px-7 sm:px-3 md:py-3.5">
+      <div className=" text-base  font-[500] text-black bg-[#FAFAFB] ">
         Created
       </div>
     ),
     cell: ({ row }) => {
       return (
-        <div className=" font-normal p-2  md:py-2.5">
+        <div className=" font-normal ">
           {moment(row.getValue("createdAT")).format("DD-MM-YYYY")}
         </div>
       );
@@ -106,7 +107,7 @@ export const paymentColumn = (): ColumnDef<paymentType>[] => [
   {
     id: "action",
     header: () => (
-      <div className=" text-base  font-[500] text-black bg-[#FAFAFB] p-2  sm:px-3 md:py-3.5"></div>
+      <div className=" text-base  font-[500] text-black bg-[#FAFAFB] "></div>
     ),
     cell: ({ row }) => {
       const id = row.original;
@@ -138,7 +139,7 @@ export const paymentColumn = (): ColumnDef<paymentType>[] => [
             onClick={() => handleDelete(id.bankID)}
           >
             {loading ? (
-              "loading..."
+              <Loader />
             ) : (
               <Trash2Icon className=" text-3xl size-5 text-[#4F4C55]" />
             )}

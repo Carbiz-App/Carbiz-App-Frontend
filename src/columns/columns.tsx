@@ -147,6 +147,8 @@ export const ordersColumns: ColumnDef<Order>[] = [
             return "text-[#343239] bg-[#E6E5E8]";
           case "packed_and_ready_for_pickup":
             return "text-[#343239] bg-[#E6E5E8]";
+          case "rider_assigned":
+            return "text-[#343231] bg-[#E6E5E8]";
           default:
             return null;
         }
