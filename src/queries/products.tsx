@@ -27,7 +27,7 @@ export type paginationQuery = {
 export const useFetchProducts = () => {
   const { currentPage, pageSize, searchTerm, filters, setPageTotal } =
     useTableState("products");
-  const { sortOrder, startDate, endDate, productStatus } = filters;
+  const { sortOrder, startDate, endDate } = filters;
 
   const paginationQuery = {
     page: currentPage,
@@ -36,7 +36,7 @@ export const useFetchProducts = () => {
     searchTerm,
     ...(startDate && { startDate }),
     ...(endDate && { endDate }),
-    ...(productStatus && { productStatus }),
+    // ...(productStatus && { productStatus }),
   };
 
   const { data, loading, total, message, refetch } = usePaginatedQuery({
