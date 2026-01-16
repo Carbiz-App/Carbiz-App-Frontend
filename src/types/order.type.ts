@@ -15,7 +15,7 @@ interface OrderEntity {
   id: number;
   isPooled: boolean;
   items: OrderItemsEntity[];
-  // merchantStatuses: [MerchantOrderStatusEntity!]!
+  merchantStatuses: MerchantOrderStatusEntity[];
   merchants: MerchantEntity;
   orderID: string;
   orderStatus: string;
@@ -27,7 +27,19 @@ interface OrderEntity {
   updatedAT: Date;
   vehicleType: string;
   pooledSavings: number;
+  shippingAddress: string;
 }
+
+type MerchantOrderStatusEntity = {
+  createdAt: Date;
+  id: number;
+  merchant: MerchantEntity;
+  notes: string;
+  order: OrderEntity;
+  status: string;
+  statusID: string;
+  updatedAt: Date;
+};
 
 export default OrderEntity;
 

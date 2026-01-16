@@ -1,6 +1,5 @@
 import Loader from "@/components/atoms/loader";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import { useDeleteBank } from "@/queries/payment";
 import { useModal } from "@/store/useModal";
 import { ColumnDef } from "@tanstack/react-table";
@@ -17,31 +16,15 @@ export type paymentType = {
 
 export const paymentColumn = (): ColumnDef<paymentType>[] => [
   {
-    id: "select",
-    header: ({ table }) => (
-      <div className=" pl-1 sm:pl-3 md:pl-7">
-        <Checkbox
-          checked={
-            table.getIsAllPageRowsSelected() ||
-            (table.getIsSomePageRowsSelected() && "indeterminate")
-          }
-          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-          aria-label="Select all"
-          className=""
-        />
+    id: "index",
+    header: () => (
+      <div className="text-base font-[500] text-black bg-[#FAFAFB] py-3 pl-3">
+        #
       </div>
     ),
-    cell: ({ row }) => (
-      <div className=" pl-1 sm:pl-3 md:pl-7">
-        <Checkbox
-          checked={row.getIsSelected()}
-          onCheckedChange={(value) => row.toggleSelected(!!value)}
-          aria-label="Select row"
-        />
-      </div>
-    ),
+    cell: ({ row }) => <div className="pl-3 font-normal">{row.index + 1}</div>,
     enableSorting: false,
-    enableHiding: true,
+    enableHiding: false,
   },
   {
     accessorKey: "accountName",

@@ -117,16 +117,33 @@ const PreviewOrder = () => {
     {
       id: 2,
       title: "Order Processed",
-      description: "Order has been packaged and assembled.",
-      time: data?.updatedAT
-        ? moment(data?.updatedAT).format("DD MMM, YYYY hh:mm A")
-        : "-",
+      description: "Order has been paid for by customer. but not yet packaged.",
+      time:
+        data?.paymentStatus === "paid"
+          ? moment(data?.updatedAT).format("DD MMM, YYYY hh:mm A")
+          : "-",
       isCompleted:
-        data?.orderStatus === "Packed_And_Ready_For_Pickup" ||
-        Boolean(data?.updatedAT),
+        data?.paymentStatus === "paid" ? Boolean(data?.updatedAT) : false,
     },
     {
       id: 3,
+      title: "Order Packaged",
+      description: "Order has been packaged and assembled.",
+      time:
+        data?.merchantStatuses !== null &&
+        data?.merchantStatuses?.[0]?.updatedAt
+          ? moment(data?.merchantStatuses[0]?.updatedAt).format(
+              "DD MMM, YYYY hh:mm A"
+            )
+          : "-",
+      isCompleted:
+        data?.merchantStatuses !== null &&
+        data?.merchantStatuses?.[0]?.updatedAt
+          ? Boolean(data?.merchantStatuses[0]?.updatedAt)
+          : false,
+    },
+    {
+      id: 4,
       title: "Courier Pick-up",
       description: "Courier collected package from Merchant.",
       time: data?.RidersRide?.picked_up_parcelAT
@@ -137,7 +154,7 @@ const PreviewOrder = () => {
       isCompleted: Boolean(data?.RidersRide?.picked_up_parcelAT),
     },
     {
-      id: 4,
+      id: 5,
       title: "In-Transit",
       description: "Package is on the way to you.",
       time: data?.RidersRide?.enroute_to_dropoff_locationAT
@@ -148,7 +165,7 @@ const PreviewOrder = () => {
       isCompleted: Boolean(data?.RidersRide?.enroute_to_dropoff_locationAT),
     },
     {
-      id: 5,
+      id: 6,
       title: "Order Arrived",
       description: "Courier arrived at delivery address.",
       time: data?.RidersRide?.at_dropoff_locationAT
@@ -159,7 +176,7 @@ const PreviewOrder = () => {
       isCompleted: Boolean(data?.RidersRide?.at_dropoff_locationAT),
     },
     {
-      id: 6,
+      id: 7,
       title: "Order Delivered",
       description: "Package handed to customer.",
       time: data?.RidersRide?.dropped_off_parcelAT
@@ -190,6 +207,12 @@ const PreviewOrder = () => {
         )
       ) as Partial<RiderEntity>)
     : undefined;
+
+  const address = Object.fromEntries(
+    Object.entries(data ?? {}).filter(
+      ([key]) => key.toLowerCase() === "shippingaddress"
+    )
+  );
 
   return (
     <div className="space-y-2.5 md:space-y-5 flex flex-col flex-1 h-full">
@@ -322,6 +345,11 @@ const PreviewOrder = () => {
               </div>
             </div>
             <div className="w-full max-w-xl col-span-2 bg-white border rounded-[0.75rem] space-y-5 px-4 pt-4">
+              {/* Delivery Details */}
+              <DetailsSection
+                title=" Order Delievery Details"
+                details={address ?? {}}
+              />
               {/* Merchant Details */}
               <DetailsSection
                 title="Merchant Details"

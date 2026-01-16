@@ -1,4 +1,4 @@
-import { Checkbox } from "@/components/ui/checkbox";
+
 import { ColumnDef } from "@tanstack/react-table";
 import { Eye } from "lucide-react";
 import moment from "moment";
@@ -14,36 +14,20 @@ export type Order = {
 
 export const ordersColumns: ColumnDef<Order>[] = [
   {
-    id: "select",
-    header: ({ table }) => (
-      <div className=" pl-1 sm:pl-3 md:pl-7">
-        <Checkbox
-          checked={
-            table.getIsAllPageRowsSelected() ||
-            (table.getIsSomePageRowsSelected() && "indeterminate")
-          }
-          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-          aria-label="Select all"
-          className=""
-        />
+    id: "index",
+    header: () => (
+      <div className="text-base font-[500] text-black bg-[#FAFAFB] py-3 pl-3">
+        #
       </div>
     ),
-    cell: ({ row }) => (
-      <div className=" pl-1 sm:pl-3 md:pl-7">
-        <Checkbox
-          checked={row.getIsSelected()}
-          onCheckedChange={(value) => row.toggleSelected(!!value)}
-          aria-label="Select row"
-        />
-      </div>
-    ),
+    cell: ({ row }) => <div className="pl-3 font-normal">{row.index + 1}</div>,
     enableSorting: false,
-    enableHiding: true,
+    enableHiding: false,
   },
   {
     accessorKey: "items",
     header: () => (
-      <div className="text-base font-[500] text-black !bg-[#FAFAFB] p-2  !border-none max-w-sm">
+      <div className="text-base font-[500] text-black !bg-[#FAFAFB]  !border-none">
         Product Name
       </div>
     ),
@@ -58,7 +42,7 @@ export const ordersColumns: ColumnDef<Order>[] = [
             ?.productName;
 
       return (
-        <div className="font-normal p-2  uppercase max-w-xs text-wrap">
+        <div className="font-normal   uppercase max-w-xs text-wrap">
           {productName ?? "-"}
         </div>
       );
@@ -68,13 +52,13 @@ export const ordersColumns: ColumnDef<Order>[] = [
   {
     accessorKey: "createdAT",
     header: () => (
-      <div className=" text-base font-[500] text-black bg-[#FAFAFB] p-2    border-none">
+      <div className=" text-base font-[500] text-black bg-[#FAFAFB]     border-none">
         Created
       </div>
     ),
     cell: ({ row }) => {
       return (
-        <div className=" font-normal p-2  ">
+        <div className=" font-normal   ">
           {moment(row.getValue("createdAT")).format("DD MMM, YYYY hh:mm A")}
         </div>
       );
@@ -83,14 +67,12 @@ export const ordersColumns: ColumnDef<Order>[] = [
   {
     accessorKey: "orderID",
     header: () => (
-      <div className=" text-base  font-[500] text-black bg-[#FAFAFB] p-2  ">
+      <div className=" text-base  font-[500] text-black bg-[#FAFAFB]   ">
         Order ID
       </div>
     ),
     cell: ({ row }) => {
-      return (
-        <div className=" font-normal p-2  ">{row.getValue("orderID")}</div>
-      );
+      return <div className=" font-normal   ">{row.getValue("orderID")}</div>;
     },
   },
   {
@@ -149,11 +131,13 @@ export const ordersColumns: ColumnDef<Order>[] = [
             return "text-[#343239] bg-[#E6E5E8]";
           case "rider_assigned":
             return "text-[#343231] bg-[#E6E5E8]";
+          case "awaiting_rider_acceptance":
+            return "bg-[#BBE4E2] text-[#027A48]";
           default:
             return null;
         }
       };
-      const displayStatus = statusStr.replaceAll("_", " ");
+      const displayStatus = statusStr.replaceAll("_", " ").toLowerCase();
       return (
         <div className={` font-normal p-2   `}>
           <span className={`px-3 py-1 rounded-2xl ${statusColor()} capitalize`}>

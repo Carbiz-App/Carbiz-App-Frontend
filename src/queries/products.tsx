@@ -17,17 +17,17 @@ import { useNavigate } from "react-router";
 export type paginationQuery = {
   limit: number;
   page: number;
-  sortBy: string;
   sortOrder: string;
   searchTerm?: string;
   endDate?: Date | string | undefined;
   startDate?: Date | string | undefined;
+  productStatus?: string;
 };
 
 export const useFetchProducts = () => {
   const { currentPage, pageSize, searchTerm, filters, setPageTotal } =
     useTableState("products");
-  const { sortOrder, startDate, endDate } = filters;
+  const { sortOrder, startDate, endDate, productStatus } = filters;
 
   const paginationQuery = {
     page: currentPage,
@@ -36,6 +36,7 @@ export const useFetchProducts = () => {
     searchTerm,
     ...(startDate && { startDate }),
     ...(endDate && { endDate }),
+    ...(productStatus && { productStatus }),
   };
 
   const { data, loading, total, message, refetch } = usePaginatedQuery({

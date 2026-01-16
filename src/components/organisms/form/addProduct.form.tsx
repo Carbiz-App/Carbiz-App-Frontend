@@ -65,7 +65,6 @@ const AddProductForm = () => {
       page: 1,
       limit: 10,
       sortOrder: "DESC",
-      sortBy: "createdAt",
     },
     extractData: (res) => ({
       data: res?.fetchallProductCategoriesMerchant?.payload?.data || [],
@@ -127,6 +126,7 @@ const AddProductForm = () => {
                 control={form.control}
                 placeholder="enter product name"
               />
+
               <TextArea
                 name="productDescription"
                 label="Product Description"

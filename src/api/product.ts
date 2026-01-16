@@ -44,7 +44,9 @@ export const FETCH_PRODUCT_CATEGORIES = gql`
 `;
 
 export const FETCH_ALL_PRODUCTS = gql`
-  query fetchallProductRelatedToMerchant($paginationQuery: PaginationDto!) {
+  query fetchallProductRelatedToMerchant(
+    $paginationQuery: PaginatedProductFiltersDto!
+  ) {
     fetchallProductRelatedToMerchant(paginationQuery: $paginationQuery) {
       success
       message
@@ -52,6 +54,7 @@ export const FETCH_ALL_PRODUCTS = gql`
       errors
       payload {
         data {
+          createdAt
           productID
           productName
           price

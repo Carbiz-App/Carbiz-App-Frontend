@@ -64,6 +64,10 @@ export const FETCH_ORDER = gql`
       status
       errors
       payload {
+        shippingAddress
+        merchantStatuses {
+          updatedAt
+        }
         orderID
         createdAT
         paymentStatus

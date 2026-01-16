@@ -73,10 +73,6 @@ export function DataTable<TData, TValue>({
 
   const { openModal } = useDrawerStore();
 
-  // const handleBlur = () => {
-  //   setSearch("");
-  // };
-
   const isFilterActive = React.useMemo(
     () => hasActiveFilters(filters, defaultFilters),
     [filters]

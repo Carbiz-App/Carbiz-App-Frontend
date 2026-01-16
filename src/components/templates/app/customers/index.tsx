@@ -12,7 +12,6 @@ const Customers = () => {
       page: 1,
       limit: 10,
       sortOrder: "DESC",
-      sortBy: "createdAt",
     },
     extractData: (res) => ({
       data: res?.fetchallMerchantCustomers?.payload?.data || [],

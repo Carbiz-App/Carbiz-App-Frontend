@@ -10,6 +10,7 @@ export type TableFilterType = {
   paymentStatus?: ("PAID" | "UNPAID" | "FAILED")[];
   paymentMethod?: ("CARD" | "TRANSFER" | "CASH")[];
   deliveryMethod?: ("EMAIL" | "PUSH_NOTIFICATION")[];
+  productStatus?: ("New_Arrival" | "Available" | "Out_of_Stock")[];
 };
 
 export interface TableState {

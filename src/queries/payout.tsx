@@ -4,14 +4,6 @@ import { useTableState } from "@/hooks/useTableState";
 // import { PayoutOutput } from "@/types/payoutOutput";
 import React from "react";
 
-// interface merchantFetchOnePayout {
-//   MerchantetchallPayouts: {
-//     success: boolean;
-//     message: string;
-//     payload: PayoutOutput;
-//   };
-// }
-
 export type paginationQuery = {
   limit: number;
   page: number;

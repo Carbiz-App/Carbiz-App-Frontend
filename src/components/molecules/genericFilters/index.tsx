@@ -20,6 +20,7 @@ const GENERIC_FILTERS = ["startDate", "endDate", "sortOrder"];
 // Define extra filters per tableKey
 const TABLE_SPECIFIC_FILTERS: Record<string, string[]> = {
   orders: ["orderStatus", "paymentStatus"],
+  products: ["productStatus"],
   payouts: [
     "invoiceStatus",
     "paymentMethod",
@@ -65,6 +66,11 @@ const GenericFilters = ({ tableKey }: GenericFiltersProps) => {
       { label: "Pending", value: "PENDING" },
       { label: "Processed", value: "PROCESSED" },
       { label: "Failed", value: "FAILED" },
+    ],
+    productStatus: [
+      { label: "New Arrival", value: "New_Arrival" },
+      { label: "Available", value: "Available" },
+      { label: "Out of Stock", value: "Out_of_Stock" },
     ],
     invoiceStatus: [
       { label: "Pending", value: "PENDING" },

@@ -5,7 +5,6 @@ import { useToast } from "./Toast";
 type PaginationQuery = {
   page: number;
   limit: number;
-  sortBy?: string;
   sortOrder?: "ASC" | "DESC";
 };
 
@@ -61,7 +60,7 @@ export function usePaginatedQuery<TVariables = any>({
 
   return {
     loading,
-    error, // still expose for UI conditions
+    error,
     data: tableData,
     total,
     message,

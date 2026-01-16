@@ -19,7 +19,6 @@ const Payment = () => {
     pagination: {
       limit: 15,
       page: 1,
-      sortBy: "createdAT",
       sortOrder: "DESC",
     },
     extractData: (res) => ({
