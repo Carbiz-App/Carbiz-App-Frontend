@@ -1,4 +1,3 @@
-import { PROFILE_MERCHANT } from "@/api/dashboard";
 import {
   ADD_PRODUCT,
   DELETE_PRODUCT,
@@ -27,7 +26,7 @@ export type paginationQuery = {
 export const useFetchProducts = () => {
   const { currentPage, pageSize, searchTerm, filters, setPageTotal } =
     useTableState("products");
-  const { sortOrder, startDate, endDate } = filters;
+  const { sortOrder, startDate, endDate, productStatus } = filters;
 
   const paginationQuery = {
     page: currentPage,
@@ -36,7 +35,7 @@ export const useFetchProducts = () => {
     searchTerm,
     ...(startDate && { startDate }),
     ...(endDate && { endDate }),
-    // ...(productStatus && { productStatus }),
+    ...(productStatus && { status: productStatus }),
   };
 
   const { data, loading, total, message, refetch } = usePaginatedQuery({
@@ -84,7 +83,19 @@ export const useAddProducts = () => {
     createProduct,
     { input: ProductSchemaType }
   >(ADD_PRODUCT, {
-    refetchQueries: [PROFILE_MERCHANT],
+    refetchQueries: [
+      {
+        query: FETCH_ALL_PRODUCTS,
+        variables: {
+          paginationQuery: {
+            limit: 15,
+            page: 1,
+            sortBy: "createdAt",
+            sortOrder: "DESC",
+          },
+        },
+      },
+    ],
     onCompleted: (data) => {
       const result = data?.createProduct;
 
@@ -96,7 +107,7 @@ export const useAddProducts = () => {
       if (!result.success) {
         handleInfo(
           "Add Product",
-          result.message || "Adding Product unsuccessful"
+          result.message || "Adding Product unsuccessful",
         );
         return;
       }
@@ -158,7 +169,7 @@ export const useUpdateProduct = (onSuccess?: () => void) => {
       if (!result.success) {
         handleInfo(
           "Add Product",
-          result.message || "Update Product unsuccessful"
+          result.message || "Update Product unsuccessful",
         );
         return;
       }
@@ -215,7 +226,7 @@ export const useDeleteProducts = (onSuccess?: () => void) => {
       if (!result.success) {
         handleInfo(
           "Add Product",
-          result.message || "Delete Product unsuccessful"
+          result.message || "Delete Product unsuccessful",
         );
         return;
       }

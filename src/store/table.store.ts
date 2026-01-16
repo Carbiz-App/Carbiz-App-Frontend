@@ -6,11 +6,18 @@ export type TableFilterType = {
   startDate?: string;
   sortOrder: "ASC" | "DESC";
   status?: ("ACTIVE" | "INACTIVE")[];
-  orderStatus?: ("PENDING" | "ENROUTE" | "DELIVERED")[];
+  orderStatus?: (
+    | "Processing"
+    | "Packed_And_Ready_For_Pickup"
+    | "Rider_Assigned"
+    | "AWAITING_RIDER_ACCEPTANCE"
+    | "Cancelled"
+    | "Delivered"
+  )[];
   paymentStatus?: ("PAID" | "UNPAID" | "FAILED")[];
   paymentMethod?: ("CARD" | "TRANSFER" | "CASH")[];
   deliveryMethod?: ("EMAIL" | "PUSH_NOTIFICATION")[];
-  productStatus?: ("New_Arrival" | "Available" | "Out_of_Stock")[];
+  productStatus?: ("New_Arrival" | "Available" | "Out_Of_Stock")[];
 };
 
 export interface TableState {

@@ -20,7 +20,7 @@ const GENERIC_FILTERS = ["startDate", "endDate", "sortOrder"];
 // Define extra filters per tableKey
 const TABLE_SPECIFIC_FILTERS: Record<string, string[]> = {
   orders: ["orderStatus", "paymentStatus"],
-  // products: ["productStatus"],
+  products: ["productStatus"],
   payouts: [
     "invoiceStatus",
     "paymentMethod",
@@ -68,9 +68,10 @@ const GenericFilters = ({ tableKey }: GenericFiltersProps) => {
       { label: "Failed", value: "FAILED" },
     ],
     productStatus: [
+      // Out_Of_Stock, Temporarily_Unavialable, On_Sale, New_Arrival, Best_seller
       { label: "New Arrival", value: "New_Arrival" },
       { label: "Available", value: "Available" },
-      { label: "Out of Stock", value: "Out_of_Stock" },
+      { label: "Out of Stock", value: "Out_Of_Stock" },
     ],
     invoiceStatus: [
       { label: "Pending", value: "PENDING" },
@@ -91,10 +92,13 @@ const GenericFilters = ({ tableKey }: GenericFiltersProps) => {
   ];
 
   // Build Zod schema dynamically
-  const schemaShape = tableFields.reduce((acc, field) => {
-    acc[field] = z.union([z.string(), z.date()]).optional();
-    return acc;
-  }, {} as Record<string, any>);
+  const schemaShape = tableFields.reduce(
+    (acc, field) => {
+      acc[field] = z.union([z.string(), z.date()]).optional();
+      return acc;
+    },
+    {} as Record<string, any>,
+  );
 
   const form = useForm<FilterValues>({
     resolver: zodResolver(z.object(schemaShape)),
@@ -160,7 +164,7 @@ const GenericFilters = ({ tableKey }: GenericFiltersProps) => {
 
           {(() => {
             const selectFields = tableFields.filter(
-              (field) => SELECT_OPTIONS[field]
+              (field) => SELECT_OPTIONS[field],
             );
 
             if (!selectFields.length) return null;
@@ -175,7 +179,7 @@ const GenericFilters = ({ tableKey }: GenericFiltersProps) => {
                     className="text-primary font-semibold text-sm md:text-base cursor-pointer"
                     onClick={() => {
                       selectFields.forEach((field) =>
-                        form.setValue(field as any, "")
+                        form.setValue(field as any, ""),
                       );
                     }}
                   >
@@ -193,7 +197,7 @@ const GenericFilters = ({ tableKey }: GenericFiltersProps) => {
                       <SelectField
                         placeholder={field
                           .replace(/([A-Z])/g, " $1")
-                          .toUpperCase()}
+                          .toLowerCase()}
                         control={form.control}
                         name={field}
                         items={SELECT_OPTIONS[field]}
