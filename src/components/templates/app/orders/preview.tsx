@@ -133,7 +133,7 @@ const PreviewOrder = () => {
         data?.merchantStatuses !== null &&
         data?.merchantStatuses?.[0]?.updatedAt
           ? moment(data?.merchantStatuses[0]?.updatedAt).format(
-              "DD MMM, YYYY hh:mm A"
+              "DD MMM, YYYY hh:mm A",
             )
           : "-",
       isCompleted:
@@ -148,7 +148,7 @@ const PreviewOrder = () => {
       description: "Courier collected package from Merchant.",
       time: data?.RidersRide?.picked_up_parcelAT
         ? moment(data?.RidersRide?.picked_up_parcelAT).format(
-            "DD MMM, YYYY hh:mm A"
+            "DD MMM, YYYY hh:mm A",
           )
         : "-",
       isCompleted: Boolean(data?.RidersRide?.picked_up_parcelAT),
@@ -159,7 +159,7 @@ const PreviewOrder = () => {
       description: "Package is on the way to you.",
       time: data?.RidersRide?.enroute_to_dropoff_locationAT
         ? moment(data?.RidersRide?.enroute_to_dropoff_locationAT).format(
-            "DD MMM, YYYY hh:mm A"
+            "DD MMM, YYYY hh:mm A",
           )
         : "-",
       isCompleted: Boolean(data?.RidersRide?.enroute_to_dropoff_locationAT),
@@ -170,7 +170,7 @@ const PreviewOrder = () => {
       description: "Courier arrived at delivery address.",
       time: data?.RidersRide?.at_dropoff_locationAT
         ? moment(data?.RidersRide?.at_dropoff_locationAT).format(
-            "DD MMM, YYYY hh:mm A"
+            "DD MMM, YYYY hh:mm A",
           )
         : "-",
       isCompleted: Boolean(data?.RidersRide?.at_dropoff_locationAT),
@@ -189,30 +189,35 @@ const PreviewOrder = () => {
   const splitOne = Object.fromEntries(Object.entries(data?.merchants ?? {}));
 
   const splitTwo = Object.entries(splitOne[0] ?? {}).filter(
-    ([key]) => key !== "__typename"
+    ([key]) => key !== "__typename",
   );
 
   const merchants = Object.fromEntries(splitTwo);
   const customerDetails: Partial<Customer> | undefined = data?.customer
     ? (Object.fromEntries(
         Object.entries(data.customer ?? {}).filter(
-          ([key]) => key !== "__typename"
-        )
+          ([key]) => key !== "__typename",
+        ),
       ) as Partial<Customer>)
     : undefined;
   const riderDetails: Partial<RiderEntity> | undefined = data?.RidersRide?.rider
     ? (Object.fromEntries(
         Object.entries(data.RidersRide.rider ?? {}).filter(
-          ([key]) => key !== "__typename"
-        )
+          ([key]) => key !== "__typename",
+        ),
       ) as Partial<RiderEntity>)
     : undefined;
 
   const address = Object.fromEntries(
     Object.entries(data ?? {}).filter(
-      ([key]) => key.toLowerCase() === "shippingaddress"
-    )
+      ([key]) => key.toLowerCase() === "shippingaddress",
+    ),
   );
+
+  const isProcessing = data?.orderStatus?.toLowerCase() === "processing";
+  const isPaid = data?.paymentStatus?.toLowerCase() === "paid";
+  const isAlreadyPrepared = Boolean(data?.merchantStatuses?.[0]?.updatedAt);
+  const canPrepareOrder = isProcessing && isPaid && !isAlreadyPrepared;
 
   return (
     <div className="space-y-2.5 md:space-y-5 flex flex-col flex-1 h-full">
@@ -241,7 +246,7 @@ const PreviewOrder = () => {
             {data?.orderStatus ? data.orderStatus.replaceAll("_", " ") : "-"}
           </p>
         </div>
-        {data?.orderStatus?.toLowerCase() === "processing" && (
+        {canPrepareOrder && (
           <CustomButton
             loading={makeOrderReadyLoading}
             onClick={() => makeOrderReady({ variables: { orderID: path } })}
@@ -293,8 +298,8 @@ const PreviewOrder = () => {
                           item.isDiscount
                             ? "text-blue-600"
                             : item.isSaved
-                            ? "text-red-600"
-                            : "text-gray-900"
+                              ? "text-red-600"
+                              : "text-gray-900"
                         }`}
                       >
                         {item.isDiscount || item.isSaved ? "-" : ""}
