@@ -20,7 +20,7 @@ const GENERIC_FILTERS = ["startDate", "endDate", "sortOrder"];
 // Define extra filters per tableKey
 const TABLE_SPECIFIC_FILTERS: Record<string, string[]> = {
   orders: ["orderStatus", "paymentStatus"],
-  products: ["productStatus"],
+  // products: ["productStatus"],
   payouts: [
     "invoiceStatus",
     "paymentMethod",
