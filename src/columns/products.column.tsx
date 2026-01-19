@@ -45,7 +45,7 @@ export const productsColumn = (): ColumnDef<productsType>[] => [
     ),
     cell: ({ row }) => {
       return (
-        <div className=" font-normal capitalize">
+        <div className=" font-normal capitalize max-w-sm">
           {row.getValue("productName")}
         </div>
       );

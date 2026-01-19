@@ -52,15 +52,13 @@ const SelectField: React.FC<SelectFieldProps> = ({
               {label}
             </FormLabel>
           )}
-          <Select onValueChange={field.onChange} defaultValue={field.value}>
+          <Select onValueChange={field.onChange} value={field.value}>
             <FormControl>
               <SelectTrigger className="w-full py-6 rounded-lg focus:border-primary  focus-visible:border-primary placeholder:text-text-secondary">
                 <SelectValue
                   placeholder={placeholder}
                   className="text-text-primary  text-sm lg:text-base "
-                >
-                  {items?.find((item) => item.value === field.value)?.label}
-                </SelectValue>
+                />
               </SelectTrigger>
             </FormControl>
             <SelectContent className="w-full border-[#D4C7EE]">

@@ -16,7 +16,7 @@ import {
 import ProductSchema, { ProductSchemaType } from "@/schema/products.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Info } from "@phosphor-icons/react";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { useLocation } from "react-router";
 
@@ -35,31 +35,7 @@ const AddProductForm = () => {
     loading: productLoading,
   } = useFetchProduct();
 
-  useEffect(() => {
-    if (path) {
-      fetchOneProduct({
-        variables: { productID: singleProduct },
-      });
-    }
-  }, [singleProduct]);
-
-  useEffect(() => {
-    const payload = productData?.fetchOneProduct?.payload;
-    if (payload) {
-      const mappedPayload: ProductSchemaType = {
-        ...payload,
-      };
-      form.reset(mappedPayload);
-    }
-  }, [productData, form]);
-
-  const {
-    data,
-    // total,
-    // loading: categoriesLoading,
-    // pagination,
-    // setPage,
-  } = usePaginatedQuery({
+  const { data } = usePaginatedQuery({
     query: FETCH_PRODUCT_CATEGORIES,
     pagination: {
       page: 1,
@@ -71,6 +47,36 @@ const AddProductForm = () => {
       total: res?.fetchallProductCategoriesMerchant?.payload?.total || 0,
     }),
   });
+
+  const productCategory = useMemo(() => {
+    return (
+      data?.map((i) => ({
+        label: i?.productCategoryName,
+        value: i?.productCategoryID,
+      })) ?? []
+    );
+  }, [data]);
+
+  useEffect(() => {
+    if (path) {
+      fetchOneProduct({
+        variables: { productID: singleProduct },
+      });
+    }
+  }, [singleProduct]);
+
+  useEffect(() => {
+    if (!path) return;
+
+    const payload = productData?.fetchOneProduct?.payload;
+    if (!payload) return;
+
+    form.reset({
+      ...payload,
+      productCategory: payload.productCategory?.productCategoryID,
+      productType: payload.productType,
+    });
+  }, [productData, path, form]);
 
   const handleSubmit = async (data: ProductSchemaType) => {
     if (path) {
@@ -90,12 +96,8 @@ const AddProductForm = () => {
     }
   };
 
-  const productCategory = data?.map((i) => ({
-    label: i?.productCategoryName,
-    value: i?.productCategoryID,
-  }));
   const status = [
-    { label: "Brand New", value: "Brand_New" },
+    { label: "New", value: "Brand_New" },
     { label: "Used", value: "Used" },
   ];
 
@@ -159,8 +161,8 @@ const AddProductForm = () => {
                   placeholder="--"
                 />
                 <InputField
-                  // type="color"
                   itemClassName="!py-0"
+                  type="text"
                   name="productColor"
                   label="Product Color"
                   control={form.control}
