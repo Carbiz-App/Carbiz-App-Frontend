@@ -1,4 +1,4 @@
-import CustomButton from "@/components/atoms/button";
+import CustomButton from "@/components/atoms/button/CustomButton";
 import { PopoverContent } from "@/components/ui/popover";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
@@ -27,7 +27,7 @@ export const Content = () => {
   const { modal } = useModal();
 
   const [selectedNotification, setSelectedNotification] = useState<string[]>(
-    []
+    [],
   );
 
   const { markNotificationsAsRead, notifcationsReadLoading } =
@@ -53,7 +53,7 @@ export const Content = () => {
     setSelectedNotification((prev) =>
       prev.includes(n.notificationID)
         ? prev.filter((id) => id !== n.notificationID)
-        : [...prev, n.notificationID]
+        : [...prev, n.notificationID],
     );
   };
 
@@ -133,7 +133,7 @@ export const Content = () => {
                 className={cn(
                   "p-4 flex gap-3 border-b last:border-b-0 transition-all",
                   n.isRead ? "bg-muted/40" : "hover:bg-accent/40",
-                  isSelected && "bg-primary/20"
+                  isSelected && "bg-primary/20",
                 )}
               >
                 <div className="flex-1">
@@ -172,7 +172,7 @@ export const Content = () => {
           ) : (
             unreadItems.map((n: AppNotificationOutput) => {
               const isSelected = selectedNotification.includes(
-                n.notificationID
+                n.notificationID,
               );
               return (
                 <div
@@ -181,7 +181,7 @@ export const Content = () => {
                   className={cn(
                     "p-4 flex gap-3 border-b last:border-b-0 transition-all",
                     isSelected && "bg-primary/20",
-                    "hover:bg-accent/40"
+                    "hover:bg-accent/40",
                   )}
                 >
                   <div className="flex-1">

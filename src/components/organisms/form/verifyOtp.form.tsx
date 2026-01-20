@@ -11,7 +11,7 @@ import VerifyOtpSchema, {
 import { toast } from "sonner";
 import { useVerifyOtpMerchant } from "@/queries/verifyOtp";
 import { useToast } from "@/hooks/Toast";
-import CustomButton from "@/components/atoms/button";
+import CustomButton from "@/components/atoms/button/CustomButton";
 
 function VerifyOtpForm() {
   const { pathname } = useLocation();
@@ -68,7 +68,7 @@ function VerifyOtpForm() {
         error: (err) => {
           return err.message || "Failed to resend OTP.";
         },
-      }
+      },
     );
   };
 

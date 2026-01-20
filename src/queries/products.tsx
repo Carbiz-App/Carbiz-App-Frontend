@@ -9,7 +9,7 @@ import { useToast } from "@/hooks/Toast";
 import { usePaginatedQuery } from "@/hooks/usePagination";
 import { useTableState } from "@/hooks/useTableState";
 import { ProductSchemaType } from "@/schema/products.schema";
-import { useLazyQuery, useMutation } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import React from "react";
 import { useNavigate } from "react-router";
 
@@ -252,18 +252,19 @@ interface fetchOneProduct {
     payload: any;
   };
 }
-export const useFetchProduct = () => {
+export const useFetchProduct = (productID: string) => {
   const { handleError } = useToast();
 
-  const [fetchOneProduct, { data, loading, error }] =
-    useLazyQuery<fetchOneProduct>(FETCH_PRODUCT, {
-      onCompleted: () => {},
-      onError: (error) => {
-        handleError(error, "Error fetching product");
-      },
-      fetchPolicy: "cache-and-network",
-      nextFetchPolicy: "cache-first",
-    });
+  const { data, loading, error } = useQuery<fetchOneProduct>(FETCH_PRODUCT, {
+    variables: { productID },
+    onCompleted: () => {},
+    onError: (error) => {
+      handleError(error, "Error fetching product");
+    },
+    fetchPolicy: "cache-and-network",
+    nextFetchPolicy: "cache-first",
+    skip: !productID,
+  });
 
-  return { fetchOneProduct, data, loading, error };
+  return { data, loading, error };
 };

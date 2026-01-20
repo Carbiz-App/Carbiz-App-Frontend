@@ -1,4 +1,4 @@
-import CustomButton from "@/components/atoms/button";
+import CustomButton from "@/components/atoms/button/CustomButton";
 import DetailsSection from "@/components/molecules/order/DetailsSection";
 import OrderProductItemCard from "@/components/molecules/order/OrderProductItemCard";
 import OrderTimelineItem from "@/components/molecules/order/OrderTimelineItem";

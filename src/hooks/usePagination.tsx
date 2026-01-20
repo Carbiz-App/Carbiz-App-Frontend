@@ -27,7 +27,7 @@ export function usePaginatedQuery<TVariables = any>({
 }: UsePaginatedQueryProps<TVariables>) {
   const { handleError } = useToast();
 
-  const { data, loading, error, refetch } = useQuery(query, {
+  const { data, loading, error, refetch, fetchMore } = useQuery(query, {
     variables: {
       ...variables,
       paginationQuery: pagination,
@@ -40,7 +40,7 @@ export function usePaginatedQuery<TVariables = any>({
     if (!error) return;
     if (error.networkError) {
       handleError(
-        "Network error. Please check your internet connection and try again."
+        "Network error. Please check your internet connection and try again.",
       );
       return;
     }
@@ -65,5 +65,6 @@ export function usePaginatedQuery<TVariables = any>({
     total,
     message,
     refetch,
+    fetchMore,
   };
 }

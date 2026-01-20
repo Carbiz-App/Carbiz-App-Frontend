@@ -10,8 +10,8 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import CustomButton from "../button";
 import { useToast } from "@/hooks/Toast";
+import CustomButton from "../button/CustomButton";
 
 interface ImagePickerProp {
   name: string;
@@ -30,7 +30,7 @@ const ImagePicker: React.FC<ImagePickerProp> = ({
 }) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(
-    defaultValue || null
+    defaultValue || null,
   );
   const [progress, setProgress] = useState<number>(0);
   const [uploading, setUploading] = useState<boolean>(false);

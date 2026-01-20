@@ -9,7 +9,7 @@ import ResetPasswordSchema, {
   ResetPasswordType,
 } from "@/schema/resetPassword.schema";
 import { useResetPassword } from "@/queries/resetPassword";
-import CustomButton from "@/components/atoms/button";
+import CustomButton from "@/components/atoms/button/CustomButton";
 
 const ResetPasswordForm = () => {
   const { state } = useLocation();

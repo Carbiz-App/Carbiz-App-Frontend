@@ -33,7 +33,8 @@ export type tableKeyType =
   | "products"
   | "payouts"
   | "customers"
-  | "payments";
+  | "payments"
+  | "category";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -75,7 +76,7 @@ export function DataTable<TData, TValue>({
 
   const isFilterActive = React.useMemo(
     () => hasActiveFilters(filters, defaultFilters),
-    [filters]
+    [filters],
   );
 
   const table = useReactTable<TData>({
@@ -94,7 +95,7 @@ export function DataTable<TData, TValue>({
 
   const debouncedSearch = React.useMemo(
     () => debounce((value: string) => setSearch(value), 500),
-    [setSearch]
+    [setSearch],
   );
 
   const onSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -183,7 +184,7 @@ export function DataTable<TData, TValue>({
                         ? null
                         : flexRender(
                             header.column.columnDef.header,
-                            header.getContext()
+                            header.getContext(),
                           )}
                     </TableHead>
                   ))}
@@ -213,7 +214,7 @@ export function DataTable<TData, TValue>({
                       <TableCell key={cell.id}>
                         {flexRender(
                           cell.column.columnDef.cell,
-                          cell.getContext()
+                          cell.getContext(),
                         )}
                       </TableCell>
                     ))}

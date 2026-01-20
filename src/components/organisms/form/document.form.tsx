@@ -9,7 +9,7 @@ import InputField from "@/components/atoms/form/input";
 import DocumentSchema, { DocumentSchemaType } from "@/schema/document.schema";
 import { useUploadKyc } from "@/queries/profile";
 import { useAuthStore } from "@/store/auth.store";
-import CustomButton from "@/components/atoms/button";
+import CustomButton from "@/components/atoms/button/CustomButton";
 
 const DocumentForm = () => {
   const { user } = useAuthStore();

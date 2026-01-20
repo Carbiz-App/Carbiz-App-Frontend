@@ -1,5 +1,5 @@
-import { FETCH_PRODUCT_CATEGORIES } from "@/api/product";
-import CustomButton from "@/components/atoms/button";
+import CustomButton from "@/components/atoms/button/CustomButton";
+import { ProductCategorySelect } from "@/components/atoms/form/customSelect";
 import InputField from "@/components/atoms/form/input";
 import SelectField from "@/components/atoms/form/select";
 import SelectInput from "@/components/atoms/form/select-input";
@@ -7,7 +7,6 @@ import TextArea from "@/components/atoms/form/textarea";
 import Loader from "@/components/atoms/loader";
 import Uploader from "@/components/molecules/uploader";
 import { Form } from "@/components/ui/form";
-import { usePaginatedQuery } from "@/hooks/usePagination";
 import {
   useAddProducts,
   useFetchProduct,
@@ -16,67 +15,35 @@ import {
 import ProductSchema, { ProductSchemaType } from "@/schema/products.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Info } from "@phosphor-icons/react";
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { useLocation } from "react-router";
 
 const AddProductForm = () => {
-  const form = useForm<ProductSchemaType>({
-    resolver: zodResolver(ProductSchema),
-  });
   const { loading, createProduct } = useAddProducts();
   const { loading: updateLoading, updateProduct } = useUpdateProduct();
   const { pathname } = useLocation();
   const singleProduct: string = pathname.split("/")[2];
   const path = singleProduct !== "new";
-  const {
-    fetchOneProduct,
-    data: productData,
-    loading: productLoading,
-  } = useFetchProduct();
+  const { data: productData, loading: productLoading } = useFetchProduct(
+    path ? singleProduct : "",
+  );
+  const payload = productData?.fetchOneProduct?.payload;
 
-  const { data } = usePaginatedQuery({
-    query: FETCH_PRODUCT_CATEGORIES,
-    pagination: {
-      page: 1,
-      limit: 10,
-      sortOrder: "DESC",
-    },
-    extractData: (res) => ({
-      data: res?.fetchallProductCategoriesMerchant?.payload?.data || [],
-      total: res?.fetchallProductCategoriesMerchant?.payload?.total || 0,
-    }),
+  // form
+  const form = useForm<ProductSchemaType>({
+    resolver: zodResolver(ProductSchema),
+    values: useMemo(() => {
+      if (!path || !payload) return undefined;
+      return {
+        ...payload,
+        productCategory: payload.productCategory?.productCategoryID,
+        productType: payload.productType, // This fixes the "Status" select
+        priceCurrencyType: payload.priceCurrencyType,
+        productWeightType: payload.productWeightType,
+      };
+    }, [payload, path]),
   });
-
-  const productCategory = useMemo(() => {
-    return (
-      data?.map((i) => ({
-        label: i?.productCategoryName,
-        value: i?.productCategoryID,
-      })) ?? []
-    );
-  }, [data]);
-
-  useEffect(() => {
-    if (path) {
-      fetchOneProduct({
-        variables: { productID: singleProduct },
-      });
-    }
-  }, [singleProduct]);
-
-  useEffect(() => {
-    if (!path) return;
-
-    const payload = productData?.fetchOneProduct?.payload;
-    if (!payload) return;
-
-    form.reset({
-      ...payload,
-      productCategory: payload.productCategory?.productCategoryID,
-      productType: payload.productType,
-    });
-  }, [productData, path, form]);
 
   const handleSubmit = async (data: ProductSchemaType) => {
     if (path) {
@@ -108,6 +75,7 @@ const AddProductForm = () => {
   return (
     <Form {...form}>
       <form
+        key={payload?.productID || "new"}
         noValidate={false}
         onSubmit={form.handleSubmit(handleSubmit)}
         className="grid md:grid-cols-2 gap-3.5"
@@ -136,13 +104,15 @@ const AddProductForm = () => {
                 placeholder="enter a short description about your product"
               />
               <div className="grid lg:grid-cols-2 gap-4">
-                <SelectField
+                {/* <SelectField
                   placeholder="select a category"
                   items={productCategory}
                   label="Product Category"
                   name="productCategory"
                   control={form.control}
-                />
+                /> */}
+
+                <ProductCategorySelect control={form.control} />
                 <SelectField
                   items={status}
                   placeholder="select a status"

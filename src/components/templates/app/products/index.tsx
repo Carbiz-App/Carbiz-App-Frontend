@@ -17,7 +17,7 @@ const index = () => {
       data={data}
       tableName="Proucts"
       // isClickable
-      message={data.length === 0 ? "No product has been added" : message}
+      message={message}
       loading={loading}
       actions
     >

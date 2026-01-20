@@ -12,7 +12,7 @@ import { useAuthStore } from "@/store/auth.store";
 import { getCountries } from "../../../lib/utils";
 import useMerchantProfile from "@/queries/profile";
 import ImagePicker from "@/components/atoms/form/imagepicker";
-import CustomButton from "@/components/atoms/button";
+import CustomButton from "@/components/atoms/button/CustomButton";
 
 const ProfileForm = () => {
   const { user } = useAuthStore();

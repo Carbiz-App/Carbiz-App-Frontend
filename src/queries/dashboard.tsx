@@ -63,7 +63,7 @@ export const useMerchantProfile = () => {
       },
       fetchPolicy: "cache-and-network",
       nextFetchPolicy: "cache-first",
-    }
+    },
   );
 
   const productCount = useQuery<MerchantsProductsoldCount>(PRODUCT_SOLD, {

@@ -18,7 +18,7 @@ import { Link, useNavigate } from "react-router";
 
 import logo from "@/assets/images/logo.svg";
 import { useAuthStore } from "@/store/auth.store";
-import CustomButton from "@/components/atoms/button";
+import CustomButton from "@/components/atoms/button/CustomButton";
 
 const data = {
   user: {

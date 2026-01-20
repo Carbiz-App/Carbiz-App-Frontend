@@ -7,7 +7,7 @@ import InputField from "@/components/atoms/form/input";
 
 import LoginSchema, { LoginSchemaType } from "@/schema/login.schema";
 import { useLoginMerchant } from "@/queries/login";
-import CustomButton from "@/components/atoms/button";
+import CustomButton from "@/components/atoms/button/CustomButton";
 
 const LoginForm = () => {
   const form = useForm<LoginSchemaType>({

@@ -10,8 +10,8 @@ import {
 } from "@/queries/payment";
 import { useModal } from "@/store/useModal";
 import { useEffect } from "react";
-import CustomButton from "@/components/atoms/button";
 import { Spinner } from "@/components/ui/spinner";
+import CustomButton from "@/components/atoms/button/CustomButton";
 
 const PaymentForm = () => {
   const form = useForm<PaymentSchemaType>({

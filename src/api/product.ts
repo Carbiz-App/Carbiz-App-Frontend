@@ -60,6 +60,11 @@ export const FETCH_ALL_PRODUCTS = gql`
           price
           productStock
           productStatus
+          priceCurrencyType
+          productCategory {
+            productCategoryName
+          }
+          discountPercentage
         }
         total
         currentPage
@@ -84,13 +89,13 @@ export const FETCH_PRODUCT = gql`
           productCategoryName
           productCategoryID
         }
+        discountPercentage
         productType
         priceCurrencyType
         productWeightType
         productStock
         productColor
         price
-        discountPercentage
         productWeight
         productLength_cm
         productBreadth_cm
