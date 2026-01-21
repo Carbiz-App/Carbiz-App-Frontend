@@ -32,7 +32,7 @@ export function usePaginatedQuery<TVariables = any>({
       ...variables,
       paginationQuery: pagination,
     },
-    fetchPolicy: "cache-and-network",
+    fetchPolicy: "cache-first",
     nextFetchPolicy: "cache-first",
   });
 
