@@ -3,7 +3,7 @@ import { UPDATE_PROFILE, UPLOAD_KYC } from "@/api/merchant.profile";
 import { useToast } from "@/hooks/Toast";
 import { DocumentSchemaType } from "@/schema/document.schema";
 import { ProfileSchemaType } from "@/schema/profile.schema";
-import { useAuthStore } from "@/store/auth.store";
+import { useAuthStore, UserType } from "@/store/auth.store";
 import { useMutation } from "@apollo/client";
 
 interface MerchantProfileResponse {
@@ -62,18 +62,13 @@ interface MerchantKYCResponse {
     success: boolean;
     message: string;
     error: string;
-    payload: {
-      businessLicense: string;
-      CAC: string;
-      taxID: string;
-      validIDcard: string;
-    };
+    payload: any;
   };
 }
 
 export const useUploadKyc = () => {
   const { handleError, handleSuccess } = useToast();
-  // const { setUser } = useAuthStore();
+  const { setUser } = useAuthStore();
 
   const [uploadKYCDocmentMerchant, { loading }] = useMutation<
     MerchantKYCResponse,
@@ -88,7 +83,8 @@ export const useUploadKyc = () => {
         return;
       }
       handleSuccess("Profile updated", result?.message);
-      // setUser({ ...result.payload });
+      const { _typename, ...stripped } = result?.payload;
+      setUser(stripped as UserType);
     },
     onError: (error) => {
       handleError(error, "Updating failed");

@@ -20,116 +20,62 @@
       "color": "#7046C6"
     }
   ],
-  "customers": [
-    {
-      "name": "John Doe",
-      "email": "john.doe@example.com",
-      "createdAt": "2025-04-17T09:15:00Z",
-      "phone": "+1-555-1234"
-    },
-    {
-      "name": "Jane Smith",
-      "email": "jane.smith@example.com",
-      "createdAt": "2025-04-16T14:30:00Z",
-      "phone": "+1-555-5678"
-    },
-    {
-      "name": "Michael Brown",
-      "email": "michael.brown@example.com",
-      "createdAt": "2025-04-15T11:45:00Z",
-      "phone": "+1-555-8765"
-    },
-    {
-      "name": "Emily Clark",
-      "email": "emily.clark@example.com",
-      "createdAt": "2025-04-14T16:20:00Z",
-      "phone": "+1-555-4321"
-    },
-    {
-      "name": "Daniel Johnson",
-      "email": "daniel.johnson@example.com",
-      "createdAt": "2025-04-13T08:10:00Z",
-      "phone": "+1-555-3456"
-    },
-    {
-      "name": "Olivia Wilson",
-      "email": "olivia.wilson@example.com",
-      "createdAt": "2025-04-12T13:55:00Z",
-      "phone": "+1-555-6543"
-    },
-    {
-      "name": "William Taylor",
-      "email": "william.taylor@example.com",
-      "createdAt": "2025-04-11T12:05:00Z",
-      "phone": "+1-555-7890"
-    },
-    {
-      "name": "Sophia Anderson",
-      "email": "sophia.anderson@example.com",
-      "createdAt": "2025-04-10T10:30:00Z",
-      "phone": "+1-555-0987"
-    },
-    {
-      "name": "James Thomas",
-      "email": "james.thomas@example.com",
-      "createdAt": "2025-04-09T15:40:00Z",
-      "phone": "+1-555-1122"
-    },
-    {
-      "name": "Isabella Moore",
-      "email": "isabella.moore@example.com",
-      "createdAt": "2025-04-08T17:25:00Z",
-      "phone": "+1-555-3344"
-    }
-  ],
-  "products": [
-    {
-      "id": 1,
-      "product": "Engine Oil Filter",
-      "created": "2023-10-01",
-      "orderId": "1234567890",
-      "paymentStatus": "paid",
-      "deliveryStatus": "awaiting_processing"
-    },
-    {
-      "id": 2,
-      "product": "Brake Pads",
-      "created": "2023-10-03",
-      "orderId": "1234567891",
-      "paymentStatus": "canceled",
-      "deliveryStatus": "awaiting_processing"
-    },
-    {
-      "id": 3,
-      "product": "Car Battery",
-      "created": "2023-10-05",
-      "orderId": "1234567892",
-      "paymentStatus": "paid",
-      "deliveryStatus": "shipped"
-    },
-    {
-      "id": 4,
-      "product": "Tire Set",
-      "created": "2023-10-07",
-      "orderId": "1234567893",
-      "paymentStatus": "paid",
-      "deliveryStatus": "delivered"
-    },
-    {
-      "id": 5,
-      "product": "Spark Plug Set",
-      "created": "2023-10-09",
-      "orderId": "1234567894",
-      "paymentStatus": "refunded",
-      "deliveryStatus": "canceled"
-    },
-    {
-      "id": 6,
-      "product": "Engine Oil",
-      "created": "2023-10-12",
-      "orderId": "1234567895",
-      "paymentStatus": "paid",
-      "deliveryStatus": "awaiting_processing"
-    }
+  "bank": [
+    { "name": "Access Bank PLC", "code": "000014" },
+    { "name": "Citibank Nigeria Limited", "code": "000009" },
+    { "name": "Ecobank Nigeria PLC", "code": "000010" },
+    { "name": "Fidelity Bank PLC", "code": "000007" },
+    { "name": "First Bank of Nigeria PLC", "code": "000016" },
+    { "name": "First City Monument Bank (FCMB)", "code": "000003" },
+    { "name": "Globus Bank Ltd", "code": "000027" },
+    { "name": "Guaranty Trust Bank PLC (GTBank)", "code": "000013" },
+    { "name": "Heritage Bank", "code": "000020" },
+    { "name": "Jaiz Bank PLC", "code": "000006" },
+    { "name": "Keystone Bank Ltd", "code": "000002" },
+    { "name": "Lotus Bank", "code": "000029" },
+    { "name": "Polaris Bank PLC", "code": "000008" },
+    { "name": "Premium Trust Bank", "code": "000031" },
+    { "name": "Providus Bank Ltd", "code": "000023" },
+    { "name": "Rand Merchant Bank", "code": "000024" },
+    { "name": "Stanbic IBTC Bank Ltd", "code": "000012" },
+    { "name": "Standard Chartered Bank Nigeria Ltd", "code": "000021" },
+    { "name": "Sterling Bank Ltd", "code": "000001" },
+    { "name": "SunTrust Bank Nigeria Ltd", "code": "000022" },
+    { "name": "Titan Trust Bank Ltd", "code": "000025" },
+    { "name": "Union Bank of Nigeria PLC", "code": "000018" },
+    { "name": "United Bank for Africa (UBA) PLC", "code": "000004" },
+    { "name": "Unity Bank PLC", "code": "000011" },
+    { "name": "Wema Bank PLC", "code": "000017" },
+    { "name": "Zenith Bank PLC", "code": "000015" },
+
+    { "name": "9 Payment Service Bank", "code": "110072" },
+    { "name": "Access Mobile", "code": "100013" },
+    { "name": "Access Yello & Beta", "code": "100052" },
+    { "name": "Cellulant", "code": "100005" },
+    { "name": "Contec Global", "code": "100032" },
+    { "name": "Paralex Bank Ltd", "code": "000030" },
+    { "name": "Paga", "code": "100002" },
+    { "name": "Opay", "code": "100004" },
+    { "name": "PalmPay", "code": "100033" },
+    { "name": "GoMoney", "code": "100022" },
+    { "name": "FirstMonie Wallet", "code": "100014" },
+    { "name": "Stanbic IBTC @Ease Wallet", "code": "100007" },
+    { "name": "TagPay", "code": "100023" },
+    { "name": "ZWallet", "code": "100034" },
+
+    { "name": "AB Microfinance Bank", "code": "090270" },
+    { "name": "Above Only Microfinance Bank", "code": "090260" },
+    { "name": "ABU Microfinance Bank", "code": "090197" },
+    { "name": "Accion Microfinance Bank", "code": "090134" },
+    { "name": "Addosser Microfinance Bank", "code": "090160" },
+    { "name": "Adeyemi College Staff Microfinance Bank", "code": "090268" },
+    { "name": "Akpo Microfinance Bank", "code": "090608" },
+    { "name": "Aku Microfinance Bank", "code": "090531" },
+    { "name": "Akuchukwu Microfinance Bank Ltd", "code": "090561" },
+    { "name": "Akwa Savings & Loans Limited", "code": "070025" },
+    { "name": "Al-Barakah Microfinance Bank", "code": "090133" },
+    { "name": "Al-Hayat Microfinance Bank", "code": "090277" },
+    { "name": "Alekun Microfinance Bank", "code": "090259" },
+    { "name": "Agosasa Microfinance Bank", "code": "090371" }
   ]
 }

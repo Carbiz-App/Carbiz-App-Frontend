@@ -29,14 +29,6 @@ const Payment = () => {
   });
   const { modal, closeModal, openModal } = useModal();
 
-  // React.useEffect(()=>{
-  //   if (total){
-
-  //   }
-  // },[
-  //  total
-  // ])
-
   return (
     <>
       <Dialog open={modal.open} onOpenChange={closeModal}>

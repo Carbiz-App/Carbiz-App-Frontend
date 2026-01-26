@@ -6,6 +6,22 @@ export const PROFILE_MERCHANT = gql`
       errors
       message
       payload {
+        isVerified
+        isApproved
+        businessName
+        email
+        address
+        businessName
+        city
+        country
+        email
+        phoneNumber
+        postalCode
+        businessLicense
+        CAC
+        taxID
+        validIDcard
+        businessPics
         onboardingActions
         onboardingPercentage
         onboardingStatus {

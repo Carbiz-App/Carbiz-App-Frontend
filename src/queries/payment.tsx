@@ -35,7 +35,6 @@ export const useAddBankDetail = () => {
           paginationQuery: {
             limit: 15,
             page: 1,
-            sortBy: "createdAT",
             sortOrder: "DESC",
           },
         },
@@ -47,14 +46,14 @@ export const useAddBankDetail = () => {
       if (!result) {
         handleError(
           new Error("No response received"),
-          "Add Bank Details Failed"
+          "Add Bank Details Failed",
         );
         return;
       }
       if (!result.success) {
         handleInfo(
           "Add Bank",
-          result.message || "Adding Bank Details unsuccessful"
+          result.message || "Adding Bank Details unsuccessful",
         );
         return;
       }
@@ -93,7 +92,6 @@ export const useUpdateBankDetails = () => {
           paginationQuery: {
             limit: 15,
             page: 1,
-            sortBy: "createdAT",
             sortOrder: "DESC",
           },
         },
@@ -105,7 +103,7 @@ export const useUpdateBankDetails = () => {
       if (!result) {
         handleError(
           new Error("No response received"),
-          "Update Bank Detail Failed"
+          "Update Bank Detail Failed",
         );
         return;
       }
@@ -113,7 +111,7 @@ export const useUpdateBankDetails = () => {
       if (!result.success) {
         handleInfo(
           "Edit Bank Detail",
-          result.message || "Update Bank Detail unsuccessful"
+          result.message || "Update Bank Detail unsuccessful",
         );
         return;
       }
@@ -137,6 +135,7 @@ interface MerchantDeleteBankDetails {
     payload: boolean;
   };
 }
+
 export const useDeleteBank = () => {
   const { handleError, handleInfo, handleSuccess } = useToast();
   const [deleteBank, { loading }] = useMutation<
@@ -150,7 +149,6 @@ export const useDeleteBank = () => {
           paginationQuery: {
             limit: 15,
             page: 1,
-            sortBy: "createdAT",
             sortOrder: "DESC",
           },
         },
@@ -163,7 +161,7 @@ export const useDeleteBank = () => {
       if (!result) {
         handleError(
           new Error("No response received"),
-          "Delete Bank Detail Failed"
+          "Delete Bank Detail Failed",
         );
         return;
       }
@@ -171,7 +169,7 @@ export const useDeleteBank = () => {
       if (!result.success) {
         handleInfo(
           "Add Product",
-          result.message || "Delete Bank Detail unsuccessful"
+          result.message || "Delete Bank Detail unsuccessful",
         );
         return;
       }
@@ -202,7 +200,7 @@ export const useFetchBankDetail = () => {
       onError: (error) => {
         handleError(error, "Error fetching Bank Detail");
       },
-      fetchPolicy: "cache-and-network",
+      fetchPolicy: "cache-first",
       nextFetchPolicy: "cache-first",
     });
 

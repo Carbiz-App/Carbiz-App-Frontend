@@ -5,23 +5,26 @@ import {
   TOTAL_CUSTOMER,
 } from "@/api/dashboard";
 import { useToast } from "@/hooks/Toast";
+import { useAuthStore, UserType } from "@/store/auth.store";
 import { useQuery } from "@apollo/client";
+
+interface MerchantPayload extends UserType {
+  onboardingActions: string;
+  onboardingPercentage: number;
+  onboardingStatus: {
+    add_Products: boolean;
+    create_Account: boolean;
+    setup_Payment: boolean;
+  };
+  role: string;
+  status: string;
+}
 
 export interface MerchantProfileResponseType {
   profileMerchant: {
     success: boolean;
     message: string;
-    payload: {
-      onboardingActions: string;
-      onboardingPercentage: number; // fixed
-      onboardingStatus: {
-        add_Products: boolean;
-        create_Account: boolean;
-        setup_Payment: boolean;
-      };
-      role: string;
-      status: string;
-    };
+    payload: MerchantPayload;
   };
 }
 
@@ -51,17 +54,27 @@ interface MerchantsTotalRevenueWithDeliveryFee {
 
 export const useMerchantProfile = () => {
   const { handleError } = useToast();
+  const { setUser } = useAuthStore();
 
   const { loading, error, data } = useQuery<MerchantProfileResponseType>(
     PROFILE_MERCHANT,
     {
-      onCompleted: () => {
-        // console.log("Profile Data:", data);
+      onCompleted: (e) => {
+        const payload = e?.profileMerchant?.payload;
+        if (payload) {
+          const {
+            onboardingActions,
+            onboardingPercentage,
+            onboardingStatus,
+            ...userData
+          } = payload;
+          setUser(userData as UserType);
+        }
       },
       onError: (error) => {
         handleError(error, "Error fetching merchant profile");
       },
-      fetchPolicy: "cache-and-network",
+      fetchPolicy: "cache-first",
       nextFetchPolicy: "cache-first",
     },
   );

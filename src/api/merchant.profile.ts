@@ -25,10 +25,22 @@ export const UPLOAD_KYC = gql`
       success
       message
       payload {
+        isVerified
+        isApproved
+        businessName
+        email
+        address
+        businessName
+        city
+        country
+        email
+        phoneNumber
+        postalCode
         businessLicense
         CAC
-        validIDcard
         taxID
+        validIDcard
+        businessPics
       }
     }
   }

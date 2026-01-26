@@ -12,6 +12,8 @@ import { useModal } from "@/store/useModal";
 import { useEffect } from "react";
 import { Spinner } from "@/components/ui/spinner";
 import CustomButton from "@/components/atoms/button/CustomButton";
+import SelectField from "@/components/atoms/form/select";
+import data from "@/assets/data/index.json";
 
 const PaymentForm = () => {
   const form = useForm<PaymentSchemaType>({
@@ -59,6 +61,11 @@ const PaymentForm = () => {
     }
   };
 
+  const items = data?.bank.flatMap((item) => ({
+    label: item?.name,
+    value: item?.name,
+  }));
+
   return (
     <Form {...form}>
       <form
@@ -83,11 +90,12 @@ const PaymentForm = () => {
               label="Account Number"
               placeholder="023333398"
             />
-            <InputField
+            <SelectField
               control={form.control}
               label="Bank Name"
               name="bankName"
               placeholder="First Bank"
+              items={items}
             />
           </div>
         )}

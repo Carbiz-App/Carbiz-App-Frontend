@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 
-interface UserType {
+export interface UserType {
   businessName: string;
   isVerified?: boolean;
   isApproved?: boolean;
@@ -37,6 +37,6 @@ export const useAuthStore = create<AuthStoreType>()(
     {
       name: "auth-storage",
       storage: createJSONStorage(() => sessionStorage),
-    }
-  )
+    },
+  ),
 );
