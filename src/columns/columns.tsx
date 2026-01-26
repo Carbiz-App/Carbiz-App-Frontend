@@ -1,4 +1,3 @@
-
 import { ColumnDef } from "@tanstack/react-table";
 import { Eye } from "lucide-react";
 import moment from "moment";
@@ -42,7 +41,7 @@ export const ordersColumns: ColumnDef<Order>[] = [
             ?.productName;
 
       return (
-        <div className="font-normal   uppercase max-w-xs text-wrap">
+        <div className="font-normal uppercase max-w-xs text-wrap">
           {productName ?? "-"}
         </div>
       );
