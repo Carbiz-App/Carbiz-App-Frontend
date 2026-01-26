@@ -50,6 +50,7 @@ export const FETCH_ALL_ORDERS = gql`
           trackingID
           updatedAT
           vehicleType
+          paymentConfirmedAT
         }
       }
     }
@@ -122,6 +123,8 @@ export const FETCH_ORDER = gql`
         total
         deliveryFee
         updatedAT
+        paymentConfirmedAT
+        orderPackedAT
       }
     }
   }

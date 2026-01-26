@@ -28,6 +28,8 @@ interface OrderEntity {
   vehicleType: string;
   pooledSavings: number;
   shippingAddress: string;
+  paymentConfirmedAT: Date;
+  orderPackedAT: Date;
 }
 
 type MerchantOrderStatusEntity = {

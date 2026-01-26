@@ -67,7 +67,7 @@ const PreviewOrder = () => {
     if (path) {
       MerchantfetchaOneOrder({
         variables: { orderID: path },
-        pollInterval: 10000,
+        pollInterval: 160000,
       });
     }
   }, [path]);
@@ -120,27 +120,24 @@ const PreviewOrder = () => {
       description: "Order has been paid for by customer. but not yet packaged.",
       time:
         data?.paymentStatus === "paid"
-          ? moment(data?.updatedAT).format("DD MMM, YYYY hh:mm A")
+          ? moment(data?.paymentConfirmedAT).format("DD MMM, YYYY hh:mm A")
           : "-",
       isCompleted:
-        data?.paymentStatus === "paid" ? Boolean(data?.updatedAT) : false,
+        data?.paymentStatus === "paid"
+          ? Boolean(data?.paymentConfirmedAT)
+          : false,
     },
     {
       id: 3,
       title: "Order Packaged",
       description: "Order has been packaged and assembled.",
       time:
-        data?.merchantStatuses !== null &&
-        data?.merchantStatuses?.[0]?.updatedAt
-          ? moment(data?.merchantStatuses[0]?.updatedAt).format(
-              "DD MMM, YYYY hh:mm A",
-            )
+        data?.orderPackedAT !== null
+          ? moment(data?.orderPackedAT).format("DD MMM, YYYY hh:mm A")
           : "-",
       isCompleted:
-        data?.merchantStatuses !== null &&
-        data?.merchantStatuses?.[0]?.updatedAt
-          ? Boolean(data?.merchantStatuses[0]?.updatedAt)
-          : false,
+        Boolean(data?.paymentConfirmedAT) && Boolean(data?.orderPackedAT),
+      // data?.paymentStatus === "paid" && Boolean(data?.paymentConfirmedAT),
     },
     {
       id: 4,
@@ -214,10 +211,23 @@ const PreviewOrder = () => {
     ),
   );
 
-  const isProcessing = data?.orderStatus?.toLowerCase() === "processing";
-  const isPaid = data?.paymentStatus?.toLowerCase() === "paid";
-  const isAlreadyPrepared = Boolean(data?.merchantStatuses?.[0]?.updatedAt);
-  const canPrepareOrder = isProcessing && isPaid && !isAlreadyPrepared;
+  const isPaid = data?.paymentConfirmedAT !== null;
+  const isPacked = data?.orderPackedAT !== null;
+  const orderStatus = data?.orderStatus;
+  const isAwaitingRider = orderStatus === "AWAITING_RIDER_ACCEPTANCE";
+  const isRiderAssigned = orderStatus === "Rider_Assigned";
+  const isInTransit = orderStatus === "In_Transit";
+  const isDelivered =
+    orderStatus === "Delivered" || orderStatus === "Cancelled";
+  const canPrepareOrder =
+    isPaid &&
+    isPacked &&
+    !isAwaitingRider &&
+    !isRiderAssigned &&
+    !isInTransit &&
+    !isDelivered;
+
+  console.log(canPrepareOrder);
 
   return (
     <div className="space-y-2.5 md:space-y-5 flex flex-col flex-1 h-full">
@@ -246,14 +256,14 @@ const PreviewOrder = () => {
             {data?.orderStatus ? data.orderStatus.replaceAll("_", " ") : "-"}
           </p>
         </div>
-        {canPrepareOrder && (
-          <CustomButton
-            loading={makeOrderReadyLoading}
-            onClick={() => makeOrderReady({ variables: { orderID: path } })}
-          >
-            Prepare Order for Pickup
-          </CustomButton>
-        )}
+
+        <CustomButton
+          disabled={isPacked ? true : canPrepareOrder}
+          loading={makeOrderReadyLoading}
+          onClick={() => makeOrderReady({ variables: { orderID: path } })}
+        >
+          Prepare Order for Pickup
+        </CustomButton>
       </div>
 
       <div className="flex-1">

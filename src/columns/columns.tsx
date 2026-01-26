@@ -132,6 +132,8 @@ export const ordersColumns: ColumnDef<Order>[] = [
             return "text-[#343231] bg-[#E6E5E8]";
           case "awaiting_rider_acceptance":
             return "bg-[#BBE4E2] text-[#027A48]";
+          case "payment_confirmed":
+            return "bg-[#D1FADF] text-[#027A48]";
           default:
             return null;
         }

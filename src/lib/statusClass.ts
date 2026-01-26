@@ -8,6 +8,7 @@ const Status = {
   packed_and_ready_for_pickup: "text-[#343239] bg-[#E6E5E8]",
   refunded: "text-[#DC6803] bg-[#FFF7E1]",
   awaiting_rider_acceptance: "bg-[#BBE4E2] text-[#027A48]",
+  payment_confirmed: "bg-[#D1FADF] text-[#027A48]",
 };
 
 export default Status;

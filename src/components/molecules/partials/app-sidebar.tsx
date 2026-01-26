@@ -64,9 +64,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const nav = useNavigate();
   const onLogout = () => {
     setIsLoggingOut(true);
-    logout();
     setTimeout(() => {
       nav("/");
+      logout();
     }, 2000);
   };
 
