@@ -9,6 +9,7 @@ const Status = {
   refunded: "text-[#DC6803] bg-[#FFF7E1]",
   awaiting_rider_acceptance: "bg-[#BBE4E2] text-[#027A48]",
   payment_confirmed: "bg-[#D1FADF] text-[#027A48]",
+  rider_assigned: "bg-[#BBE4E2] text-[#027A48]",
 };
 
 export default Status;

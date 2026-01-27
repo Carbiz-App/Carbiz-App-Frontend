@@ -16,44 +16,6 @@ import moment from "moment";
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router";
 
-// const products: OrderItem[] = [
-//   {
-//     id: 1,
-//     title: "Dual Outlet Stainless Steel Tailpipe for Automobiles",
-//     price: 55000,
-//     originalPrice: 65000,
-//     color: "Curved Beleved Mouth - Silvery Black",
-//     image:
-//       "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=200&h=200&fit=crop&crop=center",
-//     // badge: "73 x 73 Fill",
-//     // badgeColor: "purple",
-//   },
-//   {
-//     id: 2,
-//     title: "2D Flat, 2D Flat Acrylic Car Interior Decor",
-//     price: 3272,
-//     originalPrice: 8148,
-//     color: "black",
-//     image:
-//       "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=200&h=200&fit=crop&crop=center",
-//   },
-//   {
-//     id: 3,
-//     title: "MARVEL Cartoon Deadpool Car Rearview Mirror Hanging Ornament",
-//     price: 2265,
-//     color: "Sitting on a black wood chip and reading a book",
-//     image:
-//       "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=200&h=200&fit=crop&crop=center",
-//   },
-// ];
-
-// const summaryItems: OrderSummaryItem[] = [
-//   { label: "Products Subtotal:", amount: 108210 },
-//   { label: "Delivery Subtotal:", amount: 11000 },
-//   { label: "Promo Discount:", amount: -6000, isDiscount: true },
-//   { label: "Saved:", amount: -21345, isSaved: true },
-// ];
-
 const PreviewOrder = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -211,23 +173,10 @@ const PreviewOrder = () => {
     ),
   );
 
-  const isPaid = data?.paymentConfirmedAT !== null;
-  const isPacked = data?.orderPackedAT !== null;
-  const orderStatus = data?.orderStatus;
-  const isAwaitingRider = orderStatus === "AWAITING_RIDER_ACCEPTANCE";
-  const isRiderAssigned = orderStatus === "Rider_Assigned";
-  const isInTransit = orderStatus === "In_Transit";
-  const isDelivered =
-    orderStatus === "Delivered" || orderStatus === "Cancelled";
   const canPrepareOrder =
-    isPaid &&
-    isPacked &&
-    !isAwaitingRider &&
-    !isRiderAssigned &&
-    !isInTransit &&
-    !isDelivered;
-
-  console.log(canPrepareOrder);
+    data?.orderStatus?.toLowerCase() === "payment_confirmed" &&
+    data?.paymentConfirmedAT !== null &&
+    data?.orderPackedAT === null;
 
   return (
     <div className="space-y-2.5 md:space-y-5 flex flex-col flex-1 h-full">
@@ -258,7 +207,7 @@ const PreviewOrder = () => {
         </div>
 
         <CustomButton
-          disabled={isPacked ? true : canPrepareOrder}
+          disabled={!canPrepareOrder}
           loading={makeOrderReadyLoading}
           onClick={() => makeOrderReady({ variables: { orderID: path } })}
         >
