@@ -100,13 +100,6 @@ const ProfileForm = () => {
             disabled
           />
 
-          {/* <SelectField
-            control={form.control}
-            label="City"
-            name="city"
-            placeholder="Choose"
-            items={cities}
-          /> */}
           <InputField
             control={form.control}
             name="phoneNumber"

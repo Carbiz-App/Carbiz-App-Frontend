@@ -1,6 +1,6 @@
 import { uploadImageRest } from "@/api/imageUpload";
 import CircularProgress from "@/components/atoms/progress";
-import { ImagePlus } from "lucide-react";
+import { ImagePlus, XIcon } from "lucide-react";
 import React, { useCallback, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { v4 as uuidv4 } from "uuid";
@@ -81,8 +81,8 @@ const Uploader: React.FC<UploaderProps> = ({
           batch.forEach((item) => {
             setImages((prev) =>
               prev.map((img) =>
-                img.id === item.id ? { ...img, progress } : img
-              )
+                img.id === item.id ? { ...img, progress } : img,
+              ),
             );
           });
         })
@@ -110,14 +110,14 @@ const Uploader: React.FC<UploaderProps> = ({
                 prev.map((img) =>
                   img.id === item.id
                     ? { ...img, uploading: false, error: "Upload failed" }
-                    : img
-                )
+                    : img,
+                ),
               );
             });
           });
       }
     },
-    [setValue]
+    [setValue],
   );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -132,11 +132,17 @@ const Uploader: React.FC<UploaderProps> = ({
       const updated = prev
         .map((img) => ({ ...img, isFeatured: img.id === id }))
         .sort((a, b) =>
-          a.isFeatured === b.isFeatured ? 0 : a.isFeatured ? -1 : 1
+          a.isFeatured === b.isFeatured ? 0 : a.isFeatured ? -1 : 1,
         );
       updateForm(updated);
       return updated;
     });
+  };
+
+  const removeImage = (id: string) => {
+    const updated = images.filter((img) => img.id !== id);
+    setImages(updated);
+    updateForm(updated);
   };
 
   return (
@@ -195,6 +201,13 @@ const Uploader: React.FC<UploaderProps> = ({
                 ★
               </button>
             )}
+
+            <button
+              onClick={() => removeImage(img.id)}
+              className="absolute  text-red-400 text-2xl  rounded-sm top-1 left-1 cursor-pointer z-20"
+            >
+              <XIcon />
+            </button>
           </div>
         ))}
       </div>
