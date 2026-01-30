@@ -99,7 +99,6 @@ const PreviewOrder = () => {
           : "-",
       isCompleted:
         Boolean(data?.paymentConfirmedAT) && Boolean(data?.orderPackedAT),
-      // data?.paymentStatus === "paid" && Boolean(data?.paymentConfirmedAT),
     },
     {
       id: 4,
@@ -145,13 +144,12 @@ const PreviewOrder = () => {
     },
   ];
 
-  const splitOne = Object.fromEntries(Object.entries(data?.merchants ?? {}));
+  // const splitOne = Object.fromEntries(Object.entries(data?.merchants ?? {}));
+  // const splitTwo = Object.entries(splitOne[0] ?? {}).filter(
+  //   ([key]) => key !== "__typename",
+  // );
+  // const merchants = Object.fromEntries(splitTwo);
 
-  const splitTwo = Object.entries(splitOne[0] ?? {}).filter(
-    ([key]) => key !== "__typename",
-  );
-
-  const merchants = Object.fromEntries(splitTwo);
   const customerDetails: Partial<Customer> | undefined = data?.customer
     ? (Object.fromEntries(
         Object.entries(data.customer ?? {}).filter(
@@ -315,10 +313,10 @@ const PreviewOrder = () => {
                 details={address ?? {}}
               />
               {/* Merchant Details */}
-              <DetailsSection
+              {/* <DetailsSection
                 title="Merchant Details"
                 details={merchants ?? {}}
-              />
+              /> */}
 
               {/* Customer Details */}
               <DetailsSection

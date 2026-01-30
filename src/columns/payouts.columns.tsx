@@ -1,3 +1,4 @@
+import { Badge } from "@/components/ui/badge";
 import { PayoutOutput } from "@/types/payoutOutput";
 import { ColumnDef } from "@tanstack/react-table";
 import moment from "moment";
@@ -155,11 +156,11 @@ export const PayoutsColumn: ColumnDef<PayoutOutput>[] = [
         <div>
           {row?.original?.paymentStatus && (
             <div>
-              <span
-                className={`px-2 py-1 rounded text-sm  font-normal capitalize ${statusColor()}`}
+              <Badge
+                className={`px-2 py-1 rounded-sm text-sm  font-normal uppercase ${statusColor()}`}
               >
                 {row?.original?.paymentStatus}
-              </span>
+              </Badge>
             </div>
           )}
         </div>

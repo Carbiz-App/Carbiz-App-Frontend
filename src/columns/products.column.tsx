@@ -1,4 +1,5 @@
 import { ProductAction } from "@/components/templates/app/products/productAction";
+import { Badge } from "@/components/ui/badge";
 import { ColumnDef } from "@tanstack/react-table";
 import moment from "moment";
 
@@ -144,9 +145,9 @@ export const productsColumn = (): ColumnDef<productsType>[] => [
       };
       return (
         <div className={` font-normal p-2  md:py-2.5 `}>
-          <span className={`px-3 py-1 rounded-2xl ${statusColor()} capitalize`}>
+          <Badge className={`px-2 py-1 rounded-sm ${statusColor()} uppercase`}>
             {_status}
-          </span>
+          </Badge>
         </div>
       );
     },

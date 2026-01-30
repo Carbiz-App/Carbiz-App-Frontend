@@ -1,3 +1,4 @@
+import { Badge } from "@/components/ui/badge";
 import { ColumnDef } from "@tanstack/react-table";
 import { Eye } from "lucide-react";
 import moment from "moment";
@@ -97,9 +98,9 @@ export const ordersColumns: ColumnDef<Order>[] = [
       };
       return (
         <div className={` font-normal p-2   `}>
-          <span className={`px-3 py-1 rounded-2xl ${statusColor()} capitalize`}>
+          <Badge className={`px-2 py-1 rounded-sm ${statusColor()} uppercase`}>
             {row.original?.paymentStatus?.toLowerCase() ?? "~~~"}
-          </span>
+          </Badge>
         </div>
       );
     },
@@ -119,6 +120,7 @@ export const ordersColumns: ColumnDef<Order>[] = [
           case "processing":
             return "bg-[#E2DAF4] text-[#7046C6]";
           case "shipped":
+          case "in_transit":
             return "bg-[#FFF7E1] text-[#DC6803]";
           case "cancelled":
             return "text-[#B42318] bg-[#FEE4E2]";
@@ -141,9 +143,9 @@ export const ordersColumns: ColumnDef<Order>[] = [
       const displayStatus = statusStr.replaceAll("_", " ").toLowerCase();
       return (
         <div className={` font-normal p-2   `}>
-          <span className={`px-3 py-1 rounded-2xl ${statusColor()} capitalize`}>
+          <Badge className={`px-2 py-1 rounded-sm ${statusColor()} uppercase`}>
             {displayStatus || "-"}
-          </span>
+          </Badge>
         </div>
       );
     },
