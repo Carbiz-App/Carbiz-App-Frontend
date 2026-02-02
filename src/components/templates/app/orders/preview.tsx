@@ -144,12 +144,6 @@ const PreviewOrder = () => {
     },
   ];
 
-  // const splitOne = Object.fromEntries(Object.entries(data?.merchants ?? {}));
-  // const splitTwo = Object.entries(splitOne[0] ?? {}).filter(
-  //   ([key]) => key !== "__typename",
-  // );
-  // const merchants = Object.fromEntries(splitTwo);
-
   const customerDetails: Partial<Customer> | undefined = data?.customer
     ? (Object.fromEntries(
         Object.entries(data.customer ?? {}).filter(
@@ -307,6 +301,14 @@ const PreviewOrder = () => {
               </div>
             </div>
             <div className="w-full max-w-xl col-span-2 bg-white border rounded-[0.75rem] space-y-5 px-4 pt-4">
+              {data?.dropOffCode && (
+                <DetailsSection
+                  title="Pickup Code"
+                  details={{
+                    Code: String(data?.pickUpCode),
+                  }}
+                />
+              )}
               {/* Delivery Details */}
               <DetailsSection
                 title=" Order Delievery Details"

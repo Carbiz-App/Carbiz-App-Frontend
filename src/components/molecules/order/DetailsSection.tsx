@@ -14,6 +14,7 @@ export interface CustomerDetails {
   email: string;
   phoneNumber: string;
 }
+
 export interface RiderDetails {
   name: string;
   phoneNumber: string;

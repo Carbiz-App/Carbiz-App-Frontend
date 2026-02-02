@@ -125,6 +125,8 @@ export const FETCH_ORDER = gql`
         updatedAT
         paymentConfirmedAT
         orderPackedAT
+        dropOffCode
+        pickUpCode
       }
     }
   }
