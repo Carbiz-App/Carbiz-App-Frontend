@@ -30,7 +30,7 @@ export const useAuthStore = create<AuthStoreType>()(
       user: null,
       setUser: (user) => set({ user }),
       logout: () => {
-        sessionStorage.removeItem("authToken");
+        sessionStorage.clear();
         set({ user: null });
       },
     }),
