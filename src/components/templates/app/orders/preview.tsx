@@ -301,14 +301,22 @@ const PreviewOrder = () => {
               </div>
             </div>
             <div className="w-full max-w-xl col-span-2 bg-white border rounded-[0.75rem] space-y-5 px-4 pt-4">
-              {data?.dropOffCode && (
-                <DetailsSection
-                  title="Pickup Code"
-                  details={{
-                    Code: String(data?.pickUpCode),
-                  }}
-                />
-              )}
+              <div className=" space-y-2.5 p-3 border-[#F1ECF9] bg-white rounded-lg border shadow-sm">
+                <h3 className=" text-lg font-black text-gray-900">
+                  DroppOff Confirmation Code
+                </h3>
+                <div className="grid grid-flow-col gap-x-2.5">
+                  {data?.dropOffCode &&
+                    data?.dropOffCode
+                      ?.split("")
+                      .map((i) => (
+                        <p className=" text-2xl font-black rounded-xl border mx-auto w-full py-2.5  text-center  text-primary border-primary shadow-sm shadow-primary">
+                          {i}
+                        </p>
+                      ))}
+                </div>
+              </div>
+
               {/* Delivery Details */}
               <DetailsSection
                 title=" Order Delievery Details"

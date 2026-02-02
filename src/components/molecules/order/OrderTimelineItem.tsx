@@ -43,7 +43,7 @@ const OrderTimelineItem: React.FC<{
             </h3>
             <p className="text-sm text-gray-600">{step.description}</p>
           </div>
-          <span className="text-sm text-gray-500 ml-4 flex-shrink-0">
+          <span className="text-sm text-gray-500 ml-4 text-right">
             {step.time}
           </span>
         </div>
