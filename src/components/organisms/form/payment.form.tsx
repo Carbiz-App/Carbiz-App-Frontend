@@ -28,6 +28,8 @@ const PaymentForm = () => {
     loading: bankLoading,
   } = useFetchBankDetail();
 
+  const selectedBankName = form.watch("bankName");
+
   useEffect(() => {
     if (modal.data) {
       fetchOneBankDetail({
@@ -44,10 +46,13 @@ const PaymentForm = () => {
   }, [bankData, form]);
 
   const onSubmit = async (data: PaymentSchemaType) => {
+    const selectedBank = items.find((item) => item.value === selectedBankName);
+    const bankCode = selectedBank?.code || "";
+
     if (modal.data) {
       await updateBankDetail({
         variables: {
-          bankDetails: { ...data, bankCode: "bank-code" },
+          bankDetails: { ...data, bankCode: bankCode },
           bankID: modal.data,
         },
       });
@@ -55,7 +60,7 @@ const PaymentForm = () => {
     } else {
       await createBankDetail({
         variables: {
-          bankDetails: { ...data, bankCode: "bank-code" },
+          bankDetails: { ...data, bankCode: bankCode },
         },
       });
     }
@@ -64,6 +69,7 @@ const PaymentForm = () => {
   const items = data?.bank.flatMap((item) => ({
     label: item?.name,
     value: item?.name,
+    code: item?.code,
   }));
 
   return (
