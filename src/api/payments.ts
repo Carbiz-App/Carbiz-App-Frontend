@@ -23,6 +23,30 @@ export const FETCH_ALL_BANK_DETAILS = gql`
   }
 `;
 
+export const LIST_SUPPORTED_BANKS = gql`
+  query ListSupportedBanks {
+    ListSupportedBanks {
+      success
+      message
+      status
+      errors
+      payload
+    }
+  }
+`;
+
+export const RESOLVE_ACCOUNT = gql`
+  query ResolveAccountNumber($accountNumber: String!, $bankCode: String!) {
+    ResolveAccountNumber(accountNumber: $accountNumber, bankCode: $bankCode) {
+      success
+      message
+      status
+      errors
+      payload
+    }
+  }
+`;
+
 export const ADD_BANK_DETAILS = gql`
   mutation MerchantAddBankDetails($bankDetails: BankDto!) {
     MerchantAddBankDetails(bankDetails: $bankDetails) {

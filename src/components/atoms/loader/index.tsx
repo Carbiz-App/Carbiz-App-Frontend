@@ -1,9 +1,10 @@
 import { Spinner } from "@/components/ui/spinner";
+import { cn } from "@/lib/utils";
 
-const Loader = () => {
+const Loader = ({ className, size }: { className?: string; size?: string }) => {
   return (
-    <div className="text-primary">
-      <Spinner />
+    <div className={cn("text-primary", className)}>
+      <Spinner className={cn(size)} />
     </div>
   );
 };

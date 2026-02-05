@@ -11,6 +11,7 @@ import { EyeIcon, EyeOffIcon } from "lucide-react";
 import React from "react";
 import { Control } from "react-hook-form";
 import { Link, useLocation } from "react-router";
+import Loader from "../loader";
 
 interface InputFieldProps {
   control: Control<any>;
@@ -22,6 +23,7 @@ interface InputFieldProps {
   inputClassName?: string;
   itemClassName?: string;
   disabled?: boolean;
+  loading?: boolean;
 }
 
 const InputField: React.FC<InputFieldProps> = ({
@@ -34,6 +36,7 @@ const InputField: React.FC<InputFieldProps> = ({
   inputClassName,
   itemClassName,
   disabled = false,
+  loading,
 }) => {
   const { pathname } = useLocation();
 
@@ -72,7 +75,7 @@ const InputField: React.FC<InputFieldProps> = ({
           <FormControl>
             <div
               className={`${
-                type == "password" && "flex flex-row items-center"
+                type == "password" || (loading && "flex flex-row items-center")
               }`}
             >
               <Input
@@ -84,6 +87,8 @@ const InputField: React.FC<InputFieldProps> = ({
                 }  ${inputClassName}`}
                 {...field}
               />
+
+              {loading && <Loader className="-ml-10" size="size-8" />}
 
               {type == "password" && (
                 <button

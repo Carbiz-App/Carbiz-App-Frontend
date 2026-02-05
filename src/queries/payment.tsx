@@ -4,12 +4,14 @@ import {
   DELETE_BANK,
   FETCH_ALL_BANK_DETAILS,
   FETCH_ONE_BANK_DETAIL,
+  LIST_SUPPORTED_BANKS,
+  RESOLVE_ACCOUNT,
   UPDATE_BANK_DETAILS,
 } from "@/api/payments";
 import { useToast } from "@/hooks/Toast";
 import { PaymentSchemaType } from "@/schema/payment.schema";
 import { useModal } from "@/store/useModal";
-import { useLazyQuery, useMutation } from "@apollo/client";
+import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
 
 interface MerchantAddBankDetails {
   MerchantAddBankDetails: {
@@ -205,4 +207,59 @@ export const useFetchBankDetail = () => {
     });
 
   return { fetchOneBankDetail, data, loading, error };
+};
+
+export const listSupportedBanks = () => {
+  interface listBankType {
+    ListSupportedBanks: {
+      success: boolean;
+      message: string;
+      payload: any;
+    };
+  }
+  const { handleError } = useToast();
+  const { data, loading, error } = useQuery<listBankType>(
+    LIST_SUPPORTED_BANKS,
+    {
+      onCompleted: () => {},
+      onError: (error) => {
+        handleError(error, "Error fetching banks");
+      },
+      fetchPolicy: "cache-first",
+      nextFetchPolicy: "cache-first",
+    },
+  );
+  return { data: data?.ListSupportedBanks?.payload, loading, error };
+};
+
+export const useResolveAccountNumber = () => {
+  type ResolveAccountNumber = {
+    ResolveAccountNumber: {
+      // Note: Data is usually nested under the query name
+      success: boolean;
+      message: string;
+      payload: any;
+    };
+  };
+
+  const { handleError } = useToast();
+
+  const [triggerResolve, { data, loading }] =
+    useLazyQuery<ResolveAccountNumber>(RESOLVE_ACCOUNT, {
+      onCompleted: (res) => {
+        const result = res?.ResolveAccountNumber;
+        if (result && !result.success) {
+          handleError(
+            "Resolution Failed",
+            result.message || "Could not verify account details",
+          );
+        }
+      },
+      onError: (error) => {
+        handleError(error, "Error resolving account");
+      },
+      fetchPolicy: "cache-first",
+      nextFetchPolicy: "cache-first",
+    });
+  return { triggerResolve, resolveData: data, resolveLoading: loading };
 };

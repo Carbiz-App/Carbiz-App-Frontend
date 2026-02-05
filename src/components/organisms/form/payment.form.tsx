@@ -4,8 +4,10 @@ import { Form } from "@/components/ui/form";
 import InputField from "@/components/atoms/form/input";
 import PaymentSchema, { PaymentSchemaType } from "@/schema/payment.schema";
 import {
+  listSupportedBanks,
   useAddBankDetail,
   useFetchBankDetail,
+  useResolveAccountNumber,
   useUpdateBankDetails,
 } from "@/queries/payment";
 import { useModal } from "@/store/useModal";
@@ -13,7 +15,6 @@ import { useEffect } from "react";
 import { Spinner } from "@/components/ui/spinner";
 import CustomButton from "@/components/atoms/button/CustomButton";
 import SelectField from "@/components/atoms/form/select";
-import data from "@/assets/data/index.json";
 
 const PaymentForm = () => {
   const form = useForm<PaymentSchemaType>({
@@ -21,6 +22,16 @@ const PaymentForm = () => {
   });
   const { createBankDetail, loading } = useAddBankDetail();
   const { updateBankDetail, loading: updateLoading } = useUpdateBankDetails();
+  const { data } = listSupportedBanks();
+  const { triggerResolve, resolveData, resolveLoading } =
+    useResolveAccountNumber();
+
+  const items = data?.flatMap((item: any) => ({
+    label: item?.name,
+    value: item?.name,
+    code: item?.code,
+  }));
+
   const { modal } = useModal();
   const {
     fetchOneBankDetail,
@@ -29,6 +40,8 @@ const PaymentForm = () => {
   } = useFetchBankDetail();
 
   const selectedBankName = form.watch("bankName");
+  const accountNumber = form.watch("accountNumber");
+  const accountName = form.watch("accountName");
 
   useEffect(() => {
     if (modal.data) {
@@ -45,10 +58,46 @@ const PaymentForm = () => {
     }
   }, [bankData, form]);
 
-  const onSubmit = async (data: PaymentSchemaType) => {
-    const selectedBank = items.find((item) => item.value === selectedBankName);
-    const bankCode = selectedBank?.code || "";
+  // Resolve bank when completed
+  useEffect(() => {
+    const resolve = async () => {
+      const selectedBank = items?.find(
+        (item: any) => item.value === selectedBankName,
+      );
+      const bankCode = selectedBank?.code;
 
+      // Trigger only if we have a bank code and exactly 10 digits
+      if (bankCode && accountNumber?.length === 10) {
+        triggerResolve({
+          variables: {
+            accountNumber: accountNumber,
+            bankCode: bankCode,
+          },
+        });
+      }
+    };
+    resolve();
+  }, [accountNumber, selectedBankName]);
+
+  useEffect(() => {
+    const resolvedName =
+      resolveData?.ResolveAccountNumber?.payload?.account_name;
+    if (resolvedName) {
+      form.setValue("accountName", resolvedName);
+    }
+  }, [resolveData, form]);
+
+  useEffect(() => {
+    if (accountName) {
+      form.setValue("accountName", "");
+    }
+  }, [accountNumber, selectedBankName]);
+
+  const onSubmit = async (data: PaymentSchemaType) => {
+    const selectedBank = items.find(
+      (item: any) => item.value === selectedBankName,
+    );
+    const bankCode = selectedBank?.code || "";
     if (modal.data) {
       await updateBankDetail({
         variables: {
@@ -67,12 +116,6 @@ const PaymentForm = () => {
     }
   };
 
-  const items = data?.bank.flatMap((item) => ({
-    label: item?.name,
-    value: item?.name,
-    code: item?.code,
-  }));
-
   return (
     <Form {...form}>
       <form
@@ -85,24 +128,29 @@ const PaymentForm = () => {
           </div>
         ) : (
           <div className="grid gap-2 md:gap-4">
-            <InputField
-              control={form.control}
-              name="accountName"
-              label="Account Name"
-              placeholder="John Doe"
-            />
-            <InputField
-              control={form.control}
-              name="accountNumber"
-              label="Account Number"
-              placeholder="023333398"
-            />
             <SelectField
               control={form.control}
               label="Bank Name"
               name="bankName"
               placeholder="First Bank"
               items={items}
+            />
+            <InputField
+              // disabled={accountNumber.length === 10}
+              control={form.control}
+              name="accountNumber"
+              label="Account Number"
+              placeholder="023333398"
+            />
+            <InputField
+              loading={resolveLoading}
+              control={form.control}
+              name="accountName"
+              label="Account Name"
+              placeholder={
+                resolveLoading ? "Resolving account..." : "Account Name"
+              }
+              disabled={resolveLoading || !!resolveData}
             />
           </div>
         )}
