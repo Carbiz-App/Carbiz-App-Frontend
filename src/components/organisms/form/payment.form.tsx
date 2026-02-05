@@ -56,6 +56,7 @@ const PaymentForm = () => {
           bankID: modal.data,
         },
       });
+
       return;
     } else {
       await createBankDetail({
