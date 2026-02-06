@@ -42,6 +42,7 @@ const PaymentForm = () => {
   const selectedBankName = form.watch("bankName");
   const accountNumber = form.watch("accountNumber");
   const accountName = form.watch("accountName");
+  const bankCode = form.watch("bankCode");
 
   useEffect(() => {
     if (modal.data) {
@@ -65,6 +66,7 @@ const PaymentForm = () => {
         (item: any) => item.value === selectedBankName,
       );
       const bankCode = selectedBank?.code;
+      form.setValue("bankCode", bankCode);
 
       // Trigger only if we have a bank code and exactly 10 digits
       if (bankCode && accountNumber?.length === 10) {
@@ -94,14 +96,11 @@ const PaymentForm = () => {
   }, [accountNumber, selectedBankName]);
 
   const onSubmit = async (data: PaymentSchemaType) => {
-    const selectedBank = items.find(
-      (item: any) => item.value === selectedBankName,
-    );
-    const bankCode = selectedBank?.code || "";
+    console.log({ ...data, bankCode });
     if (modal.data) {
       await updateBankDetail({
         variables: {
-          bankDetails: { ...data, bankCode: bankCode },
+          bankDetails: { ...data, bankCode },
           bankID: modal.data,
         },
       });
@@ -110,7 +109,7 @@ const PaymentForm = () => {
     } else {
       await createBankDetail({
         variables: {
-          bankDetails: { ...data, bankCode: bankCode },
+          bankDetails: { ...data, bankCode },
         },
       });
     }
