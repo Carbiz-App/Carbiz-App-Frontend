@@ -75,7 +75,9 @@ const InputField: React.FC<InputFieldProps> = ({
           <FormControl>
             <div
               className={`${
-                type == "password" || (loading && "flex flex-row items-center")
+                type == "password" || loading
+                  ? "flex flex-row items-center"
+                  : ""
               }`}
             >
               <Input

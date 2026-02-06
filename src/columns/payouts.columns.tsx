@@ -167,14 +167,4 @@ export const PayoutsColumn: ColumnDef<PayoutOutput>[] = [
       );
     },
   },
-  {
-    id: "actions",
-    header: () => (
-      <div className=" text-base font-[500] text-black !bg-[#FAFAFB] py-3.5  !border-none">
-        Actions
-      </div>
-    ),
-    // cell: ({ row }) => <PayoutActions payout={row.original} />,
-    cell: ({}) => <></>,
-  },
 ];
