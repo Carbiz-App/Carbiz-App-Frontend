@@ -53,9 +53,9 @@ export function SiteHeader() {
                   alt={user?.businessPics}
                 />
                 <AvatarFallback className="rounded-md font-bold md:text-lg">
-                  {user?.businessName.split(" ")[0].split("")[0]}
+                  {/* {user?.businessName.split(" ")[0].split("")[0]}
                   {""}
-                  {user?.businessName.split(" ")[1].split("")[0]}
+                  {user?.businessName.split(" ")[1].split("")[0]} */}
                 </AvatarFallback>
               </Avatar>
               <div className="sm:grid flex-1 text-left text-sm leading-tight hidden ">
