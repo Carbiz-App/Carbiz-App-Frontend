@@ -60,43 +60,47 @@ const PaymentForm = () => {
   }, [bankData, form]);
 
   // Resolve bank when completed
-  useEffect(() => {
-    const resolve = async () => {
-      const selectedBank = items?.find(
-        (item: any) => item.value === selectedBankName,
-      );
-      const bankCode = selectedBank?.code;
-      form.setValue("bankCode", bankCode);
+  // useEffect(() => {
+  //   const resolve = async () => {
+  //     const selectedBank = items?.find(
+  //       (item: any) => item.value === selectedBankName,
+  //     );
+  //     const bankCode = selectedBank?.code;
+  //     form.setValue("bankCode", bankCode);
 
-      // Trigger only if we have a bank code and exactly 10 digits
-      if (bankCode && accountNumber?.length === 10) {
-        triggerResolve({
-          variables: {
-            accountNumber: accountNumber,
-            bankCode: bankCode,
-          },
-        });
-      }
-    };
-    resolve();
-  }, [accountNumber, selectedBankName]);
+  //     // Trigger only if we have a bank code and exactly 10 digits
+  //     if (bankCode && accountNumber?.length === 10) {
+  //       triggerResolve({
+  //         variables: {
+  //           accountNumber: accountNumber,
+  //           bankCode: bankCode,
+  //         },
+  //       });
+  //     }
+  //   };
+  //   resolve();
+  // }, [accountNumber, selectedBankName]);
 
-  useEffect(() => {
-    const resolvedName =
-      resolveData?.ResolveAccountNumber?.payload?.account_name;
-    if (resolvedName) {
-      form.setValue("accountName", resolvedName);
-    }
-  }, [resolveData, form]);
+  // useEffect(() => {
+  //   const resolvedName =
+  //     resolveData?.ResolveAccountNumber?.payload?.account_name;
+  //   if (resolvedName) {
+  //     form.setValue("accountName", resolvedName);
+  //   }
+  // }, [resolveData, form]);
 
-  useEffect(() => {
-    if (accountName) {
-      form.setValue("accountName", "");
-    }
-  }, [accountNumber, selectedBankName]);
+  // useEffect(() => {
+  //   if (accountName) {
+  //     form.setValue("accountName", "");
+  //   }
+  // }, [accountNumber, selectedBankName]);
 
   const onSubmit = async (data: PaymentSchemaType) => {
-    console.log({ ...data, bankCode });
+    // console.log({ ...data });
+    const selectedBank = items?.find(
+      (item: any) => item.value === selectedBankName,
+    );
+    const bankCode = selectedBank?.code;
     if (modal.data) {
       await updateBankDetail({
         variables: {
@@ -149,7 +153,7 @@ const PaymentForm = () => {
               placeholder={
                 resolveLoading ? "Resolving account..." : "Account Name"
               }
-              disabled={resolveLoading || !!resolveData}
+              // disabled={resolveLoading || !!resolveData}
             />
           </div>
         )}
