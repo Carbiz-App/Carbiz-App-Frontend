@@ -7,7 +7,7 @@ import {
   listSupportedBanks,
   useAddBankDetail,
   useFetchBankDetail,
-  useResolveAccountNumber,
+  // useResolveAccountNumber,
   useUpdateBankDetails,
 } from "@/queries/payment";
 import { useModal } from "@/store/useModal";
@@ -23,8 +23,8 @@ const PaymentForm = () => {
   const { createBankDetail, loading } = useAddBankDetail();
   const { updateBankDetail, loading: updateLoading } = useUpdateBankDetails();
   const { data } = listSupportedBanks();
-  const { triggerResolve, resolveData, resolveLoading } =
-    useResolveAccountNumber();
+  // const { triggerResolve, resolveData, resolveLoading } =
+  //   useResolveAccountNumber();
 
   const items = data?.flatMap((item: any) => ({
     label: item?.name,
@@ -40,9 +40,9 @@ const PaymentForm = () => {
   } = useFetchBankDetail();
 
   const selectedBankName = form.watch("bankName");
-  const accountNumber = form.watch("accountNumber");
-  const accountName = form.watch("accountName");
-  const bankCode = form.watch("bankCode");
+  // const accountNumber = form.watch("accountNumber");
+  // const accountName = form.watch("accountName");
+  // const bankCode = form.watch("bankCode");
 
   useEffect(() => {
     if (modal.data) {
@@ -146,13 +146,14 @@ const PaymentForm = () => {
               placeholder="023333398"
             />
             <InputField
-              loading={resolveLoading}
+              // loading={resolveLoading}
               control={form.control}
               name="accountName"
               label="Account Name"
-              placeholder={
-                resolveLoading ? "Resolving account..." : "Account Name"
-              }
+              placeholder="Account Name"
+              // placeholder={
+              //   resolveLoading ? "Resolving account..." : "Account Name"
+              // }
               // disabled={resolveLoading || !!resolveData}
             />
           </div>
