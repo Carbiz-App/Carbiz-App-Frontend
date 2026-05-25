@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Control } from "react-hook-form";
+import { Control, FieldPath, FieldValues } from "react-hook-form";
 import { DocumentUpload, Gallery } from "iconsax-reactjs";
 import fileUploadReq from "@/api/uploader";
 import { Progress } from "@/components/ui/progress";
@@ -13,21 +13,21 @@ import {
 import { useToast } from "@/hooks/Toast";
 import CustomButton from "../button/CustomButton";
 
-interface ImagePickerProp {
-  name: string;
-  control: Control<any>;
+interface ImagePickerProp<TFieldValues extends FieldValues = FieldValues> {
+  name: FieldPath<TFieldValues>;
+  control: Control<TFieldValues>;
   label?: string;
   defaultValue?: string;
   onChange?: (value: string) => void;
 }
 
-const ImagePicker: React.FC<ImagePickerProp> = ({
+function ImagePicker<TFieldValues extends FieldValues = FieldValues>({
   name,
   control,
   label,
   defaultValue,
   onChange,
-}) => {
+}: ImagePickerProp<TFieldValues>) {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(
     defaultValue || null,

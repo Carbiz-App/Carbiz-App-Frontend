@@ -10,21 +10,21 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Control } from "react-hook-form";
+import { Control, FieldPath, FieldValues } from "react-hook-form";
 
-interface FormOtpInputProps {
-  control: Control<any>;
-  name: string;
+type FormOtpInputProps<TFieldValues extends FieldValues = FieldValues> = {
+  control: Control<TFieldValues>;
+  name: FieldPath<TFieldValues>;
   label?: string;
   maxLength?: number;
-}
+};
 
-const FormOtpInput: React.FC<FormOtpInputProps> = ({
+function FormOtpInput<TFieldValues extends FieldValues = FieldValues>({
   control,
   name,
   label,
   maxLength = 6,
-}) => {
+}: FormOtpInputProps<TFieldValues>) {
   return (
     <FormField
       control={control}
@@ -38,9 +38,9 @@ const FormOtpInput: React.FC<FormOtpInputProps> = ({
           )}
           <FormControl>
             <InputOTP
-              value={field.value || ""} // <-- important to read from react-hook-form
+              value={field.value || ""}
               onChange={(value) => {
-                field.onChange(value); // <-- important to tell react-hook-form
+                field.onChange(value);
               }}
               maxLength={maxLength}
               containerClassName="focus:outline-0 focus-visible:ring-0 focus-visible:border-primary-dark placeholder:text-text-secondary"
@@ -61,6 +61,6 @@ const FormOtpInput: React.FC<FormOtpInputProps> = ({
       )}
     />
   );
-};
+}
 
 export default FormOtpInput;

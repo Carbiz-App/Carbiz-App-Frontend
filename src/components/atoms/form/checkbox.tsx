@@ -6,27 +6,27 @@ import {
   FormLabel,
   FormDescription,
 } from "@/components/ui/form";
-import { Control } from "react-hook-form";
+import { Control, FieldPath, FieldValues } from "react-hook-form";
 
-interface CheckboxProps {
-  control: Control<any>;
+type CheckboxProps<TFieldValues extends FieldValues = FieldValues> = {
+  control: Control<TFieldValues>;
   id?: string;
   label?: string;
   description?: React.ReactNode;
-  name?: string;
-}
+  name: FieldPath<TFieldValues>;
+};
 
-const FormCheckbox: React.FC<CheckboxProps> = ({
+function FormCheckbox<TFieldValues extends FieldValues = FieldValues>({
   control,
   id,
   label,
   description,
   name,
-}) => {
+}: CheckboxProps<TFieldValues>) {
   return (
     <FormField
       control={control}
-      name={name ? name : ""}
+      name={name}
       render={({ field }) => (
         <FormItem className="flex flex-row items-start lg:space-x-3 space-y-0 rounded-md">
           <FormControl>
@@ -46,6 +46,6 @@ const FormCheckbox: React.FC<CheckboxProps> = ({
       )}
     />
   );
-};
+}
 
 export default FormCheckbox;

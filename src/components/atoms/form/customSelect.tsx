@@ -1,7 +1,7 @@
 import { Check } from "@phosphor-icons/react";
 import CustomButton from "../button/CustomButton";
 import { Spinner } from "@/components/ui/spinner";
-import { Control, useController } from "react-hook-form";
+import { Control, FieldPath, FieldValues, useController } from "react-hook-form";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { FETCH_PRODUCT_CATEGORIES } from "@/api/product";
 import { usePaginatedQuery } from "@/hooks/usePagination";
@@ -12,9 +12,9 @@ type Option = {
   value: string;
 };
 
-interface SearchableSelectProps {
-  name: string;
-  control: Control<any>;
+interface SearchableSelectProps<TFieldValues extends FieldValues = FieldValues> {
+  name: FieldPath<TFieldValues>;
+  control: Control<TFieldValues>;
   label?: string;
   placeholder?: string;
   options: Option[];
@@ -25,7 +25,7 @@ interface SearchableSelectProps {
   hasMore?: boolean;
 }
 
-const CustomSelect: React.FC<SearchableSelectProps> = ({
+function CustomSelect<TFieldValues extends FieldValues = FieldValues>({
   name,
   control,
   label,
@@ -34,7 +34,7 @@ const CustomSelect: React.FC<SearchableSelectProps> = ({
   onFetchMore,
   hasMore = false,
   loading = false,
-}) => {
+}: SearchableSelectProps<TFieldValues>) {
   const {
     field: { value, onChange },
   } = useController({ name, control });
@@ -130,10 +130,10 @@ const CustomSelect: React.FC<SearchableSelectProps> = ({
   );
 };
 
-export const ProductCategorySelect = ({
+export const ProductCategorySelect = <TFieldValues extends FieldValues = FieldValues>({
   control,
 }: {
-  control: Control<any>;
+  control: Control<TFieldValues>;
 }) => {
   const { currentPage, pageSize } = useTableState("category");
   const { data, fetchMore, loading, total } = usePaginatedQuery({
@@ -160,7 +160,7 @@ export const ProductCategorySelect = ({
 
   return (
     <CustomSelect
-      name="productCategory"
+      name={"productCategory" as FieldPath<TFieldValues>}
       control={control}
       label="Product Category"
       options={options}

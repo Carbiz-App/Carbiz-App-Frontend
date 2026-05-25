@@ -8,26 +8,26 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 // import { Button } from "@/components/ui/button";
-import { Control } from "react-hook-form";
+import { Control, FieldPath, FieldValues } from "react-hook-form";
 import React from "react";
 import { ImagePlus } from "lucide-react";
 import axios from "axios";
 
-interface ProfileImageUploadProps {
-  control: Control<any>;
-  name: string;
+interface ProfileImageUploadProps<TFieldValues extends FieldValues = FieldValues> {
+  control: Control<TFieldValues>;
+  name: FieldPath<TFieldValues>;
   label?: string;
   description?: string;
-  uploadUrl?: string; // Your upload endpoint
+  uploadUrl?: string;
 }
 
-const ProfileImageUpload: React.FC<ProfileImageUploadProps> = ({
+function ProfileImageUpload<TFieldValues extends FieldValues = FieldValues>({
   control,
   name,
   label = "Profile Image",
   description,
   uploadUrl = "https://carbiz-backend-euek.onrender.com/graphql/api/carbiz/v1/files/upload/profile-picture",
-}) => {
+}: ProfileImageUploadProps<TFieldValues>) {
   const [preview, setPreview] = React.useState<string | null>(null);
   const [uploading, setUploading] = React.useState(false);
   const [progress, setProgress] = React.useState(0);

@@ -19,7 +19,7 @@ import {
   FormLabel,
 } from "@/components/ui/form";
 
-import { Control } from "react-hook-form";
+import { Control, FieldPath, FieldValues } from "react-hook-form";
 import { cn } from "@/lib/utils";
 
 function formatDateOnly(date?: Date) {
@@ -31,7 +31,7 @@ function formatDateOnly(date?: Date) {
   });
 }
 
-export function CalendarOnly({
+export function CalendarOnly<TFieldValues extends FieldValues = FieldValues>({
   control,
   name,
   label,
@@ -39,8 +39,8 @@ export function CalendarOnly({
   placeholder = "Pick a date...",
   className,
 }: {
-  control?: Control<any>;
-  name: string;
+  control?: Control<TFieldValues>;
+  name: FieldPath<TFieldValues>;
   label?: string;
   description?: string;
   placeholder?: string;

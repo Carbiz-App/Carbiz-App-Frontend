@@ -1,5 +1,4 @@
-import React from "react";
-import { Control, useFormState } from "react-hook-form";
+import { Control, FieldPath, FieldValues, useFormState } from "react-hook-form";
 
 import {
   FormControl,
@@ -22,24 +21,24 @@ type CurrencyOption = {
   value: string;
 };
 
-interface ProductPriceInputProps {
-  control: Control<any>;
-  inputName: string;
-  selectName: string;
+type ProductPriceInputProps<TFieldValues extends FieldValues = FieldValues> = {
+  control: Control<TFieldValues>;
+  inputName: FieldPath<TFieldValues>;
+  selectName: FieldPath<TFieldValues>;
   label?: string;
   currencyOptions?: CurrencyOption[];
   placement?: boolean;
   placeholder?: string;
-}
+};
 
-const SelectInput: React.FC<ProductPriceInputProps> = ({
+function SelectInput<TFieldValues extends FieldValues = FieldValues>({
   control,
   placeholder,
   placement = false,
   inputName,
   selectName,
   label = "Product price",
-  currencyOptions = inputName === "price"
+  currencyOptions = String(inputName) === "price"
     ? [
         { label: "NGR", value: "NGR" },
         { label: "USD", value: "USD" },
@@ -55,8 +54,7 @@ const SelectInput: React.FC<ProductPriceInputProps> = ({
         { label: "Gram", value: "Gram" },
         { label: "Milligram", value: "Milligram" },
       ],
-}) => {
-  // Get form state and access field errors
+}: ProductPriceInputProps<TFieldValues>) {
   const { errors } = useFormState({ control });
 
   const inputError = errors?.[inputName];
@@ -81,7 +79,6 @@ const SelectInput: React.FC<ProductPriceInputProps> = ({
           placement ? "flex-row-reverse" : ""
         } ${hasError ? "border-red-500" : "border-input"}`}
       >
-        {/* Currency Select */}
         <FormField
           control={control}
           name={selectName}
@@ -90,7 +87,7 @@ const SelectInput: React.FC<ProductPriceInputProps> = ({
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <SelectTrigger className="text-muted-foreground border-none px-0 shadow-none focus:ring-0 focus:ring-offset-0 outline-none">
                   <SelectValue
-                    placeholder={inputName === "price" ? "NGR" : "KG"}
+                    placeholder={String(inputName) === "price" ? "NGR" : "KG"}
                   />
                 </SelectTrigger>
                 <SelectContent>
@@ -105,7 +102,6 @@ const SelectInput: React.FC<ProductPriceInputProps> = ({
           )}
         />
 
-        {/* Price Input */}
         <FormField
           control={control}
           name={inputName}
@@ -122,12 +118,11 @@ const SelectInput: React.FC<ProductPriceInputProps> = ({
         />
       </div>
 
-      {/* Shared error message below the div */}
       {hasError && typeof errorMessage === "string" && (
         <FormMessage>{errorMessage}</FormMessage>
       )}
     </FormItem>
   );
-};
+}
 
 export default SelectInput;

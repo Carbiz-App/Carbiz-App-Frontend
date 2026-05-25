@@ -7,29 +7,29 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
-import { Control } from "react-hook-form";
+import { Control, FieldPath, FieldValues } from "react-hook-form";
 
-interface TextAreaProps {
-  control: Control<any>;
-  name: string;
+type TextAreaProps<TFieldValues extends FieldValues = FieldValues> = {
+  control: Control<TFieldValues>;
+  name: FieldPath<TFieldValues>;
   label?: string;
   placeholder?: string;
   description?: string;
   textareaClassName?: string;
-}
+};
 
-const TextArea: React.FC<TextAreaProps> = ({
+function TextArea<TFieldValues extends FieldValues = FieldValues>({
   name,
   control,
   placeholder,
   description,
   label,
   textareaClassName,
-}) => {
+}: TextAreaProps<TFieldValues>) {
   return (
     <FormField
       control={control}
-      name={name ? name?.toString() : ""}
+      name={name}
       render={({ field }) => (
         <FormItem>
           {label && (
@@ -51,6 +51,6 @@ const TextArea: React.FC<TextAreaProps> = ({
       )}
     />
   );
-};
+}
 
 export default TextArea;

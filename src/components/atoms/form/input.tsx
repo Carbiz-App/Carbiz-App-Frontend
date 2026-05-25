@@ -9,13 +9,13 @@ import {
 import { Input } from "@/components/ui/input";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 import React from "react";
-import { Control } from "react-hook-form";
+import { Control, FieldPath, FieldValues } from "react-hook-form";
 import { Link, useLocation } from "react-router";
 import Loader from "../loader";
 
-interface InputFieldProps {
-  control: Control<any>;
-  name: string;
+type InputFieldProps<TFieldValues extends FieldValues = FieldValues> = {
+  control: Control<TFieldValues>;
+  name: FieldPath<TFieldValues>;
   label?: string;
   placeholder?: string;
   type?: string;
@@ -24,9 +24,9 @@ interface InputFieldProps {
   itemClassName?: string;
   disabled?: boolean;
   loading?: boolean;
-}
+};
 
-const InputField: React.FC<InputFieldProps> = ({
+function InputField<TFieldValues extends FieldValues = FieldValues>({
   control,
   name,
   label,
@@ -37,7 +37,7 @@ const InputField: React.FC<InputFieldProps> = ({
   itemClassName,
   disabled = false,
   loading,
-}) => {
+}: InputFieldProps<TFieldValues>) {
   const { pathname } = useLocation();
 
   const isCreatePage =
@@ -113,6 +113,6 @@ const InputField: React.FC<InputFieldProps> = ({
       )}
     />
   );
-};
+}
 
 export default InputField;

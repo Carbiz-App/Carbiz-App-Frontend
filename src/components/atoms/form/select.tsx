@@ -1,5 +1,4 @@
-import React from "react";
-import { Control } from "react-hook-form";
+import { Control, FieldPath, FieldValues } from "react-hook-form";
 
 import {
   FormControl,
@@ -24,27 +23,27 @@ type Option = {
   className?: string;
 };
 
-interface SelectFieldProps {
-  control: Control<any>;
-  name?: string;
+type SelectFieldProps<TFieldValues extends FieldValues = FieldValues> = {
+  control: Control<TFieldValues>;
+  name: FieldPath<TFieldValues>;
   label?: string;
   placeholder?: string;
   description?: string;
   items?: Option[];
-}
+};
 
-const SelectField: React.FC<SelectFieldProps> = ({
+function SelectField<TFieldValues extends FieldValues = FieldValues>({
   control,
   description,
   placeholder,
   name,
   label,
   items,
-}) => {
+}: SelectFieldProps<TFieldValues>) {
   return (
     <FormField
       control={control}
-      name={name ? name?.toString() : ""}
+      name={name}
       render={({ field }) => (
         <FormItem>
           {label && (
@@ -87,6 +86,6 @@ const SelectField: React.FC<SelectFieldProps> = ({
       )}
     />
   );
-};
+}
 
 export default SelectField;
