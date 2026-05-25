@@ -56,7 +56,7 @@ export const useMerchantProfile = () => {
   const { handleError } = useToast();
   const { setUser } = useAuthStore();
 
-  const { loading, error, data } = useQuery<MerchantProfileResponseType>(
+  const { loading, error, data, refetch } = useQuery<MerchantProfileResponseType>(
     PROFILE_MERCHANT,
     {
       onCompleted: (e) => {
@@ -104,10 +104,19 @@ export const useMerchantProfile = () => {
     fetchPolicy: "cache-and-network",
   });
 
+  const refetchAll = () =>
+    Promise.all([
+      refetch(),
+      productCount.refetch(),
+      customerCount.refetch(),
+      revenue.refetch(),
+    ]);
+
   return {
     loading,
     error,
     data: data?.profileMerchant?.payload,
+    refetchAll,
     productCount,
     customerCount,
     revenue,

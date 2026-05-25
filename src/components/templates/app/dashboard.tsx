@@ -1,4 +1,4 @@
-import { CheckCircle } from "@phosphor-icons/react";
+import { ArrowsClockwise, CheckCircle } from "@phosphor-icons/react";
 import { Progress } from "@/components/ui/progress";
 import { ordersColumns } from "@/columns/columns";
 import { DataTable } from "@/components/atoms/table";
@@ -9,20 +9,37 @@ import { Link } from "react-router";
 import { useFetchAllOrders } from "@/queries/orders";
 import { Spinner } from "@/components/ui/spinner";
 import { useAppNotificationQuery } from "@/queries/notifications.query";
-import { useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { useEffect, useState } from "react";
 
 const Dashboard = () => {
   const { user } = useAuthStore();
-  const { loading, data } = useMerchantProfile();
-  const { refetch } = useAppNotificationQuery();
+  const { loading, data, refetchAll } = useMerchantProfile();
+  const { refetch: refetchNotifications } = useAppNotificationQuery();
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
   useEffect(() => {
-    refetch();
+    refetchNotifications();
   }, []);
+
   const docState =
     !!user?.businessLicense && !!user?.CAC && !!user?.validIDcard;
 
-  const { orderData, orderLoading, message } = useFetchAllOrders();
+  const { orderData, orderLoading, message, refetch: refetchOrders } =
+    useFetchAllOrders();
+
+  const handleRefresh = async () => {
+    setIsRefreshing(true);
+    try {
+      await Promise.all([
+        refetchAll(),
+        refetchOrders(),
+        refetchNotifications(),
+      ]);
+    } finally {
+      setIsRefreshing(false);
+    }
+  };
 
   const onBoarding = [
     {
@@ -58,11 +75,25 @@ const Dashboard = () => {
   return (
     <div className="font-satoshi my-3 flex flex-col gap-y-2.5 md:gap-y-5">
       {/* User breadcrumb */}
-      <div className="">
-        <h4 className="text-sm sm:text-base font-satoshi text-[#837E8E]">
-          Hello,
-        </h4>
-        <h3 className="font-bold text-2xl md:text-xl ">{user?.businessName}</h3>
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <h4 className="text-sm sm:text-base font-satoshi text-[#837E8E]">
+            Hello,
+          </h4>
+          <h3 className="font-bold text-2xl md:text-xl ">
+            {user?.businessName}
+          </h3>
+        </div>
+        <Button
+          variant="outline"
+          size="icon"
+          onClick={handleRefresh}
+          loading={isRefreshing}
+          aria-label="Refresh dashboard"
+          title="Refresh dashboard"
+        >
+          <ArrowsClockwise size={20} />
+        </Button>
       </div>
       {/* New user card */}
 

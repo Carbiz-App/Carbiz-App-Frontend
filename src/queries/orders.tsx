@@ -35,7 +35,7 @@ export const useFetchAllOrders = () => {
     ...(paymentStatus && { paymentStatus }),
   };
 
-  const { data, loading, total, message } = usePaginatedQuery({
+  const { data, loading, total, message, refetch } = usePaginatedQuery({
     query: FETCH_ALL_ORDERS,
     pagination: paginationQuery,
     extractData: (res) => {
@@ -57,6 +57,7 @@ export const useFetchAllOrders = () => {
     orderData: data,
     orderLoading: loading,
     message,
+    refetch,
   };
 };
 
