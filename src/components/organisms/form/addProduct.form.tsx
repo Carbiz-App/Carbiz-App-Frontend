@@ -211,16 +211,15 @@ const AddProductForm = () => {
         <div className=" flex flex-col w-full">
           <div className="bg-white rounded-xl  border pt-5 mb-auto w-full">
             <div className="border-b pb-4">
-              <h3 className=" text-base font-semibold flex items-center gap-1.5 px-4">
-                Upload Product Image{" "}
+              <h3 className="text-base font-semibold flex items-center gap-1.5 px-4">
+                Product Images
                 <Info weight="fill" size={15} fill="#68655F" />
               </h3>
               <p className="text-sm text-[#8E8B87] px-5">
-                Click the star icon (★) on any uploaded image to set it as the
-                featured image.
+                Add up to 5 images. The featured image appears first in your
+                product listing.
               </p>
             </div>
-            {/* <Uploader onUploadedUrlsChange={setImageUrl} /> */}
             <Uploader
               setValue={form.setValue}
               value={form.watch("productImages")}
