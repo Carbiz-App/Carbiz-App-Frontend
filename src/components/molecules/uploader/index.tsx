@@ -271,10 +271,10 @@ const Uploader: React.FC<UploaderProps> = ({
           ) : (
             <>
               <div className="space-y-1">
-                <p className="text-sm font-medium text-[#1A191C]">
+                <p className="text-sm font-medium text-[#1A191C] text-center">
                   Upload product images
                 </p>
-                <p className="text-xs text-[#837E8E]">
+                <p className="text-xs text-[#837E8E] text-center">
                   Drag and drop multiple images, or choose files from your
                   device
                 </p>
