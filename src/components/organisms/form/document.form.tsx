@@ -1,15 +1,34 @@
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-
-import { Form } from "@/components/ui/form";
-
+import CustomButton from "@/components/atoms/button/CustomButton";
 import ImagePicker from "@/components/atoms/form/imagepicker";
 import InputField from "@/components/atoms/form/input";
-
-import DocumentSchema, { DocumentSchemaType } from "@/schema/document.schema";
+import { Form } from "@/components/ui/form";
 import { useUploadKyc } from "@/queries/profile";
+import DocumentSchema, { DocumentSchemaType } from "@/schema/document.schema";
 import { useAuthStore } from "@/store/auth.store";
-import CustomButton from "@/components/atoms/button/CustomButton";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { FileText } from "@phosphor-icons/react";
+import { useForm } from "react-hook-form";
+
+const documentFields = [
+  {
+    name: "businessLicense" as const,
+    label: "Business License",
+    description:
+      "Upload a clear photo or scan of your registered business license.",
+  },
+  {
+    name: "validIDcard" as const,
+    label: "Valid ID Card",
+    description:
+      "Upload a government-issued ID such as a national ID, passport, or driver's license.",
+  },
+  {
+    name: "CAC" as const,
+    label: "CAC Certificate",
+    description:
+      "Upload your Corporate Affairs Commission (CAC) registration document.",
+  },
+] as const;
 
 const DocumentForm = () => {
   const { user } = useAuthStore();
@@ -31,54 +50,61 @@ const DocumentForm = () => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
-        <div className="flex flex-col sm:flex-row  items-center gap-6 md:gap-10">
-          <ImagePicker
-            control={form.control}
-            label="Business License"
-            name="businessLicense"
-            defaultValue={user?.businessLicense}
-            onChange={(image: string) =>
-              form.setValue("businessLicense", image)
-            }
-          />
-
-          <ImagePicker
-            // maxLength={1}
-            control={form.control}
-            label="Valid Identification Card"
-            name="validIDcard"
-            onChange={(image: string) => form.setValue("validIDcard", image)}
-            defaultValue={user?.validIDcard}
-          />
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <div className="rounded-xl border border-border-gray bg-white p-5 md:p-6">
+          <div className="flex items-start gap-3">
+            <div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-[#F1ECF9]">
+              <FileText className="size-5 text-primary" weight="fill" />
+            </div>
+            <div className="space-y-1">
+              <h2 className="text-base font-semibold text-[#1A191C]">
+                Verification documents
+              </h2>
+              <p className="text-sm text-[#837E8E]">
+                Upload each document below. Files upload automatically once
+                selected — no extra upload step needed. Click{" "}
+                <span className="font-medium text-[#1A191C]">Save</span> when
+                you are done to submit everything.
+              </p>
+            </div>
+          </div>
         </div>
 
-        <div className="flex gap-6 flex-col sm:flex-row md:gap-10 w-full items-start">
-          <ImagePicker
-            // maxLength={1}
-            control={form.control}
-            label="CAC"
-            name="CAC"
-            onChange={(image: string) => form.setValue("CAC", image)}
-            defaultValue={user?.CAC}
-          />
+        <div className="grid gap-6 md:grid-cols-2">
+          {documentFields.map(({ name, label, description }) => (
+            <div
+              key={name}
+              className="rounded-xl border border-border-gray bg-white p-4 md:p-5"
+            >
+              <ImagePicker
+                control={form.control}
+                label={label}
+                description={description}
+                name={name}
+                defaultValue={user?.[name]}
+              />
+            </div>
+          ))}
 
-          <InputField
-            control={form.control}
-            name="taxID"
-            label="Tax Identification Number"
-            placeholder="023333398"
-            inputClassName="w-full"
-            itemClassName="w-full"
-          />
+          <div className="rounded-xl border border-border-gray bg-white p-4 md:p-5 md:col-span-2">
+            <InputField
+              control={form.control}
+              name="taxID"
+              label="Tax Identification Number"
+              description="Enter your tax ID if you have one. This field is optional."
+              placeholder="e.g. 023333398"
+              inputClassName="w-full"
+              itemClassName="w-full !py-0"
+            />
+          </div>
         </div>
 
         <CustomButton
           type="submit"
           loading={loading}
-          className="bg-primary text-white px-7 md:py-7 rounded-[0.625rem] text-base w-full sm:w-[16%]"
+          className="bg-primary text-white px-7 md:py-7 rounded-[0.625rem] text-base w-full sm:w-auto sm:min-w-[140px]"
         >
-          Save
+          Save documents
         </CustomButton>
       </form>
     </Form>
