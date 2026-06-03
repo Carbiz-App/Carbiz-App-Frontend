@@ -159,10 +159,12 @@ export const productsColumn = (): ColumnDef<productsType>[] => [
         Action
       </div>
     ),
-    cell: ({ row }) => {
-      const id = row.original;
-      return <ProductAction id={id?.productID} />;
-    },
+    cell: ({ row }) => (
+      <ProductAction
+        productID={row.original.productID}
+        productName={row.original.productName}
+      />
+    ),
   },
 ];
 

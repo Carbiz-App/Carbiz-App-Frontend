@@ -10,7 +10,7 @@ const ProductSchema = z.object({
   productDescription: z.string({ message: "Product description is required" }),
   productCategory: z.string({ message: "Product category is required" }),
   productType: z.nativeEnum(ProductType, {
-    message: "Product status is required",
+    message: "Product type is required",
   }),
   priceCurrencyType: z.string({ message: "currency type is required" }),
   productWeightType: z.string({ message: "weight type is required" }),

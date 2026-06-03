@@ -2,13 +2,18 @@ import {
   ADD_PRODUCT,
   DELETE_PRODUCT,
   FETCH_ALL_PRODUCTS,
+  FETCH_ALL_PRODUCTS_QUERY_NAME,
   FETCH_PRODUCT,
   UPDATE_PRODUCT,
 } from "@/api/product";
 import { useToast } from "@/hooks/Toast";
 import { usePaginatedQuery } from "@/hooks/usePagination";
 import { useTableState } from "@/hooks/useTableState";
-import { ProductSchemaType } from "@/schema/products.schema";
+import {
+  CreateProductInput,
+  ProductMutationResponse,
+  UpdateProductInput,
+} from "@/types/product.type";
 import { useMutation, useQuery } from "@apollo/client";
 import React from "react";
 import { useNavigate } from "react-router";
@@ -81,21 +86,9 @@ export const useAddProducts = () => {
 
   const [createProduct, { loading }] = useMutation<
     createProduct,
-    { input: ProductSchemaType }
+    { input: CreateProductInput }
   >(ADD_PRODUCT, {
-    refetchQueries: [
-      {
-        query: FETCH_ALL_PRODUCTS,
-        variables: {
-          paginationQuery: {
-            limit: 15,
-            page: 1,
-            sortBy: "createdAt",
-            sortOrder: "DESC",
-          },
-        },
-      },
-    ],
+    refetchQueries: [FETCH_ALL_PRODUCTS_QUERY_NAME],
     onCompleted: (data) => {
       const result = data?.createProduct;
 
@@ -126,36 +119,25 @@ export const useAddProducts = () => {
   return { createProduct, loading };
 };
 
-interface updateProduct {
-  updateProduct: {
-    success: boolean;
-    message: string;
-    payload: {
-      productName: string;
-      productStatus: string;
-    };
-  };
+interface UpdateProductMutation {
+  updateProduct: ProductMutationResponse;
 }
 
-export const useUpdateProduct = (onSuccess?: () => void) => {
+export const useUpdateProduct = (
+  productID?: string,
+  onSuccess?: () => void,
+) => {
   const { handleError, handleInfo, handleSuccess } = useToast();
   const navigate = useNavigate();
   const [updateProduct, { loading }] = useMutation<
-    updateProduct,
-    { input: ProductSchemaType; productID: string }
+    UpdateProductMutation,
+    { input: UpdateProductInput; productID: string }
   >(UPDATE_PRODUCT, {
     refetchQueries: [
-      {
-        query: FETCH_ALL_PRODUCTS,
-        variables: {
-          paginationQuery: {
-            limit: 15,
-            page: 1,
-            sortBy: "createdAt",
-            sortOrder: "DESC",
-          },
-        },
-      },
+      FETCH_ALL_PRODUCTS_QUERY_NAME,
+      ...(productID
+        ? [{ query: FETCH_PRODUCT, variables: { productID } }]
+        : []),
     ],
     awaitRefetchQueries: true,
     onCompleted: (data) => {
@@ -167,22 +149,20 @@ export const useUpdateProduct = (onSuccess?: () => void) => {
       }
 
       if (!result.success) {
-        handleInfo(
-          "Add Product",
-          result.message || "Update Product unsuccessful",
-        );
+        const detail = result.errors
+          ? `${result.message} — ${result.errors}`
+          : result.message || "Update product unsuccessful";
+        handleInfo("Update Product", detail);
         return;
       }
 
-      // If success
-      handleSuccess("Prodct Updated Successfully", result.message);
+      handleSuccess("Product Updated", result.message);
       onSuccess?.();
       navigate("..");
     },
 
     onError: (error) => {
       handleError(error, "Updating Product Failed");
-      console.log("Mutation Error:", error);
     },
   });
 
@@ -193,7 +173,9 @@ interface deleteProduct {
   deleteProduct: {
     success: boolean;
     message: string;
-    payload: boolean;
+    status: number;
+    payload: boolean | null;
+    errors: string | null;
   };
 }
 export const useDeleteProducts = (onSuccess?: () => void) => {
@@ -202,19 +184,8 @@ export const useDeleteProducts = (onSuccess?: () => void) => {
     deleteProduct,
     { productID: string }
   >(DELETE_PRODUCT, {
-    refetchQueries: [
-      {
-        query: FETCH_ALL_PRODUCTS,
-        variables: {
-          paginationQuery: {
-            limit: 15,
-            page: 1,
-            sortBy: "createdAt",
-            sortOrder: "DESC",
-          },
-        },
-      },
-    ],
+    refetchQueries: [FETCH_ALL_PRODUCTS_QUERY_NAME],
+    awaitRefetchQueries: true,
     onCompleted: (data) => {
       const result = data?.deleteProduct;
 
@@ -224,21 +195,19 @@ export const useDeleteProducts = (onSuccess?: () => void) => {
       }
 
       if (!result.success) {
-        handleInfo(
-          "Add Product",
-          result.message || "Delete Product unsuccessful",
-        );
+        const detail = result.errors
+          ? `${result.message} — ${result.errors}`
+          : result.message || "Delete product unsuccessful";
+        handleInfo("Delete Product", detail);
         return;
       }
 
-      // If success
-      handleSuccess("Prodct Deleted Successfully", result.message);
+      handleSuccess("Product Deleted", result.message);
       onSuccess?.();
     },
 
     onError: (error) => {
       handleError(error, "Deleting Product Failed");
-      console.log("Mutation Error:", error);
     },
   });
 

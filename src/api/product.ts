@@ -17,9 +17,18 @@ export const UPDATE_PRODUCT = gql`
     updateProduct(input: $input, productID: $productID) {
       success
       message
+      status
+      errors
       payload {
+        productID
         productName
         productStatus
+        productStock
+        price
+        discountedPrice
+        productType
+        productImages
+        updatedAt
       }
     }
   }
@@ -42,6 +51,9 @@ export const FETCH_PRODUCT_CATEGORIES = gql`
     }
   }
 `;
+
+/** Use with refetchQueries to refetch active list queries with their cached variables */
+export const FETCH_ALL_PRODUCTS_QUERY_NAME = "fetchallProductRelatedToMerchant";
 
 export const FETCH_ALL_PRODUCTS = gql`
   query fetchallProductRelatedToMerchant(
@@ -106,11 +118,13 @@ export const FETCH_PRODUCT = gql`
 `;
 
 export const DELETE_PRODUCT = gql`
-  mutation deleteProduct($productID: String!) {
+  mutation DeleteProduct($productID: String!) {
     deleteProduct(productID: $productID) {
       success
       message
+      status
       payload
+      errors
     }
   }
 `;

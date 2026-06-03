@@ -7,13 +7,20 @@ import TextArea from "@/components/atoms/form/textarea";
 import Loader from "@/components/atoms/loader";
 import Uploader from "@/components/molecules/uploader";
 import { Form } from "@/components/ui/form";
+import { useToast } from "@/hooks/Toast";
 import {
   useAddProducts,
   useFetchProduct,
   useUpdateProduct,
 } from "@/queries/products";
 import ProductSchema, { ProductSchemaType } from "@/schema/products.schema";
-import { PRODUCT_TYPE_OPTIONS } from "@/types/product.type";
+import {
+  CreateProductInput,
+  mapPayloadToProductFormValues,
+  PRODUCT_TYPE_OPTIONS,
+  toProductCreateInput,
+  toProductUpdateInput,
+} from "@/types/product.type";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Info } from "@phosphor-icons/react";
 import { useMemo } from "react";
@@ -21,47 +28,65 @@ import { useForm } from "react-hook-form";
 import { useLocation } from "react-router";
 
 const AddProductForm = () => {
-  const { loading, createProduct } = useAddProducts();
-  const { loading: updateLoading, updateProduct } = useUpdateProduct();
   const { pathname } = useLocation();
   const singleProduct: string = pathname.split("/")[2];
   const path = singleProduct !== "new";
+  const { handleInfo } = useToast();
+  const { loading, createProduct } = useAddProducts();
+  const { loading: updateLoading, updateProduct } = useUpdateProduct(
+    path ? singleProduct : undefined,
+  );
   const { data: productData, loading: productLoading } = useFetchProduct(
     path ? singleProduct : "",
   );
   const payload = productData?.fetchOneProduct?.payload;
 
+  const originalProduct = useMemo((): CreateProductInput | undefined => {
+    if (!path || !payload) return undefined;
+    return mapPayloadToProductFormValues(payload);
+  }, [payload, path]);
+
   // form
   const form = useForm<ProductSchemaType>({
     resolver: zodResolver(ProductSchema),
-    values: useMemo(() => {
-      if (!path || !payload) return undefined;
-      return {
-        ...payload,
-        productCategory: payload.productCategory?.productCategoryID,
-        productType: payload.productType, // This fixes the "Status" select
-        priceCurrencyType: payload.priceCurrencyType,
-        productWeightType: payload.productWeightType,
-      };
-    }, [payload, path]),
+    defaultValues: {
+      priceCurrencyType: "NGR",
+      productWeightType: "Kg",
+    },
+    values: useMemo((): ProductSchemaType | undefined => {
+      if (!originalProduct) return undefined;
+      return originalProduct as ProductSchemaType;
+    }, [originalProduct]),
   });
 
   const handleSubmit = async (data: ProductSchemaType) => {
     if (path) {
+      if (!originalProduct) return;
+
+      const input = toProductUpdateInput(
+        toProductCreateInput(data),
+        originalProduct,
+      );
+
+      if (Object.keys(input).length === 0) {
+        handleInfo("Update Product", "No changes to save.");
+        return;
+      }
+
       await updateProduct({
         variables: {
-          input: data,
+          input,
           productID: singleProduct,
         },
       });
       return;
-    } else {
-      await createProduct({
-        variables: {
-          input: data,
-        },
-      });
     }
+
+    await createProduct({
+      variables: {
+        input: toProductCreateInput(data),
+      },
+    });
   };
 
   if (productLoading) {
@@ -100,19 +125,11 @@ const AddProductForm = () => {
                 placeholder="enter a short description about your product"
               />
               <div className="grid lg:grid-cols-2 gap-4">
-                {/* <SelectField
-                  placeholder="select a category"
-                  items={productCategory}
-                  label="Product Category"
-                  name="productCategory"
-                  control={form.control}
-                /> */}
-
                 <ProductCategorySelect control={form.control} />
                 <SelectField
                   items={PRODUCT_TYPE_OPTIONS}
-                  placeholder="Select product status"
-                  label="Product Status"
+                  placeholder="Select product type"
+                  label="Product Type"
                   name="productType"
                   control={form.control}
                 />
@@ -125,6 +142,11 @@ const AddProductForm = () => {
                   label="Available Stock"
                   control={form.control}
                   placeholder="--"
+                  description={
+                    path
+                      ? "Listing status updates automatically from stock (e.g. 0 → out of stock)."
+                      : undefined
+                  }
                 />
                 <InputField
                   itemClassName="!py-0"

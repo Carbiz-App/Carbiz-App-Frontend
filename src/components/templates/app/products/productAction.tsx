@@ -1,78 +1,109 @@
 import { Button } from "@/components/ui/button";
 import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { useDeleteProducts } from "@/queries/products";
-import { useModal } from "@/store/useModal";
-import { Info } from "@phosphor-icons/react";
-import { PopoverClose } from "@radix-ui/react-popover";
+import { Warning } from "@phosphor-icons/react";
 import { PenLine, Trash2Icon } from "lucide-react";
+import { useState } from "react";
 import { useNavigate } from "react-router";
 
-export const ProductAction = ({ id }: { id: string }) => {
+type ProductActionProps = {
+  productID: string;
+  productName?: string;
+};
+
+export const ProductAction = ({
+  productID,
+  productName,
+}: ProductActionProps) => {
   const navigate = useNavigate();
-  const { modal, closeModal } = useModal();
-  const { deleteProduct, loading: deleteLoading } = useDeleteProducts();
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const { deleteProduct, loading: deleteLoading } = useDeleteProducts(() =>
+    setConfirmOpen(false),
+  );
 
-  const handleDelete = async () => {
-    try {
-      if (id)
-        await deleteProduct({
-          variables: { productID: id },
-        });
-    } catch (err) {
-      console.log(err);
-    } finally {
-      closeModal();
-    }
+  const handleDelete = () => {
+    if (!productID) return;
+    deleteProduct({ variables: { productID } });
   };
-  return (
-    <Popover
-      open={modal.open}
-      onOpenChange={(open) => {
-        if (!open) closeModal();
-      }}
-    >
-      <div className=" font-normal">
-        {/* <Button variant={"ghost"} className=" p-4 border-r rounded-none">
-          <Eye className=" text-3xl size-5 text-[#4F4C55]" />
-        </Button> */}
 
+  return (
+    <>
+      <div className="font-normal flex">
         <Button
-          onClick={() => navigate(`/products/${id}`)}
-          variant={"ghost"}
-          className=" p-4 border-r rounded-none"
+          type="button"
+          onClick={() => navigate(`/products/${productID}`)}
+          variant="ghost"
+          className="p-4 border-r rounded-none"
+          aria-label="Edit product"
         >
-          <PenLine className=" text-3xl size-5 text-[#4F4C55]" />
+          <PenLine className="text-3xl size-5 text-[#4F4C55]" />
         </Button>
-        <PopoverTrigger asChild>
-          <Button variant={"ghost"} className=" p-4 rounded-none">
-            <Trash2Icon className=" text-3xl size-5 text-[#4F4C55]" />
-          </Button>
-        </PopoverTrigger>
+        <Button
+          type="button"
+          variant="ghost"
+          className="p-4 rounded-none"
+          aria-label="Delete product"
+          disabled
+          title="Delete product is currently unavailable"
+          onClick={() => setConfirmOpen(true)}
+        >
+          <Trash2Icon className="text-3xl size-5 text-[#4F4C55]" />
+        </Button>
       </div>
-      <PopoverContent className=" min-w-max flex flex-col gap-3">
-        <div className="flex items-center gap-1">
-          <Info className=" size-6 text-primary" />
-          <h3 className=" text-primary font-bold md:text-lg">
-            Are you sure you want to Delete?
-          </h3>
-        </div>
-        <div className="flex justify-end gap-2">
-          <PopoverClose aria-label="close">
-            <Button variant={"outline"}>No</Button>
-          </PopoverClose>
-          <Button
-            disabled={deleteLoading}
-            variant={"destructive"}
-            onClick={handleDelete}
-          >
-            {deleteLoading ? "Loading..." : "Yes"}
-          </Button>
-        </div>
-      </PopoverContent>
-    </Popover>
+
+      <Dialog open={confirmOpen} onOpenChange={setConfirmOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <div className="flex items-start gap-3">
+              <div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-red-50">
+                <Warning className="size-5 text-red-600" weight="fill" />
+              </div>
+              <div className="space-y-2 text-left">
+                <DialogTitle>Delete this product?</DialogTitle>
+                <DialogDescription>
+                  This action cannot be undone. The product will be permanently
+                  removed from your catalog.
+                  {productName && (
+                    <>
+                      {" "}
+                      You are about to delete{" "}
+                      <span className="font-medium text-[#1A191C]">
+                        {productName}
+                      </span>
+                      .
+                    </>
+                  )}
+                </DialogDescription>
+              </div>
+            </div>
+          </DialogHeader>
+          <DialogFooter className="gap-2 sm:gap-2">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => setConfirmOpen(false)}
+              disabled={deleteLoading}
+            >
+              Cancel
+            </Button>
+            <Button
+              type="button"
+              variant="destructive"
+              onClick={handleDelete}
+              disabled={deleteLoading}
+            >
+              {deleteLoading ? "Deleting..." : "Delete product"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 };
