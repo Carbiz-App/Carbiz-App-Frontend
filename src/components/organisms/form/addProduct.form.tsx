@@ -13,6 +13,7 @@ import {
   useUpdateProduct,
 } from "@/queries/products";
 import ProductSchema, { ProductSchemaType } from "@/schema/products.schema";
+import { PRODUCT_TYPE_OPTIONS } from "@/types/product.type";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Info } from "@phosphor-icons/react";
 import { useMemo } from "react";
@@ -63,11 +64,6 @@ const AddProductForm = () => {
     }
   };
 
-  const status = [
-    { label: "New", value: "Brand_New" },
-    { label: "Used", value: "Used" },
-  ];
-
   if (productLoading) {
     return <Loader />;
   }
@@ -114,8 +110,8 @@ const AddProductForm = () => {
 
                 <ProductCategorySelect control={form.control} />
                 <SelectField
-                  items={status}
-                  placeholder="select a status"
+                  items={PRODUCT_TYPE_OPTIONS}
+                  placeholder="Select product status"
                   label="Product Status"
                   name="productType"
                   control={form.control}

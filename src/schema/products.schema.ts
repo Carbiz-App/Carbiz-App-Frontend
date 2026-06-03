@@ -1,3 +1,4 @@
+import { ProductType } from "@/types/product.type";
 import { z } from "zod";
 
 const ProductSchema = z.object({
@@ -8,7 +9,9 @@ const ProductSchema = z.object({
   productName: z.string({ message: "Product name is required" }),
   productDescription: z.string({ message: "Product description is required" }),
   productCategory: z.string({ message: "Product category is required" }),
-  productType: z.string({ message: "Product status is required" }),
+  productType: z.nativeEnum(ProductType, {
+    message: "Product status is required",
+  }),
   priceCurrencyType: z.string({ message: "currency type is required" }),
   productWeightType: z.string({ message: "weight type is required" }),
   productStock: z.coerce.number({ message: "Provide available stock" }),
