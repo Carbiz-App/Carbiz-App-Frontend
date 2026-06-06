@@ -3,7 +3,7 @@ import { ProductCategorySelect } from "@/components/atoms/form/customSelect";
 import InputField from "@/components/atoms/form/input";
 import SelectField from "@/components/atoms/form/select";
 import SelectInput from "@/components/atoms/form/select-input";
-import TextArea from "@/components/atoms/form/textarea";
+import RichTextEditorField from "@/components/atoms/form/richTextEditor";
 import Loader from "@/components/atoms/loader";
 import Uploader from "@/components/molecules/uploader";
 import { Form } from "@/components/ui/form";
@@ -171,11 +171,12 @@ const AddProductForm = ({
                   disabled={isArchived}
                 />
 
-                <TextArea
+                <RichTextEditorField
                   name="productDescription"
                   label="Product Description"
                   control={form.control}
-                  placeholder="enter a short description about your product"
+                  placeholder="Describe your product — features, compatibility, condition..."
+                  disabled={isArchived}
                 />
                 <div className="grid lg:grid-cols-2 gap-4">
                   <ProductCategorySelect control={form.control} />

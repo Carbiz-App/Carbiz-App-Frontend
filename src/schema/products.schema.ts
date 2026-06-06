@@ -1,13 +1,24 @@
 import { ProductType } from "@/types/product.type";
 import { z } from "zod";
 
+const stripHtml = (html: string) =>
+  html
+    .replace(/<[^>]*>/g, " ")
+    .replace(/&nbsp;/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+
 const ProductSchema = z.object({
   productImages: z
     .array(z.string())
     .min(1, "At least one image is required")
     .max(5),
   productName: z.string({ message: "Product name is required" }),
-  productDescription: z.string({ message: "Product description is required" }),
+  productDescription: z
+    .string({ message: "Product description is required" })
+    .refine((value) => stripHtml(value).length > 0, {
+      message: "Product description is required",
+    }),
   productCategory: z.string({ message: "Product category is required" }),
   productType: z.nativeEnum(ProductType, {
     message: "Product type is required",
