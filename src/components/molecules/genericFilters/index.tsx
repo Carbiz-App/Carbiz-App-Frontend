@@ -21,6 +21,7 @@ const GENERIC_FILTERS = ["startDate", "endDate", "sortOrder"];
 const TABLE_SPECIFIC_FILTERS: Record<string, string[]> = {
   orders: ["orderStatus", "paymentStatus"],
   products: ["productStatus"],
+  productsArchived: ["productStatus"],
   payouts: [
     "invoiceStatus",
     "paymentMethod",

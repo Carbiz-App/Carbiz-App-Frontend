@@ -31,6 +31,7 @@ import { defaultFilters } from "@/store/table.store";
 export type tableKeyType =
   | "orders"
   | "products"
+  | "productsArchived"
   | "payouts"
   | "customers"
   | "payments"

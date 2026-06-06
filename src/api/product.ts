@@ -54,6 +54,7 @@ export const FETCH_PRODUCT_CATEGORIES = gql`
 
 /** Use with refetchQueries to refetch active list queries with their cached variables */
 export const FETCH_ALL_PRODUCTS_QUERY_NAME = "fetchallProductRelatedToMerchant";
+export const FETCH_ARCHIVED_PRODUCTS_QUERY_NAME = "fetchArchivedProducts";
 
 export const FETCH_ALL_PRODUCTS = gql`
   query fetchallProductRelatedToMerchant(
@@ -67,13 +68,54 @@ export const FETCH_ALL_PRODUCTS = gql`
       payload {
         data {
           createdAt
+          updatedAt
           productID
           productName
+          productImages
+          price
+          discountedPrice
+          isDiscountApplied
+          productStock
+          productStatus
+          productType
+          isArchived
+          archivedAt
+          priceCurrencyType
+          productCategory {
+            productCategoryID
+            productCategoryName
+          }
+          discountPercentage
+        }
+        total
+        currentPage
+        pageSize
+      }
+    }
+  }
+`;
+
+export const FETCH_ARCHIVED_PRODUCTS = gql`
+  query fetchArchivedProducts($paginationQuery: PaginatedProductFiltersDto!) {
+    fetchArchivedProducts(paginationQuery: $paginationQuery) {
+      success
+      message
+      status
+      errors
+      payload {
+        data {
+          createdAt
+          productID
+          productName
+          productImages
           price
           productStock
           productStatus
+          isArchived
+          archivedAt
           priceCurrencyType
           productCategory {
+            productCategoryID
             productCategoryName
           }
           discountPercentage
@@ -94,6 +136,7 @@ export const FETCH_PRODUCT = gql`
       status
       errors
       payload {
+        productID
         productImages
         productName
         productDescription
@@ -112,7 +155,33 @@ export const FETCH_PRODUCT = gql`
         productLength_cm
         productBreadth_cm
         productWidth_cm
+        isArchived
+        archivedAt
       }
+    }
+  }
+`;
+
+export const ARCHIVE_PRODUCT = gql`
+  mutation ArchiveProduct($productID: String!) {
+    archiveProduct(productID: $productID) {
+      success
+      status
+      message
+      payload
+      errors
+    }
+  }
+`;
+
+export const UNARCHIVE_PRODUCT = gql`
+  mutation UnarchiveProduct($productID: String!) {
+    unarchiveProduct(productID: $productID) {
+      success
+      status
+      message
+      payload
+      errors
     }
   }
 `;

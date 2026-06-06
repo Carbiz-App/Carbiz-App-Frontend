@@ -12,6 +12,7 @@ type UsePaginatedQueryProps<TVariables> = {
   query: any;
   variables?: TVariables;
   pagination: PaginationQuery;
+  skip?: boolean;
   extractData: (response: any) => {
     data: any[];
     total: number;
@@ -23,6 +24,7 @@ export function usePaginatedQuery<TVariables = any>({
   query,
   variables,
   pagination,
+  skip = false,
   extractData,
 }: UsePaginatedQueryProps<TVariables>) {
   const { handleError } = useToast();
@@ -34,6 +36,7 @@ export function usePaginatedQuery<TVariables = any>({
     },
     fetchPolicy: "cache-first",
     nextFetchPolicy: "cache-first",
+    skip,
   });
 
   useEffect(() => {
