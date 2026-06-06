@@ -7,7 +7,7 @@ const router = createBrowserRouter([
     Component: AuthLayout,
     children: [
       {
-        path: "/",
+        index: true,
         lazy: async () => {
           const { default: Component } = await import(
             "@/components/templates/authentication/login"
