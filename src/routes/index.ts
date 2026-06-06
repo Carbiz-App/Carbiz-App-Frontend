@@ -1,58 +1,73 @@
 import { createBrowserRouter } from "react-router";
 import AuthLayout from "@/components/_layout/auth.layout";
-
-// import Homepage from "../pages/Homepage";
-import {
-  Congratulations,
-  CreateAccount,
-  ForgetPassword,
-  Login,
-  ResetPassword,
-  VerifyOtp,
-  Dashboard,
-  // Customers,
-  // PreviewCustomer,
-  Orders,
-  Settings,
-  Profile,
-  Payment,
-  Documents,
-  Payouts,
-  PreviewOrder,
-  Products,
-  AddProduct,
-  // PreviewPayout,
-} from "@/pages";
 import MainLayout from "@/components/_layout/main.layout";
 
 const router = createBrowserRouter([
   {
     Component: AuthLayout,
     children: [
-      { path: "/", Component: Login },
+      {
+        path: "/",
+        lazy: async () => {
+          const { default: Component } = await import(
+            "@/components/templates/authentication/login"
+          );
+          return { Component };
+        },
+      },
       {
         path: "create-account",
-        Component: CreateAccount,
+        lazy: async () => {
+          const { default: Component } = await import(
+            "@/components/templates/authentication/registration"
+          );
+          return { Component };
+        },
       },
       {
         path: "verify-otp",
-        Component: VerifyOtp,
+        lazy: async () => {
+          const { default: Component } = await import(
+            "@/components/templates/authentication/verify"
+          );
+          return { Component };
+        },
       },
       {
         path: "congratulations",
-        Component: Congratulations,
+        lazy: async () => {
+          const { default: Component } = await import(
+            "@/components/templates/authentication/congratuations"
+          );
+          return { Component };
+        },
       },
       {
         path: "forgot-password",
-        Component: ForgetPassword,
+        lazy: async () => {
+          const { default: Component } = await import(
+            "@/components/templates/authentication/forgetPassword"
+          );
+          return { Component };
+        },
       },
       {
         path: "reset-password",
-        Component: ResetPassword,
+        lazy: async () => {
+          const { default: Component } = await import(
+            "@/components/templates/authentication/resetPassword"
+          );
+          return { Component };
+        },
       },
       {
         path: "reset-otp",
-        Component: VerifyOtp,
+        lazy: async () => {
+          const { default: Component } = await import(
+            "@/components/templates/authentication/verify"
+          );
+          return { Component };
+        },
       },
     ],
   },
@@ -62,31 +77,33 @@ const router = createBrowserRouter([
     children: [
       {
         path: "dashboard",
-        Component: Dashboard,
+        lazy: async () => {
+          const { default: Component } = await import(
+            "@/components/templates/app/dashboard"
+          );
+          return { Component };
+        },
       },
-      // {
-      //   path: "customers",
-      //   children: [
-      //     {
-      //       path: "",
-      //       Component: Customers,
-      //     },
-      //     {
-      //       path: ":id",
-      //       Component: PreviewCustomer,
-      //     },
-      //   ],
-      // },
       {
         path: "orders",
         children: [
           {
             path: "",
-            Component: Orders,
+            lazy: async () => {
+              const { default: Component } = await import(
+                "@/components/templates/app/orders"
+              );
+              return { Component };
+            },
           },
           {
             path: ":id",
-            Component: PreviewOrder,
+            lazy: async () => {
+              const { default: Component } = await import(
+                "@/components/templates/app/orders/preview"
+              );
+              return { Component };
+            },
           },
         ],
       },
@@ -95,9 +112,13 @@ const router = createBrowserRouter([
         children: [
           {
             path: "",
-            Component: Payouts,
+            lazy: async () => {
+              const { default: Component } = await import(
+                "@/components/templates/app/payout"
+              );
+              return { Component };
+            },
           },
-          // { path: ":id", Component: PreviewPayout },
         ],
       },
       {
@@ -105,33 +126,68 @@ const router = createBrowserRouter([
         children: [
           {
             path: "",
-            Component: Products,
+            lazy: async () => {
+              const { default: Component } = await import(
+                "@/components/templates/app/products"
+              );
+              return { Component };
+            },
           },
           {
             path: ":id",
-            Component: AddProduct,
+            lazy: async () => {
+              const { default: Component } = await import(
+                "@/components/templates/app/products/add"
+              );
+              return { Component };
+            },
           },
           {
             path: "new",
-            Component: AddProduct,
+            lazy: async () => {
+              const { default: Component } = await import(
+                "@/components/templates/app/products/add"
+              );
+              return { Component };
+            },
           },
         ],
       },
       {
         path: "settings",
-        Component: Settings,
+        lazy: async () => {
+          const { default: Component } = await import(
+            "@/components/templates/app/settings"
+          );
+          return { Component };
+        },
         children: [
           {
             path: "",
-            Component: Profile,
+            lazy: async () => {
+              const { default: Component } = await import(
+                "@/components/templates/app/settings/profile"
+              );
+              return { Component };
+            },
           },
           {
             path: "payment",
-            Component: Payment,
+            lazy: async () => {
+              const { default: Component } = await import(
+                "@/components/templates/app/settings/payment"
+              );
+              return { Component };
+            },
           },
           {
             path: "document",
-            Component: Documents,
+            lazy: async () => {
+              const { default: Component } = await import(
+                "@/components/templates/app/settings/documents"
+              );
+              return { Component };
+            },
           },
         ],
       },
