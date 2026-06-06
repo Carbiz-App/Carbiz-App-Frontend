@@ -2,11 +2,16 @@ import CustomButton from "@/components/atoms/button/CustomButton";
 import ImagePicker from "@/components/atoms/form/imagepicker";
 import InputField from "@/components/atoms/form/input";
 import { Form } from "@/components/ui/form";
+import { formatFileSize, MAX_UPLOAD_FILE_SIZE_BYTES } from "@/lib/upload";
 import { useUploadKyc } from "@/queries/profile";
-import DocumentSchema, { DocumentSchemaType } from "@/schema/document.schema";
+import DocumentSchema, {
+  DocumentSchemaType,
+  toDocumentFormValues,
+} from "@/schema/document.schema";
 import { useAuthStore } from "@/store/auth.store";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FileText } from "@phosphor-icons/react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
 const documentFields = [
@@ -30,17 +35,20 @@ const documentFields = [
   },
 ] as const;
 
-const DocumentForm = () => {
+type DocumentFormProps = {
+  documentsLocked?: boolean;
+};
+
+const DocumentForm = ({ documentsLocked = false }: DocumentFormProps) => {
   const { user } = useAuthStore();
   const form = useForm<DocumentSchemaType>({
     resolver: zodResolver(DocumentSchema),
-    defaultValues: {
-      businessLicense: user?.businessLicense,
-      CAC: user?.CAC,
-      validIDcard: user?.validIDcard,
-      taxID: user?.taxID,
-    },
+    defaultValues: toDocumentFormValues(user),
   });
+
+  useEffect(() => {
+    form.reset(toDocumentFormValues(user));
+  }, [user, form]);
 
   const { uploadKYCDocmentMerchant, loading } = useUploadKyc();
 
@@ -61,10 +69,9 @@ const DocumentForm = () => {
                 Verification documents
               </h2>
               <p className="text-sm text-[#837E8E]">
-                Upload each document below. Files upload automatically once
-                selected — no extra upload step needed. Click{" "}
-                <span className="font-medium text-[#1A191C]">Save</span> when
-                you are done to submit everything.
+                {documentsLocked
+                  ? "Your documents have been approved. You can view uploaded files, but new uploads are blocked."
+                  : `Choose each document below to preview it. Files upload automatically once selected (max ${formatFileSize(MAX_UPLOAD_FILE_SIZE_BYTES)} each). Click Save when you are done to submit everything.`}
               </p>
             </div>
           </div>
@@ -82,6 +89,8 @@ const DocumentForm = () => {
                 description={description}
                 name={name}
                 defaultValue={user?.[name]}
+                readOnly={documentsLocked}
+                uploadDisabled={documentsLocked}
               />
             </div>
           ))}

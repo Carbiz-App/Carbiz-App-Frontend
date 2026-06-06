@@ -1,3 +1,4 @@
+import { apolloClient } from "@/lib/apollo-client";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 
@@ -21,7 +22,7 @@ export interface UserType {
 interface AuthStoreType {
   user: UserType | null;
   setUser: (user: UserType) => void;
-  logout: () => void;
+  logout: () => Promise<void>;
 }
 
 export const useAuthStore = create<AuthStoreType>()(
@@ -29,10 +30,7 @@ export const useAuthStore = create<AuthStoreType>()(
     (set) => ({
       user: null,
       setUser: (user) => set({ user }),
-      logout: () => {
-        sessionStorage.clear();
-        set({ user: null });
-      },
+      logout: () => logoutUser(),
     }),
     {
       name: "auth-storage",
@@ -40,3 +38,10 @@ export const useAuthStore = create<AuthStoreType>()(
     },
   ),
 );
+
+export async function logoutUser() {
+  sessionStorage.removeItem("authToken");
+  useAuthStore.setState({ user: null });
+  useAuthStore.persist.clearStorage();
+  await apolloClient.clearStore();
+}

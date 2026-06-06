@@ -18,12 +18,10 @@ const ProductSchema = z.object({
   productColor: z.string({ message: "Product color is required" }),
   price: z.coerce.number({ message: "Product price is required" }),
   discountPercentage: z.coerce.number().optional(),
-  productWeight: z.coerce.number({ message: "Product weight is required" }),
-  productLength_cm: z.coerce.number({ message: "Product Length is required" }),
-  productBreadth_cm: z.coerce.number({
-    message: "Product Breadth is required",
-  }),
-  productWidth_cm: z.coerce.number({ message: "Product Width is required" }),
+  productWeight: z.coerce.number().min(0),
+  productLength_cm: z.coerce.number().min(0),
+  productBreadth_cm: z.coerce.number().min(0),
+  productWidth_cm: z.coerce.number().min(0),
 });
 
 export default ProductSchema;

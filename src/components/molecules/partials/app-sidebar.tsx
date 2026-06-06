@@ -21,12 +21,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const [isLoggingOut, setIsLoggingOut] = React.useState<boolean>(false);
   const nav = useNavigate();
 
-  const onLogout = () => {
+  const onLogout = async () => {
     setIsLoggingOut(true);
-    setTimeout(() => {
-      nav("/");
-      logout();
-    }, 2000);
+    await logout();
+    nav("/");
+    setIsLoggingOut(false);
   };
 
   const filteredNavItems = getFilteredNavItems(user?.isApproved);

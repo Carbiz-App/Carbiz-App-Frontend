@@ -24,8 +24,37 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Info } from "@phosphor-icons/react";
 import { useMemo } from "react";
-import { useForm } from "react-hook-form";
+import { Resolver, useForm } from "react-hook-form";
 import { useLocation } from "react-router";
+
+const DIMENSION_FIELDS = [
+  "productWeight",
+  "productLength_cm",
+  "productBreadth_cm",
+  "productWidth_cm",
+] as const;
+
+const normalizeDimensionValues = (
+  values: Record<string, unknown>,
+): Record<string, unknown> => {
+  const normalized = { ...values };
+  for (const key of DIMENSION_FIELDS) {
+    const val = normalized[key];
+    if (val === "" || val === null || val === undefined) {
+      normalized[key] = 0;
+    }
+  }
+  return normalized;
+};
+
+const productResolver: Resolver<ProductSchemaType> = (values, context, options) =>
+  zodResolver(ProductSchema)(
+    normalizeDimensionValues(
+      values as Record<string, unknown>,
+    ) as ProductSchemaType,
+    context,
+    options,
+  );
 
 const AddProductForm = () => {
   const { pathname } = useLocation();
@@ -48,10 +77,15 @@ const AddProductForm = () => {
 
   // form
   const form = useForm<ProductSchemaType>({
-    resolver: zodResolver(ProductSchema),
+    resolver: productResolver,
     defaultValues: {
       priceCurrencyType: "NGR",
       productWeightType: "Kg",
+      productWeight: 0,
+      productLength_cm: 0,
+      productBreadth_cm: 0,
+      productWidth_cm: 0,
+      discountPercentage: 0,
     },
     values: useMemo((): ProductSchemaType | undefined => {
       if (!originalProduct) return undefined;
@@ -186,15 +220,18 @@ const AddProductForm = () => {
           <div className=" rounded-xl  border bg-white ">
             <div className=" border-b p-5 ">
               <p className=" text-lg font-semibold">Product dimensions</p>
+              <span className="text-sm text-[#837E8E]">
+                Optional — leave as 0 if not applicable
+              </span>
             </div>
             <div className="flex flex-col gap-y-6 p-5">
               <SelectInput
                 inputName="productWeight"
-                label="Product weight"
+                label="Product weight (optional)"
                 selectName="productWeightType"
                 control={form.control}
                 placement
-                placeholder="enter product weight"
+                placeholder="0"
               />
               <div className="grid grid-cols-1  sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 <InputField
@@ -203,7 +240,7 @@ const AddProductForm = () => {
                   name="productLength_cm"
                   label="Product length (cm)"
                   control={form.control}
-                  placeholder="enter length"
+                  placeholder="0"
                 />
                 <InputField
                   type="number"
@@ -211,7 +248,7 @@ const AddProductForm = () => {
                   name="productBreadth_cm"
                   label="Product height (cm)"
                   control={form.control}
-                  placeholder="enter breadth"
+                  placeholder="0"
                 />
                 <InputField
                   type="number"
@@ -219,7 +256,7 @@ const AddProductForm = () => {
                   name="productWidth_cm"
                   label="Product Width (cm)"
                   control={form.control}
-                  placeholder="enter width"
+                  placeholder="0"
                 />
               </div>
             </div>

@@ -74,7 +74,7 @@ export const useMerchantProfile = () => {
       onError: (error) => {
         handleError(error, "Error fetching merchant profile");
       },
-      fetchPolicy: "cache-first",
+      fetchPolicy: "cache-and-network",
       nextFetchPolicy: "cache-first",
     },
   );

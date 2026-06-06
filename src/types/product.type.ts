@@ -125,11 +125,11 @@ export const toProductCreateInput = (
   ...(data.discountPercentage !== undefined && {
     discountPercentage: Number(data.discountPercentage),
   }),
-  productWeight: Number(data.productWeight),
+  productWeight: Number(data.productWeight) || 0,
   productWeightType: data.productWeightType,
-  productLength_cm: Number(data.productLength_cm),
-  productBreadth_cm: Number(data.productBreadth_cm),
-  productWidth_cm: Number(data.productWidth_cm),
+  productLength_cm: Number(data.productLength_cm) || 0,
+  productBreadth_cm: Number(data.productBreadth_cm) || 0,
+  productWidth_cm: Number(data.productWidth_cm) || 0,
 });
 
 /** Only changed fields for updateProduct (partial patch) */

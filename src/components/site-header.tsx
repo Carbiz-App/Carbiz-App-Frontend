@@ -16,12 +16,11 @@ export function SiteHeader() {
   const navigate = useNavigate();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
-  const onLogout = () => {
+  const onLogout = async () => {
     setIsLoggingOut(true);
-    setTimeout(() => {
-      navigate("/");
-      logout();
-    }, 500);
+    await logout();
+    navigate("/");
+    setIsLoggingOut(false);
   };
 
   return (

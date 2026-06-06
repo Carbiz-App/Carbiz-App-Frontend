@@ -1,5 +1,6 @@
 import { LOGIN } from "@/api/auth";
 import { useToast } from "@/hooks/Toast";
+import { apolloClient } from "@/lib/apollo-client";
 import { useAuthStore } from "@/store/auth.store";
 import { useMutation } from "@apollo/client";
 import { useNavigate } from "react-router";
@@ -37,7 +38,7 @@ export const useLoginMerchant = () => {
     LoginResponseTypeMerchant,
     { input: loginType }
   >(LOGIN, {
-    onCompleted: (data) => {
+    onCompleted: async (data) => {
       const result = data?.loginMerchant;
       if (!result) {
         handleError(new Error("Invalid"), "Error logging in");
@@ -48,10 +49,11 @@ export const useLoginMerchant = () => {
         return;
       }
 
-      handleSuccess(result.message);
-      navigate("/dashboard");
+      await apolloClient.clearStore();
       sessionStorage.setItem("authToken", result.payload.token);
       setUser(result?.payload?.user);
+      handleSuccess(result.message);
+      navigate("/dashboard");
     },
     onError: (error) => {
       handleError(error, "Login failed");

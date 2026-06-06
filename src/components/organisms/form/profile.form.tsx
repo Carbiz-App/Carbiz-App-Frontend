@@ -14,10 +14,35 @@ import useMerchantProfile from "@/queries/profile";
 import ImagePicker from "@/components/atoms/form/imagepicker";
 import CustomButton from "@/components/atoms/button/CustomButton";
 
+const DEFAULT_COUNTRY = "Nigeria";
+
+const hasValue = (value?: string | null) => !!value?.trim();
+
+const toProfileFormValues = (
+  user?: {
+    businessName?: string | null;
+    email?: string | null;
+    phoneNumber?: string | null;
+    address?: string | null;
+    country?: string | null;
+    postalCode?: string | null;
+    businessPics?: string | null;
+  } | null,
+): ProfileSchemaType => ({
+  businessName: user?.businessName ?? "",
+  email: user?.email ?? "",
+  phoneNumber: user?.phoneNumber ?? "",
+  address: user?.address ?? "",
+  country: user?.country?.trim() || DEFAULT_COUNTRY,
+  postalCode: user?.postalCode ?? "",
+  businessPictureUrl: user?.businessPics ?? "",
+});
+
 const ProfileForm = () => {
   const { user } = useAuthStore();
-  const [countries, setCountries] = React.useState();
-  // const [cities, setCities] = React.useState();
+  const [countries, setCountries] = React.useState<
+    { label: string; value: string }[]
+  >();
 
   const { updateMerchant, loading } = useMerchantProfile();
 
@@ -31,34 +56,28 @@ const ProfileForm = () => {
 
   const form = useForm<ProfileSchemaType>({
     resolver: zodResolver(ProfileSchema),
-    defaultValues: {
-      ...user,
-    },
+    defaultValues: toProfileFormValues(user),
   });
 
-  // const selectedCountry = form.watch("country");
+  React.useEffect(() => {
+    form.reset(toProfileFormValues(user));
+  }, [user, form]);
 
-  // React.useEffect(() => {
-  //   const fetchCities = async () => {
-  //     if (selectedCountry) {
-  //       const res = await getCities(selectedCountry);
-  //       setCities(res);
-  //     }
-  //   };
-
-  //   fetchCities();
-  // }, [selectedCountry]);
+  const isBusinessNameLocked = hasValue(user?.businessName);
+  const isAddressLocked = hasValue(user?.address);
+  const isPostalCodeLocked = hasValue(user?.postalCode);
 
   const onSubmit = async (data: ProfileSchemaType) => {
     await updateMerchant({
       variables: {
         input: {
-          businessName: data?.businessName,
-          phoneNumber: data?.phoneNumber,
-          address: data?.address,
-          // city: data?.city,
-          country: data?.country,
-          postalCode: data?.postalCode,
+          businessName: isBusinessNameLocked
+            ? (user?.businessName ?? data.businessName)
+            : data.businessName,
+          phoneNumber: data.phoneNumber,
+          address: isAddressLocked ? user?.address : data.address,
+          country: user?.country?.trim() || DEFAULT_COUNTRY,
+          postalCode: isPostalCodeLocked ? user?.postalCode : data.postalCode,
           businessPictureUrl: data.businessPictureUrl,
         },
       },
@@ -82,13 +101,15 @@ const ProfileForm = () => {
             name="businessName"
             label="Business Name"
             placeholder="John Doe"
+            disabled={isBusinessNameLocked}
           />
           <SelectField
             control={form.control}
             label="Country"
             name="country"
-            placeholder="Select coountry"
+            placeholder="Select country"
             items={countries}
+            disabled
           />
 
           <InputField
@@ -113,6 +134,7 @@ const ProfileForm = () => {
             type="text"
             label="Postal Code"
             placeholder="Code"
+            disabled={isPostalCodeLocked}
           />
           <InputField
             control={form.control}
@@ -120,6 +142,7 @@ const ProfileForm = () => {
             type="text"
             label="Address"
             placeholder="Address"
+            disabled={isAddressLocked}
           />
         </div>
 

@@ -30,6 +30,7 @@ type SelectFieldProps<TFieldValues extends FieldValues = FieldValues> = {
   placeholder?: string;
   description?: string;
   items?: Option[];
+  disabled?: boolean;
 };
 
 function SelectField<TFieldValues extends FieldValues = FieldValues>({
@@ -39,6 +40,7 @@ function SelectField<TFieldValues extends FieldValues = FieldValues>({
   name,
   label,
   items,
+  disabled = false,
 }: SelectFieldProps<TFieldValues>) {
   return (
     <FormField
@@ -54,10 +56,14 @@ function SelectField<TFieldValues extends FieldValues = FieldValues>({
           <Select
             onValueChange={field.onChange}
             value={field.value}
+            disabled={disabled}
             key={field.value ? "loaded" : "loading"}
           >
             <FormControl>
-              <SelectTrigger className="w-full py-6 rounded-lg focus:border-primary  focus-visible:border-primary placeholder:text-text-secondary">
+              <SelectTrigger
+                disabled={disabled}
+                className="w-full py-6 rounded-lg focus:border-primary  focus-visible:border-primary placeholder:text-text-secondary"
+              >
                 <SelectValue
                   placeholder={placeholder}
                   className="text-text-primary  text-sm lg:text-base "
