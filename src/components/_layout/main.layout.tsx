@@ -1,6 +1,7 @@
-import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import { AppBottomNav } from "@/components/molecules/partials/app-bottom-nav";
 import { AppSidebar } from "@/components/molecules/partials/app-sidebar";
 import { SiteHeader } from "@/components/site-header";
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { Outlet, useNavigate } from "react-router";
 import { useEffect } from "react";
 import { useAuthStore } from "@/store/auth.store";
@@ -18,16 +19,18 @@ const MainLayout = () => {
 
   return (
     <SidebarProvider>
-      <AppSidebar />
-      <SidebarInset className="bg-[#FBFBFC] flex flex-col min-h-screen">
-        <div className="sticky bottom-0 top-0 z-50">
+      <div className="hidden lg:contents">
+        <AppSidebar />
+      </div>
+      <SidebarInset className="flex min-h-screen flex-col bg-[#FBFBFC]">
+        <div className="sticky top-0 z-40">
           <SiteHeader />
         </div>
-        <div className="p-5 md:p-10 lg:p-12  xl:p-14 2xl:p-20 flex-1">
+        <main className="flex-1 p-4 pb-24 sm:p-5 md:p-8 lg:pb-10 lg:p-10 xl:p-14 2xl:p-20">
           <Outlet />
-        </div>
-        {/* <CustomDrawer /> */}
+        </main>
       </SidebarInset>
+      <AppBottomNav />
     </SidebarProvider>
   );
 };

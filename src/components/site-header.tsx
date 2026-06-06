@@ -1,40 +1,46 @@
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-import { Bell } from "lucide-react";
+import { Bell, LogOut } from "lucide-react";
 import { useAuthStore } from "@/store/auth.store";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import logo from "@/assets/images/logo.svg";
 import { AppNotifcations } from "./molecules/notifications";
 import { useModal } from "@/store/useModal";
+import { useState } from "react";
 
 export function SiteHeader() {
-  const { user } = useAuthStore();
+  const { user, logout } = useAuthStore();
   const { appNotificationCount, openModal } = useModal();
-  return (
-    <header className="bg-white flex p-2 md:py-5 md:pr-6  h-(--header-height) shrink-0 items-center gap-2 border-b border-border-gray transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-(--header-height)">
-      <div className="flex w-full items-center gap-1 px-2 sm:px-4 lg:gap-2  lg:px-12  xl:px-14  2xl:px-20">
-        {
-          <div className="flex gap-1 md:hidden items-center">
-            <SidebarTrigger />
+  const navigate = useNavigate();
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
 
-            <Link to="/dashboard">
-              <img src={logo} className=" size-12" />
-            </Link>
-          </div>
-        }
-        {/* <h1 className="text-base font-medium">Documents</h1> */}
+  const onLogout = () => {
+    setIsLoggingOut(true);
+    setTimeout(() => {
+      navigate("/");
+      logout();
+    }, 500);
+  };
+
+  return (
+    <header className="flex h-(--header-height) shrink-0 items-center gap-2 border-b border-border-gray bg-white p-2 sm:px-4 md:py-4">
+      <div className="flex w-full items-center gap-2 px-2 sm:px-4 lg:gap-2 lg:px-12 xl:px-14 2xl:px-20">
+        <Link to="/dashboard" className="shrink-0 lg:hidden">
+          <img src={logo} alt="Carbiz" className="size-10 sm:size-12" />
+        </Link>
+
         <div className="ml-auto flex items-center gap-2">
           <AppNotifcations>
             <button
-              className="relative bg-[#F6F6F6] p-2 md:p-3 rounded-md hover:bg-primary cursor-pointer group"
+              type="button"
+              className="group relative cursor-pointer rounded-md bg-[#F6F6F6] p-2 hover:bg-primary md:p-3"
               onClick={() => openModal({ type: "popover" })}
+              aria-label="Notifications"
             >
               <Bell className="size-4 sm:size-6 group-hover:text-white" />
-
-              <span className="bg-[#EA3030] absolute top-1 right-1 sm:top-1.5 sm:right-1 text-white text-[0.585rem] flex justify-center items-center font-medium rounded-full  size-5 ">
+              <span className="absolute right-1 top-1 flex size-5 items-center justify-center rounded-full bg-[#EA3030] text-[0.585rem] font-medium text-white sm:right-1.5 sm:top-1.5">
                 {appNotificationCount}
               </span>
             </button>
@@ -42,31 +48,40 @@ export function SiteHeader() {
 
           <Separator
             orientation="vertical"
-            className="mx-2 data-[orientation=vertical]:h-10"
+            className="mx-1 data-[orientation=vertical]:h-8 sm:mx-2 sm:data-[orientation=vertical]:h-10"
           />
 
           <Button variant="ghost" asChild size="sm" className="hidden sm:flex">
             <>
-              <Avatar className=" sm:size-10 lg:size-12 rounded-lg grayscale">
+              <Avatar className="size-9 rounded-lg grayscale sm:size-10 lg:size-12">
                 <AvatarImage
                   src={user?.businessPics}
-                  alt={user?.businessPics}
+                  alt={user?.businessName}
                 />
-                <AvatarFallback className="rounded-md font-bold md:text-lg">
-                  {/* {user?.businessName.split(" ")[0].split("")[0]}
-                  {""}
-                  {user?.businessName.split(" ")[1].split("")[0]} */}
-                </AvatarFallback>
+                <AvatarFallback className="rounded-md font-bold md:text-lg" />
               </Avatar>
-              <div className="sm:grid flex-1 text-left text-sm leading-tight hidden ">
+              <div className="hidden flex-1 text-left text-sm leading-tight sm:grid">
                 <span className="truncate font-medium capitalize md:text-base">
                   {user?.businessName}
                 </span>
-                <span className="truncate md:text-xs text-[#727272]">
+                <span className="truncate text-[#727272] md:text-xs">
                   {user?.email}
                 </span>
               </div>
             </>
+          </Button>
+
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon"
+            onClick={onLogout}
+            disabled={isLoggingOut}
+            aria-label="Log out"
+            title="Log out"
+            className="text-[#4F4C55] hover:text-primary lg:hidden"
+          >
+            <LogOut className="size-5" />
           </Button>
         </div>
       </div>
